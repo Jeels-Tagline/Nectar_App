@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
@@ -37,14 +36,6 @@ class _LocationScreenState extends State<LocationScreen> {
                       icon: const Icon(Icons.arrow_back_ios_new_rounded),
                       onPressed: () {
                         Navigator.pop(context);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.logout_rounded),
-                      onPressed: () {
-                        FirebaseAuthHelper.firebaseAuthHelper.logOut();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, 'onbording_screen', (route) => false);
                       },
                     ),
                   ],
@@ -109,7 +100,13 @@ class _LocationScreenState extends State<LocationScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: h * 0.2),
-                        child: const CommonActionButton(name: "Submit"),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'home_screen', (route) => false);
+                          },
+                          child: const CommonActionButton(name: "Submit"),
+                        ),
                       ),
                     ],
                   ),

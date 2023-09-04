@@ -167,7 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .firebaseAuthHelper
                                 .googleLogin();
 
-
                             if (data['user'] != null) {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context)

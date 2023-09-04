@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_declarations, use_build_context_synchronously
+// ignore_for_file: prefer_const_declarations, use_build_context_synchronously, prefer_final_fields
 
 import 'dart:async';
 
@@ -23,15 +23,7 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
     zoom: 14.4746,
   );
 
-  final List<Marker> _markers = <Marker>[
-    const Marker(
-      markerId: MarkerId('1'),
-      position: LatLng(20.42796133580664, 75.885749655962),
-      infoWindow: InfoWindow(
-        title: 'My Position',
-      ),
-    ),
-  ];
+  final List<Marker> _markers = <Marker>[];
 
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission()
