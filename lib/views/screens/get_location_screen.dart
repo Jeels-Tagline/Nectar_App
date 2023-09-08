@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nectar_app/helpers/globals/globals.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 
 class GetLocationScreen extends StatefulWidget {
   const GetLocationScreen({super.key});
@@ -18,6 +18,7 @@ class GetLocationScreen extends StatefulWidget {
 class _GetLocationScreenState extends State<GetLocationScreen> {
   Completer<GoogleMapController> _controller = Completer();
   String address = "Search";
+  String city = "Jakatnaka, Surat";
   static final CameraPosition _kGoogle = const CameraPosition(
     target: LatLng(20.42796133580664, 80.885749655962),
     zoom: 14.4746,
@@ -41,6 +42,8 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
     Placemark place = placemarks[0];
     address =
         '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    city = '${place.subLocality}, ${place.locality}';
+
     setState(() {});
   }
 
@@ -56,7 +59,12 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
             getUserCurrentLocation().then((value) async {
               await getAddressFromLatLong(value);
 
-              Navigator.pop(context, address);
+              Map data = {
+                'location': address,
+                'city': city,
+              };
+
+              Navigator.pop(context, data);
             });
           },
           icon: const Icon(
@@ -99,7 +107,12 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
                   getUserCurrentLocation().then((value) async {
                     await getAddressFromLatLong(value);
 
-                    Navigator.pop(context, address);
+                    Map data = {
+                      'location': address,
+                      'city': city,
+                    };
+
+                    Navigator.pop(context, data);
                   });
                 },
                 child: Container(

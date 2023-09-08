@@ -1,8 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
-import 'package:nectar_app/helpers/globals/globals.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
@@ -10,6 +11,7 @@ import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/signup_screen.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -19,6 +21,20 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  bool loggedIn = false;
+
+  logIn({required String userId}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loggedIn = true;
+    await prefs.setBool('isLoggedIn', loggedIn);
+    await prefs.setString('isUserID', userId);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      'location_screen',
+      (route) => false,
+    );
+  }
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -100,32 +116,35 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: h * 0.01),
-                      child: SizedBox(
-                        height: h * 0.076,
-                        child: CommonTextFormField(
-                          controller: passwordController,
-                          textAction: TextInputAction.done,
-                          suffix: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                passwordShow = !passwordShow;
-                              });
-                            },
-                            icon: (passwordShow)
-                                ? const Icon(Icons.visibility_off)
-                                : const Icon(Icons.visibility),
-                          ),
-                          labelText: "Password",
-                          secureText: (passwordShow) ? false : true,
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return "Enter your Password...";
-                            } else if (val.length < 6) {
-                              return "Enter Minimum 6 character password";
-                            }
-                            return null;
+                      child: CommonTextFormField(
+                        controller: passwordController,
+                        textAction: TextInputAction.done,
+                        suffix: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              passwordShow = !passwordShow;
+                            });
                           },
+                          icon: (passwordShow)
+                              ? SizedBox(
+                                  height: h * 0.020,
+                                  child: const Icon(Icons.visibility_off),
+                                )
+                              : SizedBox(
+                                  height: h * 0.010,
+                                  child: const Icon(Icons.visibility),
+                                ),
                         ),
+                        labelText: "Password",
+                        secureText: (passwordShow) ? false : true,
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return "Enter your Password...";
+                          } else if (val.length < 6) {
+                            return "Enter Minimum 6 character password";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Align(
@@ -165,7 +184,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                     email: emailController.text,
                                     password: passwordController.text);
 
-
                             if (data['user'] != null) {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context)
@@ -177,7 +195,10 @@ class _SigninScreenState extends State<SigninScreen> {
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
-                              Navigator.pushNamed(context, 'location_screen');
+
+                              
+
+                              logIn(userId: data['user'].uid);
                             } else if (data['msg'] != null) {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context)

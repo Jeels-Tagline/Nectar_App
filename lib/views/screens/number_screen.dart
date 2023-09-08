@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
+import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 
 class NumberScreen extends StatefulWidget {
@@ -15,6 +18,8 @@ class NumberScreen extends StatefulWidget {
 class _NumberScreenState extends State<NumberScreen> {
   TextEditingController phoneController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController userNameController = TextEditingController();
+  bool userVerify = false;
 
   @override
   void initState() {
@@ -27,7 +32,7 @@ class _NumberScreenState extends State<NumberScreen> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           const CommonAuthBackground(),
@@ -104,6 +109,41 @@ class _NumberScreenState extends State<NumberScreen> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(top: h * 0.01),
+                          child: CommonTextFormField(
+                            controller: userNameController,
+                            onChange: (val) {
+                              if (val!.length <= 6) {
+                                setState(() {
+                                  userVerify = false;
+                                });
+                              } else {
+                                setState(() {
+                                  userVerify = true;
+                                });
+                              }
+                              return null;
+                            },
+                            suffixIcon: (userVerify)
+                                ? const Icon(
+                                    Icons.done,
+                                    color: Colors.green,
+                                  )
+                                : const Icon(
+                                    Icons.close_rounded,
+                                    color: Colors.red,
+                                  ),
+                            textAction: TextInputAction.next,
+                            labelText: "Username",
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return "Enter your Username...";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -115,14 +155,28 @@ class _NumberScreenState extends State<NumberScreen> {
       ),
       floatingActionButton: GestureDetector(
         onTap: () async {
-          if (formKey.currentState!.validate()) {
+          if (formKey.currentState!.validate() && userVerify) {
             formKey.currentState!.save();
 
             await FirebaseAuthHelper.firebaseAuthHelper
                 .phoneLogin(phoneNumber: "+91${phoneController.text}");
 
-            // ignore: use_build_context_synchronously
-            Navigator.pushNamed(context, 'number_verification_screen');
+            Map data = {
+              'phoneNumber': phoneController.text,
+              'userName': userNameController.text,
+            };
+            Navigator.pushNamed(context, 'number_verification_screen',
+                arguments: data);
+          } else {
+            ScaffoldMessenger.of(context)
+              ..clearSnackBars()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Text("Something went wrong...."),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
           }
         },
         child: const CircleAvatar(

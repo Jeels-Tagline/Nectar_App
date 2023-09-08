@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
-import 'package:nectar_app/helpers/globals/globals.dart';
+import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
@@ -27,6 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
   bool passwordShow = false;
   bool emailVerify = false;
   bool userVerify = false;
+  bool isUser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -137,32 +139,29 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: h * 0.01),
-                      child: SizedBox(
-                        height: h * 0.076,
-                        child: CommonTextFormField(
-                          controller: passwordController,
-                          textAction: TextInputAction.done,
-                          suffix: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                passwordShow = !passwordShow;
-                              });
-                            },
-                            icon: (passwordShow)
-                                ? const Icon(Icons.visibility_off)
-                                : const Icon(Icons.visibility),
-                          ),
-                          labelText: "Password",
-                          secureText: (passwordShow) ? false : true,
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return "Enter your Password...";
-                            } else if (val.length < 6) {
-                              return "Enter Minimum 6 character password";
-                            }
-                            return null;
+                      child: CommonTextFormField(
+                        controller: passwordController,
+                        textAction: TextInputAction.done,
+                        suffix: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              passwordShow = !passwordShow;
+                            });
                           },
+                          icon: (passwordShow)
+                              ? const Icon(Icons.visibility_off)
+                              : const Icon(Icons.visibility),
                         ),
+                        labelText: "Password",
+                        secureText: (passwordShow) ? false : true,
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return "Enter your Password...";
+                          } else if (val.length < 6) {
+                            return "Enter Minimum 6 character password";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Padding(
@@ -240,6 +239,21 @@ class _SignupScreenState extends State<SignupScreen> {
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
+
+                              Map<String, dynamic> userdata = {
+                                'uid': data['user'].uid,
+                                'email': data['user'].email,
+                                'phoneNumber': "",
+                                'displayName': userNameController.text,
+                                'location': "",
+                                'cart': [],
+                                'favourite': [],
+                                'photo': "",
+                              };
+
+                              await FirestoreHelper.firestoreHelper
+                                  .insertUsers(data: userdata);
+
                               Navigator.pushReplacementNamed(
                                   context, 'signin_screen');
                             } else if (data['msg'] != null) {

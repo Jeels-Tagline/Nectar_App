@@ -44,6 +44,9 @@ dependencies:
   location: ^4.3.0
   geolocator: ^10.0.0
   geocoding:
+  shared_preferences: ^2.2.0
+  shimmer: ^3.0.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +84,9 @@ flutter:
     - assets/images/auth_background.png
     - assets/images/food.jpeg
     - assets/images/india_flag.png
+    - assets/images/banner/banner1.jpg
+    - assets/images/banner/banner2.jpg
+    - assets/images/banner/banner3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

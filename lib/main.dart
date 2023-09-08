@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/views/screens/account_screen.dart';
 import 'package:nectar_app/views/screens/cart_screen.dart';
 import 'package:nectar_app/views/screens/explore_screen.dart';
@@ -22,9 +21,9 @@ void main() async {
 
   runApp(
     MaterialApp(
-      navigatorKey: NavKey.navKey,
+      // navigatorKey: NavKey.navKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: 'home_screen',
+      initialRoute: 'splash_screen',
       theme: ThemeData(
         fontFamily: 'Gilroy-Bold',
       ),

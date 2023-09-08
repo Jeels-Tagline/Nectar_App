@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:nectar_app/views/screens/onbording_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,12 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   nextPage() {
     Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const OnBordingScreen(),
-        ),
-      ),
+      () => Navigator.pushNamed(context, 'onbording_screen'),
     );
   }
 
