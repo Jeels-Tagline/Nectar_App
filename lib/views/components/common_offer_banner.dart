@@ -3,8 +3,10 @@ import 'package:nectar_app/models/globals/globals.dart';
 
 class CommonOfferBanner extends StatelessWidget {
   final String offerName;
+  final String name;
 
-  const CommonOfferBanner({required this.offerName, super.key});
+  const CommonOfferBanner(
+      {required this.name, required this.offerName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,20 @@ class CommonOfferBanner extends StatelessWidget {
             fontSize: 23,
           ),
         ),
-        Text(
-          "See all",
-          style: TextStyle(
-            color: Globals.greenColor,
-            fontSize: 16,
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              'explore_product_screen',
+              arguments: name,
+            );
+          },
+          child: Text(
+            "See all",
+            style: TextStyle(
+              color: Globals.greenColor,
+              fontSize: 16,
+            ),
           ),
         ),
       ],

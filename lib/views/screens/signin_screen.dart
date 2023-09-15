@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
+import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
@@ -11,7 +11,6 @@ import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/signup_screen.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -24,15 +23,11 @@ class _SigninScreenState extends State<SigninScreen> {
   bool loggedIn = false;
 
   logIn({required String userId}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     loggedIn = true;
-    await prefs.setBool('isLoggedIn', loggedIn);
-    await prefs.setString('isUserID', userId);
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      'location_screen',
-      (route) => false,
-    );
+    await sharedPreferences!.setBool('isLoggedIn', loggedIn);
+    await sharedPreferences!.setString('isUserID', userId);
+
+    Navigator.pushNamedAndRemoveUntil(context, 'home_screen', (route) => false);
   }
 
   TextEditingController emailController = TextEditingController();
@@ -195,8 +190,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
-
-                              
 
                               logIn(userId: data['user'].uid);
                             } else if (data['msg'] != null) {

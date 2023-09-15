@@ -1,8 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
+import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
@@ -20,10 +21,17 @@ class _NumberScreenState extends State<NumberScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController userNameController = TextEditingController();
   bool userVerify = false;
+  var userData;
+
+  void dataCheck() async {
+    var data = await FirestoreHelper.firestoreHelper.fetchUsers();
+    userData = data.docs;
+  }
 
   @override
   void initState() {
     super.initState();
+    dataCheck();
     phoneController.text = "+91";
   }
 
@@ -94,12 +102,6 @@ class _NumberScreenState extends State<NumberScreen> {
                           ),
                           decoration: InputDecoration(
                             counterText: "",
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.deepPurple,
-                                width: 2,
-                              ),
-                            ),
                             prefix: SizedBox(
                               height: 20,
                               width: 50,

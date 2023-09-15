@@ -17,6 +17,7 @@ class CommonTextFormField extends StatelessWidget {
   final TextInputAction? textAction;
   final Function()? onTap;
   final List<TextInputFormatter>? digitsOnly;
+  final InputBorder? inputBorder;
   const CommonTextFormField({
     this.controller,
     this.validator,
@@ -34,6 +35,7 @@ class CommonTextFormField extends StatelessWidget {
     this.secureText = false,
     this.suffixIcon,
     this.onChange,
+    this.inputBorder,
   });
 
   @override
@@ -56,6 +58,7 @@ class CommonTextFormField extends StatelessWidget {
 
       inputFormatters: digitsOnly,
       decoration: InputDecoration(
+        border: inputBorder,
         counterText: "",
         prefixIcon: prefixIcon,
         suffix: suffix,

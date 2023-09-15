@@ -4,7 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/views/components/common_offer_banner.dart';
 import 'package:nectar_app/views/components/common_product.dart';
 import 'package:nectar_app/views/components/common_product_shimmer.dart';
@@ -12,7 +14,6 @@ import 'package:nectar_app/views/screens/account_screen.dart';
 import 'package:nectar_app/views/screens/cart_screen.dart';
 import 'package:nectar_app/views/screens/explore_screen.dart';
 import 'package:nectar_app/views/screens/favourite_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,9 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String userId = "";
 
   getUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    userId = prefs.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString('isUserID') ?? ''; //*
 
     setState(() {});
   }
@@ -36,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   static const images = [
-    'assets/images/banner/banner1.jpg',
+    'assets/images/banner/banner1.jpg', //*
     'assets/images/banner/banner2.jpg',
     'assets/images/banner/banner3.jpg',
   ];
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getUserId();
+    getUserId(); //*
   }
 
   @override
@@ -218,10 +217,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const CommonOfferBanner(offerName: "Exclusive Offer"),
+                        const CommonOfferBanner(
+                          offerName: "Exclusive Offer",
+                          name: "fruit",
+                        ),
                         FutureBuilder(
                           future: FirestoreHelper.firestoreHelper
-                              .getProductData(type: 'fruit'),
+                              .getParticularProductData(type: 'fruit'),
                           builder: (context, snapShot) {
                             if (snapShot.hasError) {
                               return Text("${snapShot.error}");
@@ -236,6 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: w,
                                 height: h * 0.28,
                                 child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   itemCount: productData.length,
@@ -244,14 +247,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding: EdgeInsets.only(
                                           top: h * 0.02, right: w * 0.025),
                                       child: CommonProduct(
-                                        image:
-                                            "${productData[index].data()['image1']}",
-                                        name:
-                                            "${productData[index].data()['name']}",
-                                        subTitle:
-                                            "${productData[index].data()['subTitle']}",
-                                        price:
-                                            "${productData[index].data()['price']}",
+                                        userId: userId,
+                                        productData: ProductModel(
+                                          id: productData[index].data()['id'],
+                                          name:
+                                              productData[index].data()['name'],
+                                          subTitle: productData[index]
+                                              .data()['subTitle'],
+                                          price: double.parse(productData[index]
+                                              .data()['price']),
+                                          detail: productData[index]
+                                              .data()['detail'],
+                                          nutrition: productData[index]
+                                              .data()['nutrition'],
+                                          review: int.parse(productData[index]
+                                              .data()['review']),
+                                          type:
+                                              productData[index].data()['type'],
+                                          image1: productData[index]
+                                              .data()['image1'],
+                                          image2: productData[index]
+                                              .data()['image2'],
+                                          image3: productData[index]
+                                              .data()['image3'],
+                                        ),
                                       ),
                                     );
                                   },
@@ -264,11 +283,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.03),
                           child: const CommonOfferBanner(
-                              offerName: "Best Selling"),
+                            offerName: "Best Selling",
+                            name: "Baverage",
+                          ),
                         ),
                         FutureBuilder(
                           future: FirestoreHelper.firestoreHelper
-                              .getProductData(type: 'baverage'),
+                              .getParticularProductData(type: 'baverage'),
                           builder: (context, snapShot) {
                             if (snapShot.hasError) {
                               return Text("${snapShot.error}");
@@ -283,6 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: w,
                                 height: h * 0.28,
                                 child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   itemCount: productData.length,
@@ -291,14 +313,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding: EdgeInsets.only(
                                           top: h * 0.02, right: w * 0.025),
                                       child: CommonProduct(
-                                        image:
-                                            "${productData[index].data()['image1']}",
-                                        name:
-                                            "${productData[index].data()['name']}",
-                                        subTitle:
-                                            "${productData[index].data()['subTitle']}",
-                                        price:
-                                            "${productData[index].data()['price']}",
+                                        userId: userId,
+                                        productData: ProductModel(
+                                          id: productData[index].data()['id'],
+                                          name:
+                                              productData[index].data()['name'],
+                                          subTitle: productData[index]
+                                              .data()['subTitle'],
+                                          price: double.parse(productData[index]
+                                              .data()['price']),
+                                          detail: productData[index]
+                                              .data()['detail'],
+                                          nutrition: productData[index]
+                                              .data()['nutrition'],
+                                          review: int.parse(productData[index]
+                                              .data()['review']),
+                                          type:
+                                              productData[index].data()['type'],
+                                          image1: productData[index]
+                                              .data()['image1'],
+                                          image2: productData[index]
+                                              .data()['image2'],
+                                          image3: productData[index]
+                                              .data()['image3'],
+                                        ),
                                       ),
                                     );
                                   },
@@ -310,11 +348,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.03),
-                          child: const CommonOfferBanner(offerName: "Bakery"),
+                          child: const CommonOfferBanner(
+                            offerName: "Bakery",
+                            name: "Bakery",
+                          ),
                         ),
                         FutureBuilder(
                           future: FirestoreHelper.firestoreHelper
-                              .getProductData(type: 'bakery'),
+                              .getParticularProductData(type: 'bakery'),
                           builder: (context, snapShot) {
                             if (snapShot.hasError) {
                               return Text("${snapShot.error}");
@@ -329,6 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: w,
                                 height: h * 0.28,
                                 child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   itemCount: productData.length,
@@ -337,14 +379,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding: EdgeInsets.only(
                                           top: h * 0.02, right: w * 0.025),
                                       child: CommonProduct(
-                                        image:
-                                            "${productData[index].data()['image1']}",
-                                        name:
-                                            "${productData[index].data()['name']}",
-                                        subTitle:
-                                            "${productData[index].data()['subTitle']}",
-                                        price:
-                                            "${productData[index].data()['price']}",
+                                        userId: userId,
+                                        productData: ProductModel(
+                                          id: productData[index].data()['id'],
+                                          name:
+                                              productData[index].data()['name'],
+                                          subTitle: productData[index]
+                                              .data()['subTitle'],
+                                          price: double.parse(productData[index]
+                                              .data()['price']),
+                                          detail: productData[index]
+                                              .data()['detail'],
+                                          nutrition: productData[index]
+                                              .data()['nutrition'],
+                                          review: int.parse(productData[index]
+                                              .data()['review']),
+                                          type:
+                                              productData[index].data()['type'],
+                                          image1: productData[index]
+                                              .data()['image1'],
+                                          image2: productData[index]
+                                              .data()['image2'],
+                                          image3: productData[index]
+                                              .data()['image3'],
+                                        ),
                                       ),
                                     );
                                   },
@@ -355,13 +413,114 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: h * 0.03),
-                          child:
-                              const CommonOfferBanner(offerName: "Vegetable"),
+                          padding:
+                              EdgeInsets.only(top: h * 0.03, bottom: h * 0.018),
+                          child: const CommonOfferBanner(
+                            offerName: "Groceries",
+                            name: "Rice",
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    'explore_product_screen',
+                                    arguments: 'Pulses',
+                                  );
+                                },
+                                child: Container(
+                                  height: h * 0.11,
+                                  width: w * 0.55,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: const Color.fromARGB(
+                                        255, 255, 224, 188),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: w * 0.025, right: w * 0.025),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Expanded(
+                                          child: Image.asset(
+                                              "assets/images/pulses.png"),
+                                        ),
+                                        SizedBox(
+                                          width: w * 0.02,
+                                        ),
+                                        const Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            "Pulses",
+                                            style: TextStyle(
+                                              fontFamily: 'Gilroy-Medium',
+                                              fontSize: 19,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: w * 0.04),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      'explore_product_screen',
+                                      arguments: 'Rice',
+                                    );
+                                  },
+                                  child: Container(
+                                    height: h * 0.11,
+                                    width: w * 0.55,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color(0xffe5f4ea),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: w * 0.025, right: w * 0.025),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: Image.asset(
+                                                "assets/images/rices.png"),
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          const Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              "Rices",
+                                              style: TextStyle(
+                                                fontFamily: 'Gilroy-Medium',
+                                                fontSize: 19,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         FutureBuilder(
                           future: FirestoreHelper.firestoreHelper
-                              .getProductData(type: 'vegetable'),
+                              .getParticularProductData(type: 'vegetable'),
                           builder: (context, snapShot) {
                             if (snapShot.hasError) {
                               return Text("${snapShot.error}");
@@ -376,6 +535,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: w,
                                 height: h * 0.28,
                                 child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   itemCount: productData.length,
@@ -384,14 +544,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding: EdgeInsets.only(
                                           top: h * 0.02, right: w * 0.025),
                                       child: CommonProduct(
-                                        image:
-                                            "${productData[index].data()['image1']}",
-                                        name:
-                                            "${productData[index].data()['name']}",
-                                        subTitle:
-                                            "${productData[index].data()['subTitle']}",
-                                        price:
-                                            "${productData[index].data()['price']}",
+                                        userId: userId,
+                                        productData: ProductModel(
+                                          id: productData[index].data()['id'],
+                                          name:
+                                              productData[index].data()['name'],
+                                          subTitle: productData[index]
+                                              .data()['subTitle'],
+                                          price: double.parse(productData[index]
+                                              .data()['price']),
+                                          detail: productData[index]
+                                              .data()['detail'],
+                                          nutrition: productData[index]
+                                              .data()['nutrition'],
+                                          review: int.parse(productData[index]
+                                              .data()['review']),
+                                          type:
+                                              productData[index].data()['type'],
+                                          image1: productData[index]
+                                              .data()['image1'],
+                                          image2: productData[index]
+                                              .data()['image2'],
+                                          image3: productData[index]
+                                              .data()['image3'],
+                                        ),
                                       ),
                                     );
                                   },

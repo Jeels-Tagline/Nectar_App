@@ -246,9 +246,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 'phoneNumber': "",
                                 'displayName': userNameController.text,
                                 'location': "",
-                                'cart': [],
-                                'favourite': [],
                                 'photo': "",
+                                'totalPrice': 0.00,
                               };
 
                               await FirestoreHelper.firestoreHelper

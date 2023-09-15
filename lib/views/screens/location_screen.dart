@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/main.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});
@@ -21,9 +21,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Map userData = {};
 
   getUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    userId = prefs.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString('isUserID') ?? '';
 
     setState(() {});
   }
@@ -134,14 +132,15 @@ class _LocationScreenState extends State<LocationScreen> {
                                     context, 'home_screen', (route) => false);
                               } else {
                                 ScaffoldMessenger.of(context)
-                                        ..clearSnackBars()
-                                        ..showSnackBar(
-                                          const SnackBar(
-                                            content: Text("Please select location....."),
-                                            backgroundColor: Colors.red,
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
-                                        );
+                                  ..clearSnackBars()
+                                  ..showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text("Please select location....."),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
                               }
                             },
                             child: const CommonActionButton(name: "Submit"),

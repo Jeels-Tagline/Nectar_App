@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CommonTitleText extends StatelessWidget {
+class CommonHeadlineText extends StatelessWidget {
   final String title;
-  final TextAlign? textAlign;
-  const CommonTitleText({required this.title, this.textAlign, super.key});
+  const CommonHeadlineText({required this.title, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       title,
       style: const TextStyle(
-        fontSize: 25,
+        fontSize: 22,
         height: 1,
       ),
-      textAlign: textAlign,
     );
   }
 }

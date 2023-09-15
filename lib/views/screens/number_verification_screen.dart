@@ -1,14 +1,14 @@
-// ignore_for_file: use_build_context_synchronously, await_only_futures
+// ignore_for_file: use_build_context_synchronously, await_only_futures, unused_local_variable, prefer_typing_uninitialized_variables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/main.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NumberVerificationScreen extends StatefulWidget {
   const NumberVerificationScreen({super.key});
@@ -21,16 +21,19 @@ class NumberVerificationScreen extends StatefulWidget {
 class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
   bool loggedIn = false;
 
-  logIn({required String userId}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  logIn({required String userId, required bool isLocation}) async {
     loggedIn = true;
-    await prefs.setBool('isLoggedIn', loggedIn);
-    await prefs.setString('isUserID', userId);
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      'location_screen',
-      (route) => false,
-    );
+    await sharedPreferences!.setBool('isLoggedIn', loggedIn);
+    await sharedPreferences!.setString('isUserID', userId);
+
+    (isLocation)
+        ? Navigator.pushNamedAndRemoveUntil(
+            context, 'home_screen', (route) => false)
+        : Navigator.pushNamedAndRemoveUntil(
+            context,
+            'location_screen',
+            (route) => false,
+          );
   }
 
   TextEditingController otpController = TextEditingController();
@@ -110,8 +113,8 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
           ),
         ],
       ),
-      floatingActionButton: StreamBuilder(
-        stream: FirestoreHelper.firestoreHelper.fetchUsers(),
+      floatingActionButton: FutureBuilder(
+        future: FirestoreHelper.firestoreHelper.fetchUsers(),
         builder: (context, snapShot) {
           if (snapShot.hasError) {
             return Center(
@@ -156,10 +159,14 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                       Navigator.pop(context);
 
                       bool isUser = false;
+                      bool isLocation = false;
 
                       for (int i = 0; i < allUsers.length; i++) {
                         if (allUsers[i].data()['uid'] == data['user'].uid) {
                           isUser = true;
+                          if (allUsers[i].data()['location'] != null) {
+                            isLocation = true;
+                          }
                         }
                       }
 
@@ -170,15 +177,15 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                           'phoneNumber': userData['phoneNumber'],
                           'displayName': userData['userName'],
                           'location': "",
-                          'cart': [],
-                          'favourite': [],
                           'photo': "",
+                          'totalPrice': 0.00,
                         };
 
                         await FirestoreHelper.firestoreHelper
                             .insertUsers(data: userdata);
                       }
 
+                      logIn(userId: data['user'].uid, isLocation: isLocation);
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
                         ..showSnackBar(
@@ -188,8 +195,6 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
-
-                      logIn(userId: data['user'].uid);
                     } else if (data['msg'] != null) {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context)

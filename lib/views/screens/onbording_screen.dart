@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:nectar_app/main.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBordingScreen extends StatefulWidget {
   const OnBordingScreen({super.key});
@@ -16,8 +16,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
   bool loggedIn = false;
 
   checkLogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    loggedIn = prefs.getBool('isLoggedIn') ?? false;
+   
+    loggedIn = sharedPreferences!.getBool('isLoggedIn') ?? false;
     if (loggedIn == true) {
       Navigator.pushNamedAndRemoveUntil(
           context, 'home_screen', (route) => false);
