@@ -7,6 +7,7 @@ import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
@@ -86,7 +87,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         IconButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(
-                                context, 'cart_screen');
+                                context, ScreensPath.cartScreen);
                           },
                           icon: const Icon(
                             Icons.shopping_cart_outlined,
@@ -334,8 +335,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       trailing: Transform.translate(
                         offset: Offset(w * 0.05, 0),
                         child: (detail_arrow)
-                            ? Image.asset("assets/images/down_arrow.png")
-                            : Image.asset("assets/images/forward_arrow.png"),
+                            ? Image.asset("assets/icons/down_arrow.png")
+                            : Image.asset("assets/icons/forward_arrow.png"),
                       ),
                       children: [
                         CommonSmallBodyText(
@@ -370,7 +371,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           SizedBox(
                             width: w * 00.03,
                           ),
-                          Image.asset("assets/images/forward_arrow.png"),
+                          Image.asset("assets/icons/forward_arrow.png"),
                         ],
                       ),
                     ),
@@ -394,7 +395,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           SizedBox(
                             width: w * 00.03,
                           ),
-                          Image.asset("assets/images/forward_arrow.png"),
+                          Image.asset("assets/icons/forward_arrow.png"),
                         ],
                       ),
                     ),

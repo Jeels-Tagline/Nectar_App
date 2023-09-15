@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
@@ -101,7 +102,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           child: GestureDetector(
                             onTap: () async {
                               userData = await Navigator.pushNamed(
-                                  context, 'get_location_screen') as Map;
+                                  context, ScreensPath.getLocationScreen) as Map;
                               setState(() {});
                             },
                             child: Card(
@@ -129,7 +130,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                   city: userData['city'],
                                 );
                                 Navigator.pushNamedAndRemoveUntil(
-                                    context, 'home_screen', (route) => false);
+                                    context, ScreensPath.homeScreen, (route) => false);
                               } else {
                                 ScaffoldMessenger.of(context)
                                   ..clearSnackBars()

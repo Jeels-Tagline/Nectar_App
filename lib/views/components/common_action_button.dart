@@ -20,7 +20,6 @@ class CommonActionButton extends StatelessWidget {
         name,
         style: const TextStyle(
           fontSize: 17,
-          fontFamily: 'Gilroy-Bold',
           color: Colors.white,
         ),
       ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   nextPage() {
     Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushNamed(context, 'onbording_screen'),
+      () => Navigator.pushNamed(context, ScreensPath.onbordingScreen),
     );
   }
 
@@ -64,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       "online groceriet",
                       style: TextStyle(
                         height: 1,
-                        fontFamily: 'Gilroy-Medium',
+                        fontFamily: FontFamily.medium,
                         letterSpacing: 3.9,
                         color: Colors.white,
                       ),

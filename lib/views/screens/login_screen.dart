@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_logo_button.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
@@ -21,17 +23,16 @@ class _LoginScreenState extends State<LoginScreen> {
   var userData;
 
   logIn({required String userId, required bool isLocation}) async {
-   
     loggedIn = true;
     await sharedPreferences!.setBool('isLoggedIn', loggedIn);
     await sharedPreferences!.setString('isUserID', userId);
 
     (isLocation)
         ? Navigator.pushNamedAndRemoveUntil(
-            context, 'home_screen', (route) => false)
+            context, ScreensPath.homeScreen, (route) => false)
         : Navigator.pushNamedAndRemoveUntil(
             context,
-            'location_screen',
+            ScreensPath.locationScreen,
             (route) => false,
           );
   }
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, 'number_screen');
+                                Navigator.pushNamed(context, ScreensPath.numberScreen);
                               },
                               child: Container(
                                 height: h * 0.07,
@@ -140,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, 'signin_screen');
+                                Navigator.pushNamed(context, ScreensPath.signInScreen);
                               },
                               child: Container(
                                 height: h * 0.07,
@@ -182,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Or connect with social media",
                             style: TextStyle(
                               height: 1.8,
-                              fontFamily: 'Gilroy-Medium',
+                              fontFamily: FontFamily.medium,
                               color: Colors.grey.shade600,
                             ),
                           ),

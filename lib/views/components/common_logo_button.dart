@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/font_family.dart';
 
 class CommonLogoButton extends StatelessWidget {
   final String logo;
@@ -38,7 +39,7 @@ class CommonLogoButton extends StatelessWidget {
               name,
               style: const TextStyle(
                 fontSize: 17,
-                fontFamily: 'Gilroy-Medium',
+                fontFamily: FontFamily.medium,
                 color: Colors.white,
               ),
             ),

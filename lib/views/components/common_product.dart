@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 
 class CommonProduct extends StatelessWidget {
   final ProductModel productData;
@@ -22,7 +24,7 @@ class CommonProduct extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, 'product_detail_screen',
+        Navigator.pushNamed(context, ScreensPath.productDetailScreen,
             arguments: productData);
       },
       child: Container(
@@ -61,7 +63,7 @@ class CommonProduct extends StatelessWidget {
                 productData.subTitle,
                 style: TextStyle(
                   fontSize: 13,
-                  fontFamily: 'Gilroy-Medium',
+                  fontFamily: FontFamily.medium,
                   color: Colors.grey.shade500,
                   overflow: TextOverflow.ellipsis,
                 ),

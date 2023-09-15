@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 
 class CommonOfferBanner extends StatelessWidget {
   final String offerName;
@@ -23,7 +24,7 @@ class CommonOfferBanner extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(
               context,
-              'explore_product_screen',
+              ScreensPath.exploreProductScreen,
               arguments: name,
             );
           },

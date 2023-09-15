@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
@@ -98,7 +100,7 @@ class _NumberScreenState extends State<NumberScreen> {
                           ],
                           style: const TextStyle(
                             fontSize: 22,
-                            fontFamily: 'Gilroy-Medium',
+                            fontFamily: FontFamily.medium,
                           ),
                           decoration: InputDecoration(
                             counterText: "",
@@ -167,7 +169,7 @@ class _NumberScreenState extends State<NumberScreen> {
               'phoneNumber': phoneController.text,
               'userName': userNameController.text,
             };
-            Navigator.pushNamed(context, 'number_verification_screen',
+            Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
                 arguments: data);
           } else {
             ScaffoldMessenger.of(context)

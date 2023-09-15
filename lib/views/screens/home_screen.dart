@@ -7,6 +7,8 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_offer_banner.dart';
 import 'package:nectar_app/views/components/common_product.dart';
 import 'package:nectar_app/views/components/common_product_shimmer.dart';
@@ -27,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String userId = "";
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? ''; //*
+    userId = sharedPreferences!.getString('isUserID') ?? '';
 
     setState(() {});
   }
@@ -35,9 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   static const images = [
-    'assets/images/banner/banner1.jpg', //*
-    'assets/images/banner/banner2.jpg',
-    'assets/images/banner/banner3.jpg',
+    'assets/banner/banner1.jpg',
+    'assets/banner/banner2.jpg',
+    'assets/banner/banner3.jpg',
   ];
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
@@ -429,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onTap: () {
                                   Navigator.pushNamed(
                                     context,
-                                    'explore_product_screen',
+                                    ScreensPath.exploreProductScreen,
                                     arguments: 'Pulses',
                                   );
                                 },
@@ -459,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: Text(
                                             "Pulses",
                                             style: TextStyle(
-                                              fontFamily: 'Gilroy-Medium',
+                                              fontFamily: FontFamily.medium,
                                               fontSize: 19,
                                             ),
                                           ),
@@ -475,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     Navigator.pushNamed(
                                       context,
-                                      'explore_product_screen',
+                                      ScreensPath.exploreProductScreen,
                                       arguments: 'Rice',
                                     );
                                   },
@@ -504,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Text(
                                               "Rices",
                                               style: TextStyle(
-                                                fontFamily: 'Gilroy-Medium',
+                                                fontFamily: FontFamily.medium,
                                                 fontSize: 19,
                                               ),
                                             ),

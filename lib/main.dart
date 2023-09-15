@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/navigator.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/screens/account_screen.dart';
 import 'package:nectar_app/views/screens/cart_screen.dart';
 import 'package:nectar_app/views/screens/explore_product_screen.dart';
@@ -34,35 +36,38 @@ void main() async {
     MaterialApp(
       navigatorKey: NavKey.navKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: 'splash_screen',
+      initialRoute: ScreensPath.splashScreen,
       theme: ThemeData(
         dialogBackgroundColor: Colors.green.shade50,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Globals.greenColor,
-          primary: Globals.greenColor, //<-- SEE HERE
+          primary: Globals.greenColor,
         ),
-        fontFamily: 'Gilroy-Bold',
+        fontFamily: FontFamily.bold,
       ),
       routes: {
-        'splash_screen': (context) => const SplashScreen(),
-        'onbording_screen': (context) => const OnBordingScreen(),
-        'login_screen': (context) => const LoginScreen(),
-        'number_screen': (context) => const NumberScreen(),
-        'number_verification_screen': (context) =>
+        ScreensPath.splashScreen: (context) => const SplashScreen(),
+        ScreensPath.onbordingScreen: (context) => const OnBordingScreen(),
+        ScreensPath.logInScreen: (context) => const LoginScreen(),
+        ScreensPath.numberScreen: (context) => const NumberScreen(),
+        ScreensPath.numberVerificationScreen: (context) =>
             const NumberVerificationScreen(),
-        'signin_screen': (context) => const SigninScreen(),
-        'signup_screen': (context) => const SignupScreen(),
-        'location_screen': (context) => const LocationScreen(),
-        'get_location_screen': (context) => const GetLocationScreen(),
-        'home_screen': (context) => const HomeScreen(),
-        'product_detail_screen': (context) => const ProductDetailScreen(),
-        'explore_screen': (context) => const ExploreScreen(),
-        'search_screen': (context) => const SearchScreen(),
-        'explore_product_screen': (context) => const ExploreProductScreen(),
-        'cart_screen': (context) => const CartScreen(),
-        'favourite_screen': (context) => const FavouriteScreen(),
-        'account_screen': (context) => const AccountScreen(),
-        'order_accepted_screen': (context) => const OrderAcceptedScreen(),
+        ScreensPath.signInScreen: (context) => const SigninScreen(),
+        ScreensPath.signUpScreen: (context) => const SignupScreen(),
+        ScreensPath.locationScreen: (context) => const LocationScreen(),
+        ScreensPath.getLocationScreen: (context) => const GetLocationScreen(),
+        ScreensPath.homeScreen: (context) => const HomeScreen(),
+        ScreensPath.productDetailScreen: (context) =>
+            const ProductDetailScreen(),
+        ScreensPath.exploreScreen: (context) => const ExploreScreen(),
+        ScreensPath.searchScreen: (context) => const SearchScreen(),
+        ScreensPath.exploreProductScreen: (context) =>
+            const ExploreProductScreen(),
+        ScreensPath.cartScreen: (context) => const CartScreen(),
+        ScreensPath.favouriteScreen: (context) => const FavouriteScreen(),
+        ScreensPath.accountScreen: (context) => const AccountScreen(),
+        ScreensPath.orderAcceptedScreen: (context) =>
+            const OrderAcceptedScreen(),
       },
     ),
   );

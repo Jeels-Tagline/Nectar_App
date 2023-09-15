@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
@@ -69,7 +71,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       child: CommonTextFormField(
                         controller: userNameController,
                         onChange: (val) {
-                          if (val!.contains(' ') || val.length <= 6) {
+                          if (val!.length <= 6) {
                             setState(() {
                               userVerify = false;
                             });
@@ -254,7 +256,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   .insertUsers(data: userdata);
 
                               Navigator.pushReplacementNamed(
-                                  context, 'signin_screen');
+                                  context, ScreensPath.signInScreen);
                             } else if (data['msg'] != null) {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context)
@@ -299,11 +301,6 @@ class _SignupScreenState extends State<SignupScreen> {
                         padding: EdgeInsets.only(top: h * 0.02),
                         child: GestureDetector(
                           onTap: () {
-                            // Navigator.pushReplacementNamed(
-                            //   context,
-                            //   'signin_screen',
-                            // );
-
                             Navigator.pushReplacement(
                               context,
                               PageTransition(
@@ -319,14 +316,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   text: "Already have an account?",
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontFamily: 'Gilroy-Bold',
+                                    fontFamily: FontFamily.bold,
                                   ),
                                 ),
                                 TextSpan(
                                   text: "  Sign In",
                                   style: TextStyle(
                                     color: Globals.greenColor,
-                                    fontFamily: 'Gilroy-Bold',
+                                    fontFamily: FontFamily.bold,
                                   ),
                                 ),
                               ],

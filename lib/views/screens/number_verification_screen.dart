@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
@@ -28,10 +30,10 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
 
     (isLocation)
         ? Navigator.pushNamedAndRemoveUntil(
-            context, 'home_screen', (route) => false)
+            context, ScreensPath.homeScreen, (route) => false)
         : Navigator.pushNamedAndRemoveUntil(
             context,
-            'location_screen',
+            ScreensPath.locationScreen,
             (route) => false,
           );
   }
@@ -97,7 +99,7 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                           ],
                           style: const TextStyle(
                             fontSize: 22,
-                            fontFamily: 'Gilroy-Medium',
+                            fontFamily: FontFamily.medium,
                           ),
                           decoration: const InputDecoration(
                             counterText: "",

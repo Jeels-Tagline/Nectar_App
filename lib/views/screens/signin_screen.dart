@@ -1,9 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
+import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
@@ -21,13 +24,27 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   bool loggedIn = false;
+  var userLocation;
 
-  logIn({required String userId}) async {
+  logIn({required String userId, required bool isLocation}) async {
     loggedIn = true;
     await sharedPreferences!.setBool('isLoggedIn', loggedIn);
     await sharedPreferences!.setString('isUserID', userId);
 
-    Navigator.pushNamedAndRemoveUntil(context, 'home_screen', (route) => false);
+    (isLocation)
+        ? Navigator.pushNamedAndRemoveUntil(
+            context, ScreensPath.homeScreen, (route) => false)
+        : Navigator.pushNamedAndRemoveUntil(
+            context,
+            ScreensPath.locationScreen,
+            (route) => false,
+          );
+  }
+
+  void checkUserLocation({required String uid}) async {
+    var data = await FirestoreHelper.firestoreHelper.getUserData(uid: uid);
+    userLocation = data.docs;
+    userLocation = userLocation[0].data()['location'];
   }
 
   TextEditingController emailController = TextEditingController();
@@ -181,6 +198,17 @@ class _SigninScreenState extends State<SigninScreen> {
 
                             if (data['user'] != null) {
                               Navigator.pop(context);
+
+                              bool isLocation = false;
+                              checkUserLocation(uid: data['user'].uid);
+                              if (userLocation != "") {
+                                isLocation = true;
+                              }
+
+                              logIn(
+                                  userId: data['user'].uid,
+                                  isLocation: isLocation);
+
                               ScaffoldMessenger.of(context)
                                 ..clearSnackBars()
                                 ..showSnackBar(
@@ -190,8 +218,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
-
-                              logIn(userId: data['user'].uid);
                             } else if (data['msg'] != null) {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context)
@@ -236,9 +262,6 @@ class _SigninScreenState extends State<SigninScreen> {
                         padding: EdgeInsets.only(top: h * 0.02),
                         child: GestureDetector(
                           onTap: () {
-                            // Navigator.pushReplacementNamed(
-                            //     context, 'signup_screen');
-
                             Navigator.pushReplacement(
                               context,
                               PageTransition(
@@ -254,14 +277,14 @@ class _SigninScreenState extends State<SigninScreen> {
                                   text: "Don't have an account?",
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontFamily: 'Gilroy-Bold',
+                                    fontFamily: FontFamily.bold,
                                   ),
                                 ),
                                 TextSpan(
                                   text: "  Sign Up",
                                   style: TextStyle(
                                     color: Globals.greenColor,
-                                    fontFamily: 'Gilroy-Bold',
+                                    fontFamily: FontFamily.bold,
                                   ),
                                 ),
                               ],

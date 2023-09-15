@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/font_family.dart';
 
 class CommonSmallBodyText extends StatelessWidget {
   final String text;
@@ -19,7 +20,7 @@ class CommonSmallBodyText extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: 15,
-        fontFamily: 'Gilroy-Medium',
+        fontFamily: FontFamily.medium,
         color: color,
       ),
     );

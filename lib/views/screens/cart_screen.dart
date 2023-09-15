@@ -7,6 +7,7 @@ import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_checkout_expansion.dart';
@@ -123,7 +124,7 @@ class _CartScreenState extends State<CartScreen> {
                                       quantity: allDocs[i].data()['quantity'],
                                     );
                                     Navigator.pushNamed(
-                                        context, 'product_detail_screen',
+                                        context, ScreensPath.productDetailScreen,
                                         arguments: productData);
                                   },
                                   child: SizedBox(
@@ -720,7 +721,7 @@ class _CartScreenState extends State<CartScreen> {
                                               // TODO: confiren order & clear the cart, make new collection order and add this order
                                               Navigator.pushNamed(
                                                 context,
-                                                'order_accepted_screen',
+                                                ScreensPath.orderAcceptedScreen,
                                               );
                                             },
                                             onLongPress: () {
@@ -810,7 +811,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                     onTap: () {
                                                                       Navigator.pushNamedAndRemoveUntil(
                                                                           context,
-                                                                          'home_screen',
+                                                                          ScreensPath.homeScreen,
                                                                           (route) =>
                                                                               false);
                                                                     },

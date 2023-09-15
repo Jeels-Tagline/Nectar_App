@@ -84,11 +84,11 @@ flutter:
     - assets/images/auth_background.png
     - assets/images/food.jpeg
     - assets/images/india_flag.png
-    - assets/images/banner/banner1.jpg
-    - assets/images/banner/banner2.jpg
-    - assets/images/banner/banner3.jpg
-    - assets/images/down_arrow.png
-    - assets/images/forward_arrow.png
+    - assets/banner/banner1.jpg
+    - assets/banner/banner2.jpg
+    - assets/banner/banner3.jpg
+    - assets/icons/down_arrow.png
+    - assets/icons/forward_arrow.png
     - assets/icons/filter.png
     - assets/images/fruit.png
     - assets/images/vegetable.png

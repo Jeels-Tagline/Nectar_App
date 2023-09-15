@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
@@ -49,7 +50,7 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, 'home_screen', (route) => false);
+                            context, ScreensPath.homeScreen, (route) => false);
                       },
                       child: const CommonActionButton(
                         name: "Track Order",
@@ -61,7 +62,7 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, 'home_screen', (route) => false);
+                            context, ScreensPath.homeScreen, (route) => false);
                       },
                       child: const Text(
                         "Back to home",

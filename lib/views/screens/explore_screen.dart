@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -68,7 +69,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 padding: EdgeInsets.only(top: h * 0.04),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, 'search_screen');
+                    Navigator.pushNamed(context, ScreensPath.searchScreen);
                   },
                   child: Container(
                     height: h * 0.055,
@@ -113,7 +114,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     productList.length,
                     (index) => GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, 'explore_product_screen',
+                        Navigator.pushNamed(context, ScreensPath.exploreProductScreen,
                             arguments: productList[index]['name']);
                       },
                       child: Container(

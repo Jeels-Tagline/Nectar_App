@@ -6,6 +6,7 @@ import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_expansion_tile.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:shimmer/shimmer.dart';
@@ -187,7 +188,7 @@ class _AccountScreenState extends State<AccountScreen> {
             await sharedPreferences!.setBool('isLoggedIn', false);
             await sharedPreferences!.setString('isUserID', '');
             Navigator.pushNamedAndRemoveUntil(
-                context, 'onbording_screen', (route) => false);
+                context, ScreensPath.onbordingScreen, (route) => false);
           },
           child: Container(
             height: h * 0.07,
@@ -212,7 +213,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     "Log Out",
                     style: TextStyle(
                       fontSize: 17,
-                      fontFamily: 'Gilroy-Bold',
                       color: Globals.greenColor,
                     ),
                   ),

@@ -141,7 +141,7 @@ class FirebaseAuthHelper {
           data['msg'] = "This Service is Temporary Disabled.....";
           break;
         case "user-not-found":
-          data['msg'] = "User not registered  ......";
+          data['msg'] = "User not registered......";
           break;
         case "wrong-password":
           data['msg'] = "Wrong password......";
