@@ -4,8 +4,8 @@ class ScreensPath {
   static const String logInScreen = 'login_screen';
   static const String numberScreen = 'number_screen';
   static const String numberVerificationScreen = 'number_verification_screen';
-  static const String signInScreen = 'signin_screen';
-  static const String signUpScreen = 'signup_screen';
+  static const String signInScreen = 'signIn_screen';
+  static const String signUpScreen = 'signUp_screen';
   static const String locationScreen = 'location_screen';
   static const String getLocationScreen = 'get_location_screen';
   static const String homeScreen = 'home_screen';

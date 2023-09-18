@@ -7,10 +7,14 @@ import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
+import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -32,7 +36,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String userId = "";
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
     setState(() {});
   }
@@ -169,22 +173,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       IconButton(
                         onPressed: () async {
                           if (favorite == false) {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Loading'),
-                                      CircularProgressIndicator(),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                            CommonShowDialog.show(context: context);
                             Map<String, dynamic> data = {
                               'id': productData.id,
                               'name': productData.name,
@@ -205,53 +194,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               uid: userId,
                               productData: data,
                             );
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context)
-                              ..clearSnackBars()
-                              ..showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text("Product add to Favourite....."),
-                                  backgroundColor: Colors.green,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                            CommonShowDialog.close(context: context);
+                            CommonScaffoldMessenger.success(
+                                context: context,
+                                message: "Product add to Favourite.....");
 
                             setState(() {
                               favorite = true;
                             });
                           } else {
-                            showDialog(
-                              context: NavKey.navKey.currentContext!,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Loading'),
-                                      CircularProgressIndicator(),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                            CommonShowDialog.show(
+                                context: NavKey.navKey.currentContext!);
                             await FirestoreHelper.firestoreHelper
                                 .deleteParticularFavouriteData(
                                     uid: userId, id: productData.id);
-                            Navigator.pop(NavKey.navKey.currentContext!);
+                            CommonShowDialog.close(
+                                context: NavKey.navKey.currentContext!);
 
-                            ScaffoldMessenger.of(context)
-                              ..clearSnackBars()
-                              ..showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      "Product remove from Favourite....."),
-                                  backgroundColor: Colors.red,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                            CommonScaffoldMessenger.failed(
+                                context: context,
+                                message: "Product remove from Favourite.....");
 
                             setState(() {
                               favorite = false;
@@ -335,8 +297,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       trailing: Transform.translate(
                         offset: Offset(w * 0.05, 0),
                         child: (detail_arrow)
-                            ? Image.asset("assets/icons/down_arrow.png")
-                            : Image.asset("assets/icons/forward_arrow.png"),
+                            ? Image.asset(ImagesPath.downArrow)
+                            : Image.asset(ImagesPath.forwardArrow),
                       ),
                       children: [
                         CommonSmallBodyText(
@@ -371,7 +333,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           SizedBox(
                             width: w * 00.03,
                           ),
-                          Image.asset("assets/icons/forward_arrow.png"),
+                          Image.asset(ImagesPath.forwardArrow),
                         ],
                       ),
                     ),
@@ -395,7 +357,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           SizedBox(
                             width: w * 00.03,
                           ),
-                          Image.asset("assets/icons/forward_arrow.png"),
+                          Image.asset(ImagesPath.forwardArrow),
                         ],
                       ),
                     ),
@@ -404,22 +366,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     padding: EdgeInsets.only(top: h * 0.04),
                     child: GestureDetector(
                         onTap: () async {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return const AlertDialog(
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Loading'),
-                                    CircularProgressIndicator(),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
+                          CommonShowDialog.show(context: context);
 
                           Map<String, dynamic> data = {
                             'id': productData.id,
@@ -443,17 +390,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             uid: userId,
                             productData: data,
                           );
-                          Navigator.pop(context);
+                          CommonShowDialog.close(context: context);
 
-                          ScaffoldMessenger.of(context)
-                            ..clearSnackBars()
-                            ..showSnackBar(
-                              const SnackBar(
-                                content: Text("Product add to bag....."),
-                                backgroundColor: Colors.green,
-                                behavior: SnackBarBehavior.floating,
-                              ),
-                            );
+                          CommonScaffoldMessenger.success(
+                              context: context,
+                              message: "Product add to bag.....");
                         },
                         child: const CommonActionButton(name: "Add To Basket")),
                   ),

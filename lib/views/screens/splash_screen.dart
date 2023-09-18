@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             SizedBox(
               height: h * 0.08,
-              child: Image.asset("assets/logos/carot_white.png"),
+              child: Image.asset(ImagesPath.carotWhite),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8),

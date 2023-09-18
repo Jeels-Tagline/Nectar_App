@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/images_path.dart';
 
 class CommonAuthBackground extends StatelessWidget {
   const CommonAuthBackground({super.key});
@@ -12,7 +13,7 @@ class CommonAuthBackground extends StatelessWidget {
       width: w,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/auth_background.png"),
+          image: AssetImage(ImagesPath.authBackground),
           fit: BoxFit.cover,
         ),
       ),

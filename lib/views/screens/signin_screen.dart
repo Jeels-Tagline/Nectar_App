@@ -6,30 +6,34 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
+import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/signup_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SigninScreen> createState() => _SigninScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   bool loggedIn = false;
   var userLocation;
 
   logIn({required String userId, required bool isLocation}) async {
     loggedIn = true;
-    await sharedPreferences!.setBool('isLoggedIn', loggedIn);
-    await sharedPreferences!.setString('isUserID', userId);
+    await sharedPreferences!.setBool(UsersInfo.userLogin, loggedIn);
+    await sharedPreferences!.setString(UsersInfo.userId, userId);
 
     (isLocation)
         ? Navigator.pushNamedAndRemoveUntil(
@@ -77,7 +81,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       width: w,
                       child: const Image(
                         image: AssetImage(
-                          "assets/logos/carot_orange.png",
+                          ImagesPath.carotOrange,
                         ),
                       ),
                     ),
@@ -173,22 +177,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         onTap: () async {
                           if (formKey.currentState!.validate() && emailVerify) {
                             formKey.currentState!.save();
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Loading'),
-                                      CircularProgressIndicator(),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                             CommonShowDialog.show(context: context);
 
                             Map<String, dynamic> data = await FirebaseAuthHelper
                                 .firebaseAuthHelper
@@ -197,7 +186,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                     password: passwordController.text);
 
                             if (data['user'] != null) {
-                              Navigator.pop(context);
+                               CommonShowDialog.close(context: context);
 
                               bool isLocation = false;
                               checkUserLocation(uid: data['user'].uid);
@@ -209,49 +198,23 @@ class _SigninScreenState extends State<SigninScreen> {
                                   userId: data['user'].uid,
                                   isLocation: isLocation);
 
-                              ScaffoldMessenger.of(context)
-                                ..clearSnackBars()
-                                ..showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Signin Successfully...."),
-                                    backgroundColor: Colors.green,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
+                              CommonScaffoldMessenger.success(
+                                  context: context,
+                                  message: "Signin Successfully....");
                             } else if (data['msg'] != null) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context)
-                                ..clearSnackBars()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    content: Text("${data['msg']}"),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
+                              CommonScaffoldMessenger.failed(
+                                  context: context, message: data['msg']);
                             } else {
-                              Navigator.pop(context);
+                              CommonShowDialog.close(context: context);
 
-                              ScaffoldMessenger.of(context)
-                                ..clearSnackBars()
-                                ..showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Signin Faild....."),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
+                              CommonScaffoldMessenger.failed(
+                                  context: context,
+                                  message: "Signin Faild.....");
                             }
                           } else {
-                            ScaffoldMessenger.of(context)
-                              ..clearSnackBars()
-                              ..showSnackBar(
-                                const SnackBar(
-                                  content: Text("Something went wrong...."),
-                                  backgroundColor: Colors.red,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                            CommonScaffoldMessenger.failed(
+                                context: context,
+                                message: "Something went wrong....");
                           }
                         },
                         child: const CommonActionButton(name: "Sign In"),
@@ -266,7 +229,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               context,
                               PageTransition(
                                 type: PageTransitionType.fade,
-                                child: const SignupScreen(),
+                                child: const SignUpScreen(),
                               ),
                             );
                           },

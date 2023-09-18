@@ -52,8 +52,8 @@ void main() async {
         ScreensPath.numberScreen: (context) => const NumberScreen(),
         ScreensPath.numberVerificationScreen: (context) =>
             const NumberVerificationScreen(),
-        ScreensPath.signInScreen: (context) => const SigninScreen(),
-        ScreensPath.signUpScreen: (context) => const SignupScreen(),
+        ScreensPath.signInScreen: (context) => const SignInScreen(),
+        ScreensPath.signUpScreen: (context) => const SignUpScreen(),
         ScreensPath.locationScreen: (context) => const LocationScreen(),
         ScreensPath.getLocationScreen: (context) => const GetLocationScreen(),
         ScreensPath.homeScreen: (context) => const HomeScreen(),

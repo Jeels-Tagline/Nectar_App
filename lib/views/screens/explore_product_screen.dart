@@ -4,6 +4,8 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
+import 'package:nectar_app/utils/images_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 import 'package:nectar_app/views/components/common_product.dart';
 import 'package:shimmer/shimmer.dart';
@@ -19,7 +21,7 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
   String userId = "";
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
     setState(() {});
   }
@@ -55,7 +57,7 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
                       icon: const Icon(Icons.arrow_back_ios_new_rounded),
                     ),
                     CommonHeadlineText(title: name),
-                    Image.asset("assets/icons/filter.png"),
+                    Image.asset(ImagesPath.filter),
                   ],
                 ),
               ),

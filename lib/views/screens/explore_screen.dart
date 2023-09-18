@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 
@@ -15,37 +16,37 @@ class _ExploreScreenState extends State<ExploreScreen> {
       'color': Colors.green,
       'backgroundColor': Colors.green.shade50,
       'name': 'Fruit',
-      'image': 'assets/images/fruit.png',
+      'image': ImagesPath.fruit,
     },
     {
       'color': Colors.orange,
       'backgroundColor': Colors.orange.shade50,
       'name': 'Vegetable',
-      'image': 'assets/images/vegetable.png',
+      'image': ImagesPath.vegetable,
     },
     {
       'color': Colors.red,
       'backgroundColor': Colors.red.shade50,
       'name': 'Bakery',
-      'image': 'assets/images/bakery.png',
+      'image': ImagesPath.bakery,
     },
     {
       'color': Colors.purple,
       'backgroundColor': Colors.purple.shade50,
       'name': 'Baverage',
-      'image': 'assets/images/baverage.png',
+      'image': ImagesPath.baverage,
     },
     {
       'color': Colors.brown,
       'backgroundColor': Colors.brown.shade50,
       'name': 'Pulses',
-      'image': 'assets/images/pulses.png',
+      'image': ImagesPath.pulses,
     },
     {
       'color': Colors.blue,
       'backgroundColor': Colors.blue.shade50,
       'name': 'Rice',
-      'image': 'assets/images/rices.png',
+      'image': ImagesPath.rice,
     },
   ];
 
@@ -114,7 +115,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     productList.length,
                     (index) => GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, ScreensPath.exploreProductScreen,
+                        Navigator.pushNamed(
+                            context, ScreensPath.exploreProductScreen,
                             arguments: productList[index]['name']);
                       },
                       child: Container(

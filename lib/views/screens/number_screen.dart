@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
-import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 
@@ -24,6 +22,21 @@ class _NumberScreenState extends State<NumberScreen> {
   TextEditingController userNameController = TextEditingController();
   bool userVerify = false;
   var userData;
+  bool isUser = true;
+
+  final String phoneRegex = r'^\+91\d{10}$';
+
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a phone number.';
+    }
+
+    if (!RegExp(phoneRegex).hasMatch(value)) {
+      return 'Enter a valid phone number.';
+    }
+
+    return null;
+  }
 
   void dataCheck() async {
     var data = await FirestoreHelper.firestoreHelper.fetchUsers();
@@ -34,7 +47,6 @@ class _NumberScreenState extends State<NumberScreen> {
   void initState() {
     super.initState();
     dataCheck();
-    phoneController.text = "+91";
   }
 
   @override
@@ -75,79 +87,59 @@ class _NumberScreenState extends State<NumberScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.05),
-                          child: const CommonBodyText(text: "Mobile number"),
-                        ),
-                        TextFormField(
-                          controller: phoneController,
-                          enabled: true,
-                          keyboardType: TextInputType.number,
-                          maxLength: 10,
-                          onTap: () {
-                            phoneController.clear();
-                          },
-                          validator: (val) {
-                            if (val!.isEmpty || val == "+91") {
-                              return "Enter Phone Number";
-                            } else {
-                              if (val.length != 10) {
-                                return "Enter Valid Phone Number";
-                              }
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontFamily: FontFamily.medium,
-                          ),
-                          decoration: InputDecoration(
-                            counterText: "",
-                            prefix: SizedBox(
-                              height: 20,
-                              width: 50,
-                              child: Image.asset(
-                                "assets/images/india_flag.png",
-                              ),
+                          child: TextFormField(
+                            controller: phoneController,
+                            enabled: true,
+                            maxLength: 13,
+                            validator: validatePhoneNumber,
+                            // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontFamily: FontFamily.medium,
+                            ),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.grey.shade400),
+                              counterText: "",
+                              hintText: "+91 972XXXX599",
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(top: h * 0.01),
-                          child: CommonTextFormField(
-                            controller: userNameController,
-                            onChange: (val) {
-                              if (val!.length <= 6) {
-                                setState(() {
-                                  userVerify = false;
-                                });
-                              } else {
-                                setState(() {
-                                  userVerify = true;
-                                });
-                              }
-                              return null;
-                            },
-                            suffixIcon: (userVerify)
-                                ? const Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                  )
-                                : const Icon(
-                                    Icons.close_rounded,
-                                    color: Colors.red,
-                                  ),
-                            textAction: TextInputAction.next,
-                            labelText: "Username",
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Enter your Username...";
-                              }
-                              return null;
-                            },
+                        if (isUser == false)
+                          Padding(
+                            padding: EdgeInsets.only(top: h * 0.01),
+                            child: CommonTextFormField(
+                              controller: userNameController,
+                              onChange: (val) {
+                                if (val!.length <= 6) {
+                                  setState(() {
+                                    userVerify = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    userVerify = true;
+                                  });
+                                }
+                                return null;
+                              },
+                              suffixIcon: (userVerify)
+                                  ? const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                    )
+                                  : const Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.red,
+                                    ),
+                              textAction: TextInputAction.next,
+                              labelText: "Username",
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Enter your Username...";
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -159,30 +151,58 @@ class _NumberScreenState extends State<NumberScreen> {
       ),
       floatingActionButton: GestureDetector(
         onTap: () async {
-          if (formKey.currentState!.validate() && userVerify) {
-            formKey.currentState!.save();
+          bool isPhoneNumber = false;
+          String name = '';
 
-            await FirebaseAuthHelper.firebaseAuthHelper
-                .phoneLogin(phoneNumber: "+91${phoneController.text}");
+          for (int i = 0; i < userData.length; i++) {
+            if (userData[i].data()['phoneNumber'] == phoneController.text) {
+              isPhoneNumber = true;
+              name = userData[i].data()['displayName'];
+              setState(() {});
+              // if (userData[i].data()['location'] != null) {
+              //   isLocation = true;
+              // }
+            }
+          }
 
-            Map data = {
-              'phoneNumber': phoneController.text,
-              'userName': userNameController.text,
-            };
-            Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
-                arguments: data);
+          if (isPhoneNumber) {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              await FirebaseAuthHelper.firebaseAuthHelper
+                  .phoneLogin(phoneNumber: phoneController.text);
+
+              Map data = {
+                'phoneNumber': phoneController.text,
+                'userName': name,
+              };
+              Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
+                  arguments: data);
+            }
           } else {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text("Something went wrong...."),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
+            setState(() {
+              isUser = false;
+            });
+
+            if (formKey.currentState!.validate() && userVerify) {
+              formKey.currentState!.save();
+
+              await FirebaseAuthHelper.firebaseAuthHelper
+                  .phoneLogin(phoneNumber: phoneController.text);
+
+              Map data = {
+                'phoneNumber': phoneController.text,
+                'userName': userNameController.text,
+              };
+              Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
+                  arguments: data);
+            }
           }
         },
+        // else {
+        //   CommonScaffoldMessenger.failed(
+        //       context: context, message: "Something went wrong....");
+        // }
+
         child: const CircleAvatar(
           radius: 30,
           backgroundColor: Color(0xff53B175),

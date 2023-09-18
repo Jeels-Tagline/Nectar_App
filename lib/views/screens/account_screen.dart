@@ -7,6 +7,7 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_expansion_tile.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,7 +23,7 @@ class _AccountScreenState extends State<AccountScreen> {
   String userId = "";
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
     setState(() {});
   }
@@ -185,8 +186,8 @@ class _AccountScreenState extends State<AccountScreen> {
           onTap: () async {
             FirebaseAuthHelper.firebaseAuthHelper.logOut();
 
-            await sharedPreferences!.setBool('isLoggedIn', false);
-            await sharedPreferences!.setString('isUserID', '');
+            await sharedPreferences!.setBool(UsersInfo.userLogin, false);
+            await sharedPreferences!.setString(UsersInfo.userId, '');
             Navigator.pushNamedAndRemoveUntil(
                 context, ScreensPath.onbordingScreen, (route) => false);
           },

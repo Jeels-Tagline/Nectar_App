@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -63,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ],
                       ),
                     ),
-                    Image.asset("assets/icons/filter.png"),
+                    Image.asset(ImagesPath.filter),
                   ],
                 ),
               ),

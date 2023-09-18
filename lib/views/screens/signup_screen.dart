@@ -5,23 +5,26 @@ import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
+import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/signin_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -54,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       width: w,
                       child: const Image(
                         image: AssetImage(
-                          "assets/logos/carot_orange.png",
+                          ImagesPath.carotOrange,
                         ),
                       ),
                     ),
@@ -207,22 +210,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               userVerify &&
                               emailVerify) {
                             formKey.currentState!.save();
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Loading'),
-                                      CircularProgressIndicator(),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                            CommonShowDialog.show(context: context);
 
                             Map<String, dynamic> data = await FirebaseAuthHelper
                                 .firebaseAuthHelper
@@ -231,16 +219,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                     password: passwordController.text);
 
                             if (data['user'] != null) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context)
-                                ..clearSnackBars()
-                                ..showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Signup Successfully...."),
-                                    backgroundColor: Colors.green,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
+                              CommonScaffoldMessenger.success(
+                                  context: context,
+                                  message: "Signup Successfully....");
 
                               Map<String, dynamic> userdata = {
                                 'uid': data['user'].uid,
@@ -258,39 +239,20 @@ class _SignupScreenState extends State<SignupScreen> {
                               Navigator.pushReplacementNamed(
                                   context, ScreensPath.signInScreen);
                             } else if (data['msg'] != null) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context)
-                                ..clearSnackBars()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    content: Text("${data['msg']}"),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
+                              CommonShowDialog.close(context: context);
+                              CommonScaffoldMessenger.failed(
+                                  context: context, message: data['msg']);
                             } else {
-                              Navigator.pop(context);
+                              CommonShowDialog.close(context: context);
 
-                              ScaffoldMessenger.of(context)
-                                ..clearSnackBars()
-                                ..showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Signup Faild....."),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
+                              CommonScaffoldMessenger.failed(
+                                  context: context,
+                                  message: "Signup Faild.....");
                             }
                           } else {
-                            ScaffoldMessenger.of(context)
-                              ..clearSnackBars()
-                              ..showSnackBar(
-                                const SnackBar(
-                                  content: Text("Something went wrong...."),
-                                  backgroundColor: Colors.red,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                            CommonScaffoldMessenger.failed(
+                                context: context,
+                                message: "Something went wrong....");
                           }
                         },
                         child: const CommonActionButton(name: "Sign Up"),
@@ -305,7 +267,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               context,
                               PageTransition(
                                 type: PageTransitionType.fade,
-                                child: const SigninScreen(),
+                                child: const SignInScreen(),
                               ),
                             );
                           },

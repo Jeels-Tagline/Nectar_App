@@ -5,6 +5,7 @@ import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
@@ -28,7 +29,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
     setState(() {});
   }

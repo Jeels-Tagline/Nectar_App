@@ -8,7 +8,9 @@ import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_offer_banner.dart';
 import 'package:nectar_app/views/components/common_product.dart';
 import 'package:nectar_app/views/components/common_product_shimmer.dart';
@@ -29,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String userId = "";
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
     setState(() {});
   }
@@ -37,17 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   static const images = [
-    'assets/banner/banner1.jpg',
-    'assets/banner/banner2.jpg',
-    'assets/banner/banner3.jpg',
+    ImagesPath.banner1,
+    ImagesPath.banner2,
+    ImagesPath.banner3,
   ];
+
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    getUserId(); //*
+    getUserId();
   }
 
   @override
@@ -92,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Center(
                     child: SizedBox(
                       height: h * 0.04,
-                      child: Image.asset("assets/logos/carot_orange.png"),
+                      child: Image.asset(ImagesPath.carotOrange),
                     ),
                   ),
                   Padding(
@@ -450,8 +453,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Expanded(
-                                          child: Image.asset(
-                                              "assets/images/pulses.png"),
+                                          child: Image.asset(ImagesPath.pulses),
                                         ),
                                         SizedBox(
                                           width: w * 0.02,
@@ -495,8 +497,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Expanded(
-                                            child: Image.asset(
-                                                "assets/images/rices.png"),
+                                            child: Image.asset(ImagesPath.rice),
                                           ),
                                           SizedBox(
                                             width: w * 0.02,

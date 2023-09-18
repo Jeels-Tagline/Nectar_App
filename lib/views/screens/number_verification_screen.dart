@@ -8,8 +8,11 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
+import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 
 class NumberVerificationScreen extends StatefulWidget {
@@ -25,8 +28,8 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
 
   logIn({required String userId, required bool isLocation}) async {
     loggedIn = true;
-    await sharedPreferences!.setBool('isLoggedIn', loggedIn);
-    await sharedPreferences!.setString('isUserID', userId);
+    await sharedPreferences!.setBool(UsersInfo.userLogin, loggedIn);
+    await sharedPreferences!.setString(UsersInfo.userId, userId);
 
     (isLocation)
         ? Navigator.pushNamedAndRemoveUntil(
@@ -138,27 +141,13 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
 
-                    showDialog<void>(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return const AlertDialog(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Loading'),
-                              CircularProgressIndicator(),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                    CommonShowDialog.show(context: context);
 
                     Map data = await FirebaseAuthHelper.firebaseAuthHelper
                         .verifyOTP(otp: otpController.text);
 
                     if (data['user'] != null) {
-                      Navigator.pop(context);
+                      CommonShowDialog.close(context: context);
 
                       bool isUser = false;
                       bool isLocation = false;
@@ -188,37 +177,16 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                       }
 
                       logIn(userId: data['user'].uid, isLocation: isLocation);
-                      ScaffoldMessenger.of(context)
-                        ..clearSnackBars()
-                        ..showSnackBar(
-                          const SnackBar(
-                            content: Text("Login Successfully...."),
-                            backgroundColor: Colors.green,
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
+                      CommonScaffoldMessenger.success(
+                          context: context, message: "Login Successfully....");
                     } else if (data['msg'] != null) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context)
-                        ..clearSnackBars()
-                        ..showSnackBar(
-                          SnackBar(
-                            content: Text(data['msg']),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
+                      CommonShowDialog.close(context: context);
+                      CommonScaffoldMessenger.failed(
+                          context: context, message: data['msg']);
                     } else {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context)
-                        ..clearSnackBars()
-                        ..showSnackBar(
-                          const SnackBar(
-                            content: Text("Logging Failed....."),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
+                      CommonShowDialog.close(context: context);
+                      CommonScaffoldMessenger.failed(
+                          context: context, message: "Logging Failed.....");
                     }
                   }
                 },

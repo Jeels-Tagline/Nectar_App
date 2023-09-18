@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 
@@ -18,11 +20,10 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
   bool loggedIn = false;
 
   checkLogin() async {
-    loggedIn = sharedPreferences!.getBool('isLoggedIn') ?? false;
+    loggedIn = sharedPreferences!.getBool(UsersInfo.userLogin) ?? false;
     if (loggedIn == true) {
       Navigator.pushNamedAndRemoveUntil(
-          context, ScreensPath.homeScreen
-          , (route) => false);
+          context, ScreensPath.homeScreen, (route) => false);
     } else {
       Navigator.pushNamed(context, ScreensPath.logInScreen);
     }
@@ -40,7 +41,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
         width: w,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/background.jpeg"),
+            image: AssetImage(ImagesPath.background),
             fit: BoxFit.cover,
           ),
         ),
@@ -61,7 +62,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                 children: [
                   SizedBox(
                     height: h * 0.07,
-                    child: Image.asset("assets/logos/carot_white.png"),
+                    child: Image.asset(ImagesPath.carotWhite),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.02),

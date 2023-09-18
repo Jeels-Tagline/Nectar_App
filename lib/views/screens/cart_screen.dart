@@ -7,11 +7,14 @@ import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_checkout_expansion.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
+import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:shimmer/shimmer.dart';
@@ -40,7 +43,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
     setState(() {});
   }
@@ -123,8 +126,8 @@ class _CartScreenState extends State<CartScreen> {
                                       image3: allDocs[i].data()['image3'],
                                       quantity: allDocs[i].data()['quantity'],
                                     );
-                                    Navigator.pushNamed(
-                                        context, ScreensPath.productDetailScreen,
+                                    Navigator.pushNamed(context,
+                                        ScreensPath.productDetailScreen,
                                         arguments: productData);
                                   },
                                   child: SizedBox(
@@ -163,29 +166,10 @@ class _CartScreenState extends State<CartScreen> {
                                                           Offset(w * 0.03, 0),
                                                       child: IconButton(
                                                         onPressed: () async {
-                                                          showDialog(
-                                                            context: NavKey
-                                                                .navKey
-                                                                .currentContext!,
-                                                            barrierDismissible:
-                                                                false,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return const AlertDialog(
-                                                                title: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                        'Loading'),
-                                                                    CircularProgressIndicator(),
-                                                                  ],
-                                                                ),
-                                                              );
-                                                            },
-                                                          );
+                                                          CommonShowDialog.show(
+                                                              context: NavKey
+                                                                  .navKey
+                                                                  .currentContext!);
                                                           await FirestoreHelper
                                                               .firestoreHelper
                                                               .deleteParticularCartData(
@@ -193,9 +177,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                   id: allDocs[i]
                                                                           .data()[
                                                                       'id']);
-                                                          Navigator.pop(NavKey
-                                                              .navKey
-                                                              .currentContext!);
+                                                          CommonShowDialog.close(
+                                                              context: NavKey
+                                                                  .navKey
+                                                                  .currentContext!);
                                                           setState(() {});
                                                         },
                                                         icon: const Icon(
@@ -229,28 +214,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                         .data()[
                                                                     'quantity'] >
                                                                 1) {
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                barrierDismissible:
-                                                                    false,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return const AlertDialog(
-                                                                    title: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                            'Loading'),
-                                                                        CircularProgressIndicator(),
-                                                                      ],
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              );
+                                                              CommonShowDialog
+                                                                  .show(
+                                                                      context:
+                                                                          context);
                                                               await FirestoreHelper
                                                                   .firestoreHelper
                                                                   .decreseQuantity(
@@ -263,33 +230,16 @@ class _CartScreenState extends State<CartScreen> {
                                                                           allDocs[i]
                                                                               .data()['quantity']);
 
-                                                              Navigator.pop(
-                                                                  context);
+                                                              CommonShowDialog
+                                                                  .close(
+                                                                      context:
+                                                                          context);
                                                               setState(() {});
                                                             } else {
-                                                              showDialog(
-                                                                context: NavKey
-                                                                    .navKey
-                                                                    .currentContext!,
-                                                                barrierDismissible:
-                                                                    false,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return const AlertDialog(
-                                                                    title: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                            'Loading'),
-                                                                        CircularProgressIndicator(),
-                                                                      ],
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              );
+                                                              CommonShowDialog.show(
+                                                                  context: NavKey
+                                                                      .navKey
+                                                                      .currentContext!);
                                                               await FirestoreHelper
                                                                   .firestoreHelper
                                                                   .deleteParticularCartData(
@@ -298,9 +248,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                       id: allDocs[i]
                                                                               .data()[
                                                                           'id']);
-                                                              Navigator.pop(NavKey
-                                                                  .navKey
-                                                                  .currentContext!);
+                                                              CommonShowDialog.close(
+                                                                  context: NavKey
+                                                                      .navKey
+                                                                      .currentContext!);
                                                               setState(() {});
                                                             }
                                                           },
@@ -340,27 +291,10 @@ class _CartScreenState extends State<CartScreen> {
                                                         ),
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            showDialog(
-                                                              context: context,
-                                                              barrierDismissible:
-                                                                  false,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return const AlertDialog(
-                                                                  title: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                          'Loading'),
-                                                                      CircularProgressIndicator(),
-                                                                    ],
-                                                                  ),
-                                                                );
-                                                              },
-                                                            );
+                                                            CommonShowDialog
+                                                                .show(
+                                                                    context:
+                                                                        context);
                                                             await FirestoreHelper
                                                                 .firestoreHelper
                                                                 .increseQuantity(
@@ -372,8 +306,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                             .data()[
                                                                         'quantity']);
 
-                                                            Navigator.pop(
-                                                                context);
+                                                            CommonShowDialog
+                                                                .close(
+                                                                    context:
+                                                                        context);
                                                             setState(() {});
                                                           },
                                                           child: Container(
@@ -761,7 +697,8 @@ class _CartScreenState extends State<CartScreen> {
                                                             child: Column(
                                                               children: [
                                                                 Image.asset(
-                                                                    "assets/images/error.png"),
+                                                                    ImagesPath
+                                                                        .error),
                                                                 Padding(
                                                                   padding: EdgeInsets.only(
                                                                       top: h *
@@ -811,7 +748,8 @@ class _CartScreenState extends State<CartScreen> {
                                                                     onTap: () {
                                                                       Navigator.pushNamedAndRemoveUntil(
                                                                           context,
-                                                                          ScreensPath.homeScreen,
+                                                                          ScreensPath
+                                                                              .homeScreen,
                                                                           (route) =>
                                                                               false);
                                                                     },

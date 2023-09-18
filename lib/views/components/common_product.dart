@@ -6,6 +6,8 @@ import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
+import 'package:nectar_app/views/components/common_show_dialog.dart';
 
 class CommonProduct extends StatelessWidget {
   final ProductModel productData;
@@ -84,22 +86,7 @@ class CommonProduct extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return const AlertDialog(
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Loading'),
-                                  CircularProgressIndicator(),
-                                ],
-                              ),
-                            );
-                          },
-                        );
+                        CommonShowDialog.show(context: context);
 
                         Map<String, dynamic> data = {
                           'id': productData.id,
@@ -124,17 +111,11 @@ class CommonProduct extends StatelessWidget {
                           uid: userId,
                           productData: data,
                         );
-                        Navigator.pop(context);
+                        CommonShowDialog.close(context: context);
 
-                        ScaffoldMessenger.of(context)
-                          ..clearSnackBars()
-                          ..showSnackBar(
-                            const SnackBar(
-                              content: Text("Product add to bag....."),
-                              backgroundColor: Colors.green,
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
+                        CommonScaffoldMessenger.success(
+                            context: context,
+                            message: "Product add to bag.....");
                       },
                       child: Container(
                         height: h * 0.055,

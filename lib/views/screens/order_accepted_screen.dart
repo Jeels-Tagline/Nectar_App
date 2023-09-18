@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
@@ -28,7 +29,7 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
             child: Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/sucess.png"),
+                  Image.asset(ImagesPath.success),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.08),
                     child: const CommonTitleText(

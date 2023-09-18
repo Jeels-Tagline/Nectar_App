@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
-import 'package:nectar_app/main.dart';
+import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 
@@ -21,16 +22,9 @@ class _LocationScreenState extends State<LocationScreen> {
   String userId = "";
   Map userData = {};
 
-  getUserId() async {
-    userId = sharedPreferences!.getString('isUserID') ?? '';
-
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
-    getUserId();
   }
 
   @override
@@ -75,7 +69,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 height: h * 0.18,
                                 child: const Image(
                                   image: AssetImage(
-                                    "assets/logos/location.png",
+                                    ImagesPath.location,
                                   ),
                                 ),
                               ),
@@ -102,7 +96,8 @@ class _LocationScreenState extends State<LocationScreen> {
                           child: GestureDetector(
                             onTap: () async {
                               userData = await Navigator.pushNamed(
-                                  context, ScreensPath.getLocationScreen) as Map;
+                                      context, ScreensPath.getLocationScreen)
+                                  as Map;
                               setState(() {});
                             },
                             child: Card(
@@ -129,19 +124,12 @@ class _LocationScreenState extends State<LocationScreen> {
                                   location: userData['location'],
                                   city: userData['city'],
                                 );
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, ScreensPath.homeScreen, (route) => false);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    ScreensPath.homeScreen, (route) => false);
                               } else {
-                                ScaffoldMessenger.of(context)
-                                  ..clearSnackBars()
-                                  ..showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text("Please select location....."),
-                                      backgroundColor: Colors.red,
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
+                                CommonScaffoldMessenger.failed(
+                                    context: context,
+                                    message: "Please select location.....");
                               }
                             },
                             child: const CommonActionButton(name: "Submit"),
