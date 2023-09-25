@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, dead_code_catch_following_catch
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -9,6 +11,8 @@ class FirebaseAuthHelper {
   static final GoogleSignIn googleSignIn = GoogleSignIn();
 
   String? verifyId;
+  // jeels
+  int? resendToken;
 
   Future<Map<String, dynamic>> logInAnonymously() async {
     Map<String, dynamic> data = {};
@@ -33,18 +37,33 @@ class FirebaseAuthHelper {
     required String phoneNumber,
   }) async {
     Map<String, dynamic> data = {};
+    // TODO : Disable rechapctcha
+    // jeels
+
+    // await FirebaseAppCheck.instance.activate(
+    //   androidProvider: AndroidProvider.playIntegrity,
+    // );
+    // await firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
 
     await firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (credentials) async {
         await firebaseAuth.signInWithCredential(credentials);
       },
-      codeSent: (verificationID, resendToken) async {
+      codeSent: (verificationID, resendTokenn) async {
         verifyId = verificationID;
+        // jeels
+        resendToken = resendTokenn;
       },
+
+      // jeels
+      timeout: const Duration(seconds: 50),
       codeAutoRetrievalTimeout: (verificationID) {
-        verifyId = verificationID;
+        verificationID = verifyId!;
       },
+      // jeels
+      forceResendingToken: resendToken,
+
       verificationFailed: (e) {
         switch (e.code) {
           case "operation-not-allowed":
@@ -152,33 +171,85 @@ class FirebaseAuthHelper {
     return data;
   }
 
-  Future<Map<String, dynamic>> googleLogin() async {
+  Future<Map<String, dynamic>> forgotPassword({required String email}) async {
     Map<String, dynamic> data = {};
 
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
     try {
-      UserCredential userCredential =
-          await firebaseAuth.signInWithCredential(credential);
-
-      User? user = userCredential.user;
-
-      data['user'] = user;
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      data['user'] = "Accept";
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
           data['msg'] = "This Service is Temporary Disabled.....";
           break;
+        case "user-not-found":
+          data['msg'] = "User not registered......";
+          break;
       }
     }
+
     return data;
   }
+
+  Future<Map<String, dynamic>> signInWithGoogle() async {
+    Map<String, dynamic> data = {};
+    var credential;
+
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    try {
+      credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+    } catch (e) {
+      // cancel google login
+    }
+
+    if (credential != null) {
+      try {
+        UserCredential userCredential =
+            await firebaseAuth.signInWithCredential(credential);
+
+        User? user = userCredential.user;
+
+        data['user'] = user;
+      } on FirebaseAuthException catch (e) {
+        switch (e.code) {
+          case "operation-not-allowed":
+            data['msg'] = "This Service is Temporary Disabled.....";
+            break;
+        }
+      }
+    }
+
+    return data;
+  }
+
+  // Future<Map<String, dynamic>> googleLogin() async {
+  //   Map<String, dynamic> data = {};
+  //   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+  //   final GoogleSignInAuthentication? googleAuth =
+  //       await googleUser?.authentication;
+  //   final credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+  //   try {
+  //     UserCredential userCredential =
+  //         await firebaseAuth.signInWithCredential(credential);
+  //     User? user = userCredential.user;
+  //     data['user'] = user;
+  //   } on FirebaseAuthException catch (e) {
+  //     switch (e.code) {
+  //       case "operation-not-allowed":
+  //         data['msg'] = "This Service is Temporary Disabled.....";
+  //         break;
+  //     }
+  //   }
+  //   return data;
+  // }
 
   Future<void> logOut() async {
     await firebaseAuth.signOut();

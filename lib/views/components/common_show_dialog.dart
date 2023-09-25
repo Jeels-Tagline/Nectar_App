@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CommonShowDialog {
-  static show({required BuildContext context}) {
+  // bool dismissible = false;
+  static show({required BuildContext context, bool? dismissible}) {
     showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: dismissible ?? false,
       builder: (BuildContext context) {
         return const AlertDialog(
           title: Row(

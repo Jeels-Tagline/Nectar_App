@@ -55,7 +55,7 @@ class CommonTextFormField extends StatelessWidget {
       // onTap: (){
       //   (onTap != null) ? onTap!() : null;
       // },
-
+      
       inputFormatters: digitsOnly,
       decoration: InputDecoration(
         border: inputBorder,

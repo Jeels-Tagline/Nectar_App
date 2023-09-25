@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/main.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
@@ -22,9 +24,16 @@ class _LocationScreenState extends State<LocationScreen> {
   String userId = "";
   Map userData = {};
 
+  getUserId() async {
+    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    getUserId();
   }
 
   @override
@@ -43,20 +52,12 @@ class _LocationScreenState extends State<LocationScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
                   Padding(
                     padding: EdgeInsets.only(
-                        top: h * 0.03, left: w * 0.06, right: w * 0.06),
+                      top: h * 0.06,
+                      left: w * 0.06,
+                      right: w * 0.06,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

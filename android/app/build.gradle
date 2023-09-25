@@ -47,7 +47,8 @@ android {
         applicationId "com.jeels21.nectar_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 20
+        // jeels 20
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -68,6 +69,28 @@ flutter {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    // 32.2.3
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+    // jeels new 2 line
+    implementation("androidx.browser:browser:1.5.0")
+    // implementation("com.google.android.play:integrity:1.1.0")
 }
+
+// signingConfigs {
+//     if (System.getenv("ANDROID_KEYSTORE_PATH")) {
+//         release {
+//             storeFile file(System.getenv("ANDROID_KEYSTORE_PATH"))
+//             keyAlias System.getenv("ANDROID_KEYSTORE_ALIAS")
+//             keyPassword System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+//             storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+//         }
+//     } else {
+//         release {
+//             keyAlias keystoreProperties['keyAlias']
+//             keyPassword keystoreProperties['keyPassword']
+//             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//             storePassword keystoreProperties['storePassword']
+//         }
+//     }
+// }

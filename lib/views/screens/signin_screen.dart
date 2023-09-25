@@ -16,6 +16,7 @@ import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:nectar_app/views/screens/forgot_password_screen.dart';
 import 'package:nectar_app/views/screens/signup_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -45,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
           );
   }
 
-  void checkUserLocation({required String uid}) async {
+  Future checkUserLocation({required String uid}) async {
     var data = await FirestoreHelper.firestoreHelper.getUserData(uid: uid);
     userLocation = data.docs;
     userLocation = userLocation[0].data()['location'];
@@ -167,8 +168,21 @@ class _SignInScreenState extends State<SignInScreen> {
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(top: h * 0.02),
-                        child: const CommonSmallBodyText(
-                            text: "Forgot passwor?", color: Colors.black),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: const ForgotPasswordScreen(),
+                              ),
+                            );
+                          },
+                          child: CommonSmallBodyText(
+                            text: "Forgot passwor?",
+                            color: Globals.greenColor,
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
@@ -177,7 +191,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         onTap: () async {
                           if (formKey.currentState!.validate() && emailVerify) {
                             formKey.currentState!.save();
-                             CommonShowDialog.show(context: context);
+                            CommonShowDialog.show(context: context);
 
                             Map<String, dynamic> data = await FirebaseAuthHelper
                                 .firebaseAuthHelper
@@ -186,12 +200,15 @@ class _SignInScreenState extends State<SignInScreen> {
                                     password: passwordController.text);
 
                             if (data['user'] != null) {
-                               CommonShowDialog.close(context: context);
+                              CommonShowDialog.close(context: context);
 
                               bool isLocation = false;
-                              checkUserLocation(uid: data['user'].uid);
-                              if (userLocation != "") {
+                              await checkUserLocation(uid: data['user'].uid);
+
+                              if (userLocation != null &&
+                                  userLocation.isNotEmpty) {
                                 isLocation = true;
+                                setState(() {});
                               }
 
                               logIn(
@@ -202,6 +219,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   context: context,
                                   message: "Signin Successfully....");
                             } else if (data['msg'] != null) {
+                              CommonShowDialog.close(context: context);
                               CommonScaffoldMessenger.failed(
                                   context: context, message: data['msg']);
                             } else {

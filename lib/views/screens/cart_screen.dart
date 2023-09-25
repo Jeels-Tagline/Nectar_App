@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -653,8 +653,40 @@ class _CartScreenState extends State<CartScreen> {
                                           padding:
                                               EdgeInsets.only(top: h * 0.02),
                                           child: GestureDetector(
-                                            onTap: () {
-                                              // TODO: confiren order & clear the cart, make new collection order and add this order
+                                            onTap: () async {
+                                              //TODO : Make new collection all successfully order show there 
+                                              CommonShowDialog.show(
+                                                  context: context);
+
+                                              var productData;
+                                              var data = await FirestoreHelper
+                                                  .firestoreHelper
+                                                  .getCartData(uid: userId);
+
+                                              productData = data.docs;
+
+                                              // Insert Records
+                                              for (int index = 0;
+                                                  index < productData.length;
+                                                  index++) {
+                                                await FirestoreHelper
+                                                    .firestoreHelper
+                                                    .deleteParticularCartData(
+                                                        uid: userId,
+                                                        id: productData[index]
+                                                            .data()['id']);
+                                                await FirestoreHelper
+                                                    .firestoreHelper
+                                                    .insertOrders(
+                                                        uid: userId,
+                                                        productId:
+                                                            productData[index]
+                                                                .data()['id']);
+                                              }
+
+                                              CommonShowDialog.close(
+                                                  context: context);
+
                                               Navigator.pushNamed(
                                                 context,
                                                 ScreensPath.orderAcceptedScreen,

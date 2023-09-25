@@ -14,12 +14,12 @@ class CommonExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
-          child: GestureDetector(
-            onTap: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
             child: Row(
               children: [
                 Expanded(
@@ -44,9 +44,9 @@ class CommonExpansionTile extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        const Divider(),
-      ],
+          const Divider(),
+        ],
+      ),
     );
   }
 }

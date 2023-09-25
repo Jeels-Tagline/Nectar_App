@@ -1,11 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, await_only_futures, unused_local_variable, prefer_typing_uninitialized_variables
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/users_info.dart';
@@ -26,6 +29,32 @@ class NumberVerificationScreen extends StatefulWidget {
 class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
   bool loggedIn = false;
 
+  int secResend = 60;
+  bool enableResendButton = false;
+
+  startTimer() {
+    const oneSec = Duration(seconds: 1);
+
+    Timer timer = Timer.periodic(oneSec, (timer) {
+      if (secResend == 0) {
+        setState(() {
+          enableResendButton = true;
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          secResend--;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
   logIn({required String userId, required bool isLocation}) async {
     loggedIn = true;
     await sharedPreferences!.setBool(UsersInfo.userLogin, loggedIn);
@@ -43,6 +72,7 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
 
   TextEditingController otpController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final userData = ModalRoute.of(context)!.settings.arguments as Map;
@@ -109,6 +139,43 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                             hintText: "------",
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(top: h * 0.05),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (enableResendButton)
+                                GestureDetector(
+                                  onTap: () async {
+                                    setState(() {
+                                      secResend = 60;
+                                      startTimer();
+                                      enableResendButton = false;
+                                    });
+                                    await FirebaseAuthHelper.firebaseAuthHelper
+                                        .phoneLogin(
+                                            phoneNumber:
+                                                userData['phoneNumber']);
+                                  },
+                                  child: Text(
+                                    'Resend',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Globals.greenColor,
+                                    ),
+                                  ),
+                                )
+                              else
+                                Text(
+                                  'Resend OTP in 00:$secResend',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: FontFamily.medium,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -151,11 +218,13 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
 
                       bool isUser = false;
                       bool isLocation = false;
+                      String location;
 
                       for (int i = 0; i < allUsers.length; i++) {
                         if (allUsers[i].data()['uid'] == data['user'].uid) {
                           isUser = true;
-                          if (allUsers[i].data()['location'] != null) {
+                          location = allUsers[i].data()['location'];
+                          if (location.isNotEmpty) {
                             isLocation = true;
                           }
                         }

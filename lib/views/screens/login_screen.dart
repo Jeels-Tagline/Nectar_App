@@ -58,28 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body:
-          // FutureBuilder(
-          //   future: FirestoreHelper.firestoreHelper.fetchUsers(),
-          //   builder: (context, snapShot) {
-          //     if (snapShot.hasError) {
-          //       return Center(
-          //         child: Text("Error : ${snapShot.error}"),
-          //       );
-          //     } else if (snapShot.hasData) {
-          //       QuerySnapshot<Map<String, dynamic>>? data = snapShot.data;
-
-          //       if (data == null) {
-          //         return const Center(
-          //           child: Text("No Any Data Available...."),
-          //         );
-          //       } else {
-          //         List<QueryDocumentSnapshot<Map<String, dynamic>>> allUsers =
-          //             data.docs;
-
-          //         return
-
-          Stack(
+      body: Stack(
         children: [
           const CommonAuthBackground(),
           Column(
@@ -199,11 +178,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(top: h * 0.03),
                         child: GestureDetector(
                           onTap: () async {
-                            CommonShowDialog.show(context: context);
+                            CommonShowDialog.show(
+                                context: context, dismissible: true);
 
                             Map<String, dynamic> data = await FirebaseAuthHelper
                                 .firebaseAuthHelper
-                                .googleLogin();
+                                .signInWithGoogle();
 
                             if (data['user'] != null) {
                               CommonShowDialog.close(context: context);
@@ -244,15 +224,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context: context,
                               );
                             } else if (data['msg'] != null) {
-                            CommonShowDialog.close(context: context);
+                              CommonShowDialog.close(context: context);
                               CommonScaffoldMessenger.failed(
                                   context: context, message: '${data['msg']}');
+                            } else if (data['close'] == 'close') {
+                              CommonShowDialog.close(context: context);
                             } else {
-                             CommonShowDialog.close(context: context);
+                              CommonShowDialog.close(context: context);
 
                               CommonScaffoldMessenger.failed(
                                   context: context,
-                                  message: 'Loggin Faild.....');
+                                  message: 'Loggin Failed.....');
                             }
                           },
                           child: CommonLogoButton(
@@ -278,11 +260,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       ),
-      //       }
-      //     }
-      //     return Container();
-      //   },
-      // ),
     );
   }
 }

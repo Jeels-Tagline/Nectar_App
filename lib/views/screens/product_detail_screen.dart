@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: unused_local_variable, non_constant_identifier_names, use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool detail_arrow = false;
   int quantity = 1;
   bool favorite = false;
+  var userData;
 
   String userId = "";
 
@@ -41,10 +42,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {});
   }
 
+  checkFavourite({required String id}) async {
+    var data =
+        await FirestoreHelper.firestoreHelper.getFavouriteData(uid: userId);
+
+    userData = data.docs;
+
+    for (int i = 0; i < userData.length; i++) {
+      if (userData[i].data()['id'] == id) {
+        favorite = true;
+      }
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-
     getUserId();
   }
 
@@ -59,6 +73,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       productData.image3,
     ];
     quantity = productData.quantity ?? 1;
+    checkFavourite(id: productData.id);
+    // favorite = productData.favourite ?? false;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -201,6 +217,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                             setState(() {
                               favorite = true;
+                              productData.favourite = true;
                             });
                           } else {
                             CommonShowDialog.show(
@@ -217,6 +234,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                             setState(() {
                               favorite = false;
+                              productData.favourite = false;
                             });
                           }
                         },

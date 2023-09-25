@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/utils/font_family.dart';
@@ -47,6 +48,7 @@ class _NumberScreenState extends State<NumberScreen> {
   void initState() {
     super.initState();
     dataCheck();
+    phoneController.text = '+91';
   }
 
   @override
@@ -91,8 +93,12 @@ class _NumberScreenState extends State<NumberScreen> {
                             controller: phoneController,
                             enabled: true,
                             maxLength: 13,
+                            keyboardType: TextInputType.phone,
                             validator: validatePhoneNumber,
-                            // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9+]')),
+                            ],
                             style: const TextStyle(
                               fontSize: 22,
                               fontFamily: FontFamily.medium,
@@ -132,9 +138,16 @@ class _NumberScreenState extends State<NumberScreen> {
                                     ),
                               textAction: TextInputAction.next,
                               labelText: "Username",
+                              // digitsOnly: [
+                              //   FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              // ],
                               validator: (val) {
-                                if (val!.isEmpty) {
+                                if (val!.trim().isEmpty) {
                                   return "Enter your Username...";
+                                } else {
+                                  if (val.trim().length <= 6) {
+                                    return "Enter minimum 7 character...";
+                                  }
                                 }
                                 return null;
                               },
@@ -151,22 +164,23 @@ class _NumberScreenState extends State<NumberScreen> {
       ),
       floatingActionButton: GestureDetector(
         onTap: () async {
-          bool isPhoneNumber = false;
-          String name = '';
+          if (formKey.currentState!.validate()) {
+            bool isPhoneNumber = false;
+            String name = '';
 
-          for (int i = 0; i < userData.length; i++) {
-            if (userData[i].data()['phoneNumber'] == phoneController.text) {
-              isPhoneNumber = true;
-              name = userData[i].data()['displayName'];
-              setState(() {});
-              // if (userData[i].data()['location'] != null) {
-              //   isLocation = true;
-              // }
+            for (int i = 0; i < userData.length; i++) {
+              if (userData[i].data()['phoneNumber'] == phoneController.text) {
+                isPhoneNumber = true;
+                name = userData[i].data()['displayName'];
+                setState(() {});
+                // if (userData[i].data()['location'] != null) {
+                //   isLocation = true;
+                // }
+              }
             }
-          }
 
-          if (isPhoneNumber) {
-            if (formKey.currentState!.validate()) {
+            if (isPhoneNumber) {
+              // if (formKey.currentState!.validate()) {
               formKey.currentState!.save();
               await FirebaseAuthHelper.firebaseAuthHelper
                   .phoneLogin(phoneNumber: phoneController.text);
@@ -177,32 +191,29 @@ class _NumberScreenState extends State<NumberScreen> {
               };
               Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
                   arguments: data);
-            }
-          } else {
-            setState(() {
-              isUser = false;
-            });
+              // }
+            } else {
+              setState(() {
+                isUser = false;
+              });
 
-            if (formKey.currentState!.validate() && userVerify) {
-              formKey.currentState!.save();
+              if (formKey.currentState!.validate() && userVerify) {
+                formKey.currentState!.save();
 
-              await FirebaseAuthHelper.firebaseAuthHelper
-                  .phoneLogin(phoneNumber: phoneController.text);
+                await FirebaseAuthHelper.firebaseAuthHelper
+                    .phoneLogin(phoneNumber: phoneController.text);
 
-              Map data = {
-                'phoneNumber': phoneController.text,
-                'userName': userNameController.text,
-              };
-              Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
-                  arguments: data);
+                Map data = {
+                  'phoneNumber': phoneController.text,
+                  'userName': userNameController.text,
+                };
+                Navigator.pushNamed(
+                    context, ScreensPath.numberVerificationScreen,
+                    arguments: data);
+              }
             }
           }
         },
-        // else {
-        //   CommonScaffoldMessenger.failed(
-        //       context: context, message: "Something went wrong....");
-        // }
-
         child: const CircleAvatar(
           radius: 30,
           backgroundColor: Color(0xff53B175),
