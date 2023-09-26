@@ -209,7 +209,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           return Column(
                             children: [
                               SizedBox(
-                                height: h * 0.14,
+                                height: h * 0.1,
                                 width: w,
                                 child: Row(
                                   children: [
@@ -217,9 +217,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                       flex: 2,
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
                                       ),
                                     ),
                                     Expanded(
@@ -227,119 +228,51 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                       child: Padding(
                                         padding:
                                             EdgeInsets.only(left: w * 0.02),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
+                                            Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   height: h * 0.025,
                                                   width: w * 0.5,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.red,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            7),
+                                                            5),
+                                                    color: Colors.red,
                                                   ),
                                                 ),
-                                                Transform.translate(
-                                                  offset: Offset(w * 0.03, 0),
-                                                  child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: const Icon(
-                                                      Icons.close,
-                                                      size: 27,
-                                                      color: Colors.grey,
-                                                    ),
+                                                SizedBox(
+                                                  height: h * 0.01,
+                                                ),
+                                                Container(
+                                                  height: h * 0.02,
+                                                  width: w * 0.4,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: Colors.red,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            Container(
-                                              height: h * 0.015,
-                                              width: w * 0.4,
-                                              decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: h * 0.01,
-                                            ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
                                               children: [
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Container(
-                                                      height: h * 0.045,
-                                                      width: w * 0.095,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 0.7),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                      child: const Icon(
-                                                        Icons.remove_outlined,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: h * 0.02,
-                                                      width: w * 0.08,
-                                                      margin:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.red,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                    ),
-                                                    Container(
-                                                      height: h * 0.045,
-                                                      width: w * 0.095,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 0.7),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color:
-                                                            Globals.greenColor,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
                                                 Container(
-                                                  height: h * 0.025,
-                                                  width: w * 0.2,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.red,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                  ),
+                                                  color: Colors.red,
                                                 ),
+                                                SizedBox(
+                                                  width: w * 0.01,
+                                                ),
+                                                const Icon(Icons
+                                                    .arrow_forward_ios_rounded),
                                               ],
                                             ),
                                           ],

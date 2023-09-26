@@ -19,4 +19,5 @@ class ScreensPath {
   static const String orderAcceptedScreen = 'order_accepted_screen';
   static const String ordersScreen = 'orders_screen';
   static const String forgotPasswordScreen = 'forgot_password_screen';
+  static const String particularOrderScreen = 'particular_order_screen';
 }

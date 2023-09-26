@@ -106,12 +106,16 @@ class _AccountScreenState extends State<AccountScreen> {
                         children: [
                           Expanded(
                             child: CircleAvatar(
-                              radius: 32,
-                              backgroundColor: Colors.grey.shade300,
-                              backgroundImage: (userData['photo'] == "")
-                                  ? const NetworkImage(
-                                      "https://www.pngitem.com/pimgs/m/130-1300253_female-user-icon-png-download-user-image-color.png")
-                                  : NetworkImage("${userData['photo']}"),
+                              radius: 34,
+                              backgroundColor: Globals.greenColor,
+                              child: CircleAvatar(
+                                radius: 32,
+                                backgroundColor: Colors.grey.shade300,
+                                backgroundImage: (userData['photo'] == "")
+                                    ? const NetworkImage(
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStsRVE2OpWFMYeY5S1bXG5J4UXp-FkBHGpUM5YDpIsXVWPw2ZdmLUzIitofNwhB_7cahk&usqp=CAU")
+                                    : NetworkImage("${userData['photo']}"),
+                              ),
                             ),
                           ),
                           Expanded(
@@ -346,7 +350,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       backgroundColor: Colors.green.shade200,
                       backgroundImage: (image.isEmpty)
                           ? const NetworkImage(
-                              "https://www.pngitem.com/pimgs/m/130-1300253_female-user-icon-png-download-user-image-color.png")
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStsRVE2OpWFMYeY5S1bXG5J4UXp-FkBHGpUM5YDpIsXVWPw2ZdmLUzIitofNwhB_7cahk&usqp=CAU")
                           : NetworkImage(image),
                     ),
                   )

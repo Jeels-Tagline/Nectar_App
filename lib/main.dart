@@ -13,6 +13,7 @@ import 'package:nectar_app/views/screens/forgot_password_screen.dart';
 import 'package:nectar_app/views/screens/get_location_screen.dart';
 import 'package:nectar_app/views/screens/order_accepted_screen.dart';
 import 'package:nectar_app/views/screens/orders_screen.dart';
+import 'package:nectar_app/views/screens/particular_order_screen.dart';
 import 'package:nectar_app/views/screens/product_detail_screen.dart';
 import 'package:nectar_app/views/screens/location_screen.dart';
 import 'package:nectar_app/views/screens/number_screen.dart';
@@ -33,6 +34,20 @@ void main() async {
   await Firebase.initializeApp();
 
   sharedPreferences = await SharedPreferences.getInstance();
+
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        'Error\n ${details.exception}',
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.orangeAccent,
+          fontSize: 20,
+        ),
+      ),
+    );
+  };
 
   runApp(
     MaterialApp(
@@ -73,6 +88,8 @@ void main() async {
         ScreensPath.ordersScreen: (context) => const OrdersScreen(),
         ScreensPath.forgotPasswordScreen: (context) =>
             const ForgotPasswordScreen(),
+        ScreensPath.particularOrderScreen: (context) =>
+            const ParticularOrderScreen(),
       },
     ),
   );

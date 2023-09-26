@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
@@ -654,7 +655,7 @@ class _CartScreenState extends State<CartScreen> {
                                               EdgeInsets.only(top: h * 0.02),
                                           child: GestureDetector(
                                             onTap: () async {
-                                              //TODO : Make new collection all successfully order show there 
+                                              //TODO : Make new collection all successfully order show there
                                               CommonShowDialog.show(
                                                   context: context);
 
@@ -664,6 +665,30 @@ class _CartScreenState extends State<CartScreen> {
                                                   .getCartData(uid: userId);
 
                                               productData = data.docs;
+
+                                              var dt = DateTime.now();
+
+                                              String time =
+                                                  "${dt.year}:${dt.month}:${dt.day} ${dt.hour}:${dt.minute}:${dt.second}";
+
+                                              Map<String, dynamic> orders = {
+                                                'id': time,
+                                                'date':
+                                                    DateFormat("MMMM, dd, yyyy")
+                                                        .format(DateTime.now())
+                                                        .toString(),
+                                                'items': productData.length,
+                                                'total_price': totalPrice
+                                                    .toStringAsFixed(2),
+                                              };
+
+                                              await FirestoreHelper
+                                                  .firestoreHelper
+                                                  .insertOrder(
+                                                time: time,
+                                                uid: userId,
+                                                orders: orders,
+                                              );
 
                                               // Insert Records
                                               for (int index = 0;
@@ -675,13 +700,29 @@ class _CartScreenState extends State<CartScreen> {
                                                         uid: userId,
                                                         id: productData[index]
                                                             .data()['id']);
+
                                                 await FirestoreHelper
                                                     .firestoreHelper
-                                                    .insertOrders(
-                                                        uid: userId,
-                                                        productId:
-                                                            productData[index]
-                                                                .data()['id']);
+                                                    .insertProductOfOrder(
+                                                  uid: userId,
+                                                  productId: productData[index]
+                                                      .data()['id'],
+                                                  image: productData[index]
+                                                      .data()['image1'],
+                                                  name: productData[index]
+                                                      .data()['name'],
+                                                  price: productData[index]
+                                                      .data()['price']
+                                                      .toString(),
+                                                  quantity: productData[index]
+                                                      .data()['quantity']
+                                                      .toString(),
+                                                  orderId: time,
+                                                  date: DateFormat(
+                                                          "MMMM, dd, yyyy")
+                                                      .format(DateTime.now())
+                                                      .toString(),
+                                                );
                                               }
 
                                               CommonShowDialog.close(

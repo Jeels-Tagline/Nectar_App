@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
@@ -47,7 +48,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             const Divider(),
             FutureBuilder(
               future:
-                  FirestoreHelper.firestoreHelper.getFavouriteData(uid: userId),
+                  FirestoreHelper.firestoreHelper.getOrdersData(uid: userId),
               builder: (context, snapShot) {
                 if (snapShot.hasData) {
                   QuerySnapshot<Map<String, dynamic>>? userData = snapShot.data;
@@ -86,64 +87,72 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           itemBuilder: (context, i) {
                             return Column(
                               children: [
-                                SizedBox(
-                                  height: h * 0.1,
-                                  width: w,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Image.network(
-                                          allDocs[i].data()['image1'],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 5,
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: w * 0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "${allDocs[i].data()['name']}",
-                                                    style: const TextStyle(
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                  CommonBodyText(
-                                                    text:
-                                                        "${allDocs[i].data()['subTitle']}",
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "\$ ${allDocs[i].data()['price']}",
-                                                    style: const TextStyle(
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: w * 0.01,
-                                                  ),
-                                                  const Icon(Icons
-                                                      .arrow_forward_ios_rounded),
-                                                ],
-                                              ),
-                                            ],
+                                GestureDetector(
+                                  onTap: () {
+                                    Map<String, dynamic> particularOrder = {
+                                      'userId': userId,
+                                      'date': allDocs[i].data()['date'],
+                                      'id': allDocs[i].data()['id'],
+                                    };
+
+                                    Navigator.pushNamed(context,
+                                        ScreensPath.particularOrderScreen,
+                                        arguments: particularOrder);
+                                  },
+                                  child: SizedBox(
+                                    height: h * 0.1,
+                                    width: w,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              "${i + 1}",
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Expanded(
+                                          flex: 5,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.only(left: w * 0.02),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${allDocs[i].data()['date']}",
+                                                      style: const TextStyle(
+                                                        fontSize: 17,
+                                                      ),
+                                                    ),
+                                                    CommonBodyText(
+                                                      text:
+                                                          "${allDocs[i].data()['items']} Items",
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  "\$ ${allDocs[i].data()['total_price']}",
+                                                  style: const TextStyle(
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const Divider(),

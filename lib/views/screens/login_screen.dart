@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? location;
   var userData;
 
-  logIn({required String userId, required bool isLocation}) async {
+  Future logIn({required String userId, required bool isLocation}) async {
     loggedIn = true;
     await sharedPreferences!.setBool(UsersInfo.userLogin, loggedIn);
     await sharedPreferences!.setString(UsersInfo.userId, userId);
@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .insertUsers(data: userdata);
                               }
 
-                              logIn(
+                              await logIn(
                                   userId: data['user'].uid,
                                   isLocation: isLocation);
                               CommonScaffoldMessenger.success(

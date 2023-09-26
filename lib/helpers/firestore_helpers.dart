@@ -72,6 +72,81 @@ class FirestoreHelper {
     return userData;
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getOrdersData(
+      {required String uid}) async {
+    QuerySnapshot<Map<String, dynamic>> userOrderData;
+
+    userOrderData =
+        await db.collection(userCollection).doc(uid).collection('orders').get();
+    return userOrderData;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getProductOfOrderData({
+    required String uid,
+    required String orderId,
+    required String date,
+  }) async {
+    QuerySnapshot<Map<String, dynamic>> userOrderData;
+
+    userOrderData = await db
+        .collection(userCollection)
+        .doc(uid)
+        .collection('orders')
+        .doc(orderId)
+        .collection(date)
+        .get();
+    return userOrderData;
+  }
+
+  Future<void> insertOrder({
+    required String uid,
+    required Map<String, dynamic> orders,
+    required String time,
+  }) async {
+    await db
+        .collection(userCollection)
+        .doc(uid)
+        .collection('orders')
+        .doc(time)
+        .set(orders);
+  }
+
+  Future<void> insertProductOfOrder({
+    required String uid,
+    required String productId,
+    required String orderId,
+    required String date,
+    required String image,
+    required String name,
+    required String quantity,
+    required String price,
+  }) async {
+    await db
+        .collection(userCollection)
+        .doc(uid)
+        .collection('orders')
+        .doc(orderId)
+        .collection(date)
+        .doc(productId)
+        .set({
+      'id': productId,
+      'image': image,
+      'name': name,
+      'quantity': quantity,
+      'price': price,
+    });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getOrdersId(
+      {required String uid}) async {
+    QuerySnapshot<Map<String, dynamic>> userData;
+
+    userData =
+        await db.collection(userCollection).doc(uid).collection('orders').get();
+
+    return userData;
+  }
+
   Future<void> deleteParticularCartData(
       {required String uid, required String id}) async {
     await db
@@ -209,63 +284,45 @@ class FirestoreHelper {
     ];
 
     for (int i = 0; i < types.length; i++) {
-      fruitData = await db
-          .collection(productCollection)
-          .doc('BZI7tNyult29RjmDJ6Ls')
-          .collection('fruit')
-          .where('name', isEqualTo: search)
-          .get();
-    }
-
-    return fruitData!;
-  }
-
-  Future<void> insertOrders({
-    required String uid,
-    required String productId,
-  }) async {
-    await db
-        .collection(userCollection)
-        .doc(uid)
-        .collection('orders')
-        .doc()
-        .set({'id': productId});
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getOrdersId(
-      {required String uid}) async {
-    QuerySnapshot<Map<String, dynamic>> userData;
-
-    userData =
-        await db.collection(userCollection).doc(uid).collection('orders').get();
-
-    return userData;
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getOrdersData(
-      {required String id,
-      required Function(dynamic context, dynamic snapShot) builder}) async {
-    // List<QuerySnapshot<Map<String, dynamic>>>? allFruitData;
-    QuerySnapshot<Map<String, dynamic>>? fruitData;
-
-    List types = [
-      'fruit',
-      'vegetable',
-      'bakery',
-      'baverage',
-      'pulses',
-      'rice',
-    ];
-
-    for (int i = 0; i < types.length; i++) {
+      print('=========> ${types[i]}');
       fruitData = await db
           .collection(productCollection)
           .doc('BZI7tNyult29RjmDJ6Ls')
           .collection(types[i])
-          .where('id', isEqualTo: id)
+          .where('name', isGreaterThanOrEqualTo: search)
+          .where('name', isLessThan: search + 'z')
           .get();
+      // .orderBy('name')
+      // .startAt([search]).endAt([search[0].toUpperCase() + '\uf8ff']).get();
     }
 
     return fruitData!;
   }
+
+  // Future<QuerySnapshot<Map<String, dynamic>>> getOrdersIdData({
+  //   required String search,
+  // }) async {
+  //   // List<QuerySnapshot<Map<String, dynamic>>>? allFruitData;
+  //   QuerySnapshot<Map<String, dynamic>>? fruitData;
+
+  //   List types = [
+  //     'fruit',
+  //     'vegetable',
+  //     'bakery',
+  //     'baverage',
+  //     'pulses',
+  //     'rice',
+  //   ];
+
+  //   for (int i = 0; i < types.length; i++) {
+  //     fruitData = await db
+  //         .collection(productCollection)
+  //         .doc('BZI7tNyult29RjmDJ6Ls')
+  //         .collection(types[i])
+  //         .where('id', isEqualTo: search)
+  //         .get();
+  //   }
+
+  //   return fruitData!;
+  // }
 }
