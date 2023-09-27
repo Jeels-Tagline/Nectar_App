@@ -259,14 +259,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               productData[index].data()['name'],
                                           subTitle: productData[index]
                                               .data()['subTitle'],
-                                          price: double.parse(productData[index]
-                                              .data()['price']),
+                                          price: productData[index]
+                                              .data()['price'],
                                           detail: productData[index]
                                               .data()['detail'],
                                           nutrition: productData[index]
                                               .data()['nutrition'],
-                                          review: int.parse(productData[index]
-                                              .data()['review']),
+                                          review: productData[index]
+                                              .data()['review'],
                                           type:
                                               productData[index].data()['type'],
                                           image1: productData[index]
@@ -325,14 +325,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               productData[index].data()['name'],
                                           subTitle: productData[index]
                                               .data()['subTitle'],
-                                          price: double.parse(productData[index]
-                                              .data()['price']),
+                                          price: productData[index]
+                                              .data()['price'],
                                           detail: productData[index]
                                               .data()['detail'],
                                           nutrition: productData[index]
                                               .data()['nutrition'],
-                                          review: int.parse(productData[index]
-                                              .data()['review']),
+                                          review: productData[index]
+                                              .data()['review'],
                                           type:
                                               productData[index].data()['type'],
                                           image1: productData[index]
@@ -391,14 +391,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               productData[index].data()['name'],
                                           subTitle: productData[index]
                                               .data()['subTitle'],
-                                          price: double.parse(productData[index]
-                                              .data()['price']),
+                                          price: productData[index]
+                                              .data()['price'],
                                           detail: productData[index]
                                               .data()['detail'],
                                           nutrition: productData[index]
                                               .data()['nutrition'],
-                                          review: int.parse(productData[index]
-                                              .data()['review']),
+                                          review: productData[index]
+                                              .data()['review'],
                                           type:
                                               productData[index].data()['type'],
                                           image1: productData[index]
@@ -554,14 +554,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               productData[index].data()['name'],
                                           subTitle: productData[index]
                                               .data()['subTitle'],
-                                          price: double.parse(productData[index]
-                                              .data()['price']),
+                                          price: productData[index]
+                                              .data()['price'],
                                           detail: productData[index]
                                               .data()['detail'],
                                           nutrition: productData[index]
                                               .data()['nutrition'],
-                                          review: int.parse(productData[index]
-                                              .data()['review']),
+                                          review: productData[index]
+                                              .data()['review'],
                                           type:
                                               productData[index].data()['type'],
                                           image1: productData[index]

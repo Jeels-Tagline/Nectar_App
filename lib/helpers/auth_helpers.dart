@@ -37,7 +37,7 @@ class FirebaseAuthHelper {
     required String phoneNumber,
   }) async {
     Map<String, dynamic> data = {};
-    // TODO : Disable rechapctcha
+
     // jeels
 
     // await FirebaseAppCheck.instance.activate(

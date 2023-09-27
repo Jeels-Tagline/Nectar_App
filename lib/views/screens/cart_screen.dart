@@ -655,7 +655,6 @@ class _CartScreenState extends State<CartScreen> {
                                               EdgeInsets.only(top: h * 0.02),
                                           child: GestureDetector(
                                             onTap: () async {
-                                              //TODO : Make new collection all successfully order show there
                                               CommonShowDialog.show(
                                                   context: context);
 

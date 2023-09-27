@@ -77,7 +77,7 @@ class CommonProduct extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "\$ ${productData.price}",
+                        "\$ ${productData.price.toString()}",
                         style: const TextStyle(
                           fontSize: 17,
                           overflow: TextOverflow.ellipsis,
@@ -102,10 +102,6 @@ class CommonProduct extends StatelessWidget {
                           'image3': productData.image3,
                           'quantity': productData.quantity ?? 1,
                         };
-                        // await FirestoreHelper.firestoreHelper.updateCart(
-                        //   uid: userId,
-                        //   productData: [data],
-                        // );
 
                         await FirestoreHelper.firestoreHelper.insertCartData(
                           uid: userId,

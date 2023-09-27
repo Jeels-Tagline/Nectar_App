@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nectar_app/models/product_models.dart';
 
 class FirestoreHelper {
   FirestoreHelper._();
@@ -268,12 +271,12 @@ class FirestoreHelper {
     return fruitData;
   }
 
-  // TODO : Search functionality
-  Future<QuerySnapshot<Map<String, dynamic>>> getSearchProductData(
+  Future<List<ProductModel>>? getSearchProductData(
       {required String search}) async {
-    // List<QuerySnapshot<Map<String, dynamic>>>? allFruitData;
-    QuerySnapshot<Map<String, dynamic>>? fruitData;
+    QuerySnapshot<Map<String, dynamic>> searchData;
 
+    List<ProductModel> productList = [];
+    List<ProductModel> list = [];
     List types = [
       'fruit',
       'vegetable',
@@ -283,46 +286,34 @@ class FirestoreHelper {
       'rice',
     ];
 
+    // Secound way
+    // searchData = await db
+    //     .collection(productCollection)
+    //     .where('name', isGreaterThanOrEqualTo: search)
+    //     .where('name', isLessThan: search + 'z')
+    //     .get();
+    // productList = searchData.docs
+    //     .map((e) => ProductModel.fromMap(data: e.data()))
+    //     .toList();
+
     for (int i = 0; i < types.length; i++) {
-      print('=========> ${types[i]}');
-      fruitData = await db
+      searchData = await db
           .collection(productCollection)
           .doc('BZI7tNyult29RjmDJ6Ls')
           .collection(types[i])
           .where('name', isGreaterThanOrEqualTo: search)
           .where('name', isLessThan: search + 'z')
           .get();
-      // .orderBy('name')
-      // .startAt([search]).endAt([search[0].toUpperCase() + '\uf8ff']).get();
+
+      list = searchData.docs
+          .map((e) => ProductModel.fromMap(data: e.data()))
+          .toList();
+
+      for (int i = 0; i < list.length; i++) {
+        productList.add(list[i]);
+      }
     }
 
-    return fruitData!;
+    return productList;
   }
-
-  // Future<QuerySnapshot<Map<String, dynamic>>> getOrdersIdData({
-  //   required String search,
-  // }) async {
-  //   // List<QuerySnapshot<Map<String, dynamic>>>? allFruitData;
-  //   QuerySnapshot<Map<String, dynamic>>? fruitData;
-
-  //   List types = [
-  //     'fruit',
-  //     'vegetable',
-  //     'bakery',
-  //     'baverage',
-  //     'pulses',
-  //     'rice',
-  //   ];
-
-  //   for (int i = 0; i < types.length; i++) {
-  //     fruitData = await db
-  //         .collection(productCollection)
-  //         .doc('BZI7tNyult29RjmDJ6Ls')
-  //         .collection(types[i])
-  //         .where('id', isEqualTo: search)
-  //         .get();
-  //   }
-
-  //   return fruitData!;
-  // }
 }

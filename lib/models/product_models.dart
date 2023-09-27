@@ -42,8 +42,8 @@ class ProductModel {
       image1: data['image1'],
       image2: data['image2'],
       image3: data['image3'],
-      quantity: data['quantity'],
-      favourite: data['favourite'],
+      quantity: data['quantity'] ?? 1,
+      favourite: data['favourite'] ?? false,
     );
   }
 }

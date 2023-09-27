@@ -9,6 +9,7 @@ import 'package:nectar_app/views/screens/cart_screen.dart';
 import 'package:nectar_app/views/screens/explore_product_screen.dart';
 import 'package:nectar_app/views/screens/explore_screen.dart';
 import 'package:nectar_app/views/screens/favourite_screen.dart';
+import 'package:nectar_app/views/screens/filter_screen.dart';
 import 'package:nectar_app/views/screens/forgot_password_screen.dart';
 import 'package:nectar_app/views/screens/get_location_screen.dart';
 import 'package:nectar_app/views/screens/order_accepted_screen.dart';
@@ -41,8 +42,8 @@ void main() async {
       child: Text(
         'Error\n ${details.exception}',
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Colors.orangeAccent,
+        style: TextStyle(
+          color: Globals.greenColor,
           fontSize: 20,
         ),
       ),
@@ -90,6 +91,7 @@ void main() async {
             const ForgotPasswordScreen(),
         ScreensPath.particularOrderScreen: (context) =>
             const ParticularOrderScreen(),
+        ScreensPath.filterScreen: (context) => const FilterScreen(),
       },
     ),
   );

@@ -93,13 +93,11 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
                                 id: productData[index].data()['id'],
                                 name: productData[index].data()['name'],
                                 subTitle: productData[index].data()['subTitle'],
-                                price: double.parse(
-                                    productData[index].data()['price']),
+                                price: productData[index].data()['price'],
                                 detail: productData[index].data()['detail'],
                                 nutrition:
                                     productData[index].data()['nutrition'],
-                                review: int.parse(
-                                    productData[index].data()['review']),
+                                review: productData[index].data()['review'],
                                 type: productData[index].data()['type'],
                                 image1: productData[index].data()['image1'],
                                 image2: productData[index].data()['image2'],
