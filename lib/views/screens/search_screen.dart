@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
@@ -19,6 +22,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   String? search;
+  var filter;
 
   String userId = "";
 
@@ -93,8 +97,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
+                                  // filter = [] as List<String>?;
                                   setState(() {
                                     search = null;
+                                    filter[0] = '';
                                     searchController.clear();
                                   });
                                 },
@@ -108,20 +114,35 @@ class _SearchScreenState extends State<SearchScreen> {
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        var filter = await Navigator.pushNamed(
-                            context, ScreensPath.filterScreen) as List<String>?;
+                    if (filter == null)
+                      GestureDetector(
+                        onTap: () async {
+                          filter = await Navigator.pushNamed(
+                                  context, ScreensPath.filterScreen)
+                              as List<String>?;
 
-                        if (filter != null) {
-                          setState(() {
-                            search = filter[0];
-                            searchController.text = filter[0];
-                          });
-                        }
-                      },
-                      child: Image.asset(ImagesPath.filter),
-                    ),
+                          if (filter != null) {
+                            setState(() {
+                              // search = filter[0];
+                              // searchController.text = filter[0];
+                            });
+                          }
+                        },
+                        child: Image.asset(ImagesPath.filter),
+                      )
+                    else
+                      GestureDetector(
+                        onTap: () async {
+                          filter = null;
+
+                          setState(() {});
+                        },
+                        child: Icon(
+                          Icons.cancel,
+                          size: 28,
+                          color: Globals.greenColor,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -129,8 +150,10 @@ class _SearchScreenState extends State<SearchScreen> {
             Expanded(
               flex: 8,
               child: FutureBuilder(
-                future: FirestoreHelper.firestoreHelper
-                    .getSearchProductData(search: search ?? ''),
+                future: FirestoreHelper.firestoreHelper.getSearchProductData(
+                  search: search ?? '',
+                  filter: filter ?? [],
+                ),
                 builder: (context, snapShot) {
                   if (snapShot.hasError) {
                     return Text("${snapShot.error}");

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>803015296741-p3shni1g6opa8jvom5laqq4nv4n2aoar.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.803015296741-p3shni1g6opa8jvom5laqq4nv4n2aoar</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>803015296741-mthjk04nnpdtq8pkbs8k36pk7i0cprlu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA1NKC1jHAtjJA-lv59yZ8xGTX3_-8m26Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>803015296741</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.jeels21.nectarApp.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>nactar-eb8e4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nactar-eb8e4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:803015296741:ios:40960758fd1b15865a760c</string>
+</dict>
+</plist>

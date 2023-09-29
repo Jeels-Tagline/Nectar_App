@@ -90,15 +90,6 @@ class _FilterScreenState extends State<FilterScreen> {
                       ],
                     ),
                   );
-                  //   return CheckboxListTile(
-                  //       value: e["isChecked"],
-                  //       title: Text(e["name"]),
-                  //       onChanged: (newValue) {
-                  //         setState(() {
-                  //           e["isChecked"] = newValue;
-                  //         });
-                  //       });
-                  // }).toList(),
                 }).toList()
               ],
             ),

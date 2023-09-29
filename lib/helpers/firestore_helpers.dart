@@ -209,13 +209,13 @@ class FirestoreHelper {
         .doc(uid)
         .update({'photo': photo, 'displayName': username});
   }
+
   // Future<void> updateCart(
   //     {required String uid, required List productData}) async {
   //   await db.collection("tbl_users").doc(uid).update({
   //     'cart': FieldValue.arrayUnion(productData),
   //   });
   // }
-
   // Future<void> increseQuantity({
   //   required String uid,
   //   required int index,
@@ -223,16 +223,13 @@ class FirestoreHelper {
   //   required int quantity,
   // }) async {
   //   // productData[index]['quantity'] = ++quantity;
-
   //   List totalProduct = productData;
   //   totalProduct[index]['quantity'] = ++quantity;
   //   print(totalProduct[index]);
-
   //   await db.collection('tbl_users').doc(uid).update({
   //     ['cart'][index]: {totalProduct[index]},
   //   });
   // }
-
   // Future<void> decreseQuantity({
   //   required String uid,
   //   required int index,
@@ -240,14 +237,12 @@ class FirestoreHelper {
   //   required int quantity,
   // }) async {
   //   productData['quantity'] = --quantity;
-
   //   await db.collection('tbl_users').doc(uid).update({
   //     ['cart'][index]: {
   //       productData,
   //     }
   //   });
   // }
-
   // Future<QuerySnapshot<Map<String, dynamic>>> getParticularProductData(
   //     {required String type}) async {
   //   QuerySnapshot<Map<String, dynamic>> fruitData;
@@ -271,8 +266,10 @@ class FirestoreHelper {
     return fruitData;
   }
 
-  Future<List<ProductModel>>? getSearchProductData(
-      {required String search}) async {
+  Future<List<ProductModel>>? getSearchProductData({
+    required String search,
+    required List<String> filter,
+  }) async {
     QuerySnapshot<Map<String, dynamic>> searchData;
 
     List<ProductModel> productList = [];
@@ -296,21 +293,44 @@ class FirestoreHelper {
     //     .map((e) => ProductModel.fromMap(data: e.data()))
     //     .toList();
 
-    for (int i = 0; i < types.length; i++) {
-      searchData = await db
-          .collection(productCollection)
-          .doc('BZI7tNyult29RjmDJ6Ls')
-          .collection(types[i])
-          .where('name', isGreaterThanOrEqualTo: search)
-          .where('name', isLessThan: search + 'z')
-          .get();
+    if (filter.isEmpty) {
+      for (int i = 0; i < types.length; i++) {
+        searchData = await db
+            .collection(productCollection)
+            .doc('BZI7tNyult29RjmDJ6Ls')
+            .collection(types[i])
+            .where('name', isGreaterThanOrEqualTo: search)
+            .where('name', isLessThan: search + 'z')
+            .get();
 
-      list = searchData.docs
-          .map((e) => ProductModel.fromMap(data: e.data()))
-          .toList();
+        list = searchData.docs
+            .map((e) => ProductModel.fromMap(data: e.data()))
+            .toList();
 
-      for (int i = 0; i < list.length; i++) {
-        productList.add(list[i]);
+        for (int i = 0; i < list.length; i++) {
+          productList.add(list[i]);
+        }
+      }
+    } else {
+      for (int i = 0; i < filter.length; i++) {
+        search = filter[i];
+        for (int i = 0; i < types.length; i++) {
+          searchData = await db
+              .collection(productCollection)
+              .doc('BZI7tNyult29RjmDJ6Ls')
+              .collection(types[i])
+              .where('name', isGreaterThanOrEqualTo: search)
+              .where('name', isLessThan: search + 'z')
+              .get();
+
+          list = searchData.docs
+              .map((e) => ProductModel.fromMap(data: e.data()))
+              .toList();
+
+          for (int i = 0; i < list.length; i++) {
+            productList.add(list[i]);
+          }
+        }
       }
     }
 

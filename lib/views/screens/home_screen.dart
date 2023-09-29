@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, unrelated_type_equality_checks
+// ignore_for_file: deprecated_member_use, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,6 +52,42 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getUserId();
   }
+
+  // Chiragbhai
+  // final documentList = [
+  //   {
+  //     'name': 'Jeels',
+  //     'age': 21,
+  //   },
+  //   {
+  //     'name': 'Siddharth',
+  //     'age': 23,
+  //   },
+  //   {
+  //     'name': 'Chirag',
+  //     'age': 26,
+  //   },
+  //   {
+  //     'name': 'Ajay',
+  //     'age': 23,
+  //   },
+  // ];
+  // void storeDocumentsRecursively(
+  //     List<Map<String, dynamic>> documentList, int currentIndex) {
+  //   if (currentIndex >= documentList.length) {
+  //     return;
+  //   }
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   WriteBatch batch = firestore.batch();
+  //   CollectionReference collectionRef = firestore.collection('demo');
+  //   String documentId = 'document_$currentIndex';
+  //   batch.set(collectionRef.doc(documentId), documentList[currentIndex]);
+  //   batch.commit().then((_) {
+  //     storeDocumentsRecursively(documentList, currentIndex + 1);
+  //   }).catchError((error) {
+  //     print('Batch write failed: $error');
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
