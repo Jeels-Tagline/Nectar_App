@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location in the background.</string>    
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires to save your images user gallery</string>
 	<key>CFBundleIdentifier</key>
 	<string>YourIOSBundleID</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -73,7 +79,7 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>com.googleusercontent.apps.107731993306-6s44u18onibp6gi0ddj94si1aifshhg6</string>
+					<string>com.googleusercontent.apps.803015296741-p3shni1g6opa8jvom5laqq4nv4n2aoar</string>
 				</array>
 			</dict>
 			<dict>
@@ -81,7 +87,8 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>GoogleLogin</string>
+					<string>REVERSED_CLIENT_ID</string>
+					<!-- <string>GoogleLogin</string> -->
 				</array>
 			</dict>
 		</array>

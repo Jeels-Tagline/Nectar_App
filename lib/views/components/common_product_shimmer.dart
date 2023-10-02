@@ -41,7 +41,7 @@ class CommonProductShimmer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: h * 0.1,
+                        height: h * 0.10,
                         width: w,
                         decoration: BoxDecoration(
                           color: Colors.red,
@@ -71,7 +71,7 @@ class CommonProductShimmer extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: h * 0.013),
+                        padding: EdgeInsets.only(top: h * 0.01),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

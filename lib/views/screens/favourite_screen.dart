@@ -94,7 +94,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       offset: Offset(0, -h * 0.04),
                       child: Padding(
                         padding:
-                            EdgeInsets.only(left: w * 0.04, right: w * 0.04),
+                            EdgeInsets.only(left: w * 0.04, right: w * 0.04, bottom: h * 0.08),
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,

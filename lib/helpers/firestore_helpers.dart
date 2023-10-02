@@ -140,15 +140,15 @@ class FirestoreHelper {
     });
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getOrdersId(
-      {required String uid}) async {
-    QuerySnapshot<Map<String, dynamic>> userData;
+  // Future<QuerySnapshot<Map<String, dynamic>>> getOrdersId(
+  //     {required String uid}) async {
+  //   QuerySnapshot<Map<String, dynamic>> userData;
 
-    userData =
-        await db.collection(userCollection).doc(uid).collection('orders').get();
+  //   userData =
+  //       await db.collection(userCollection).doc(uid).collection('orders').get();
 
-    return userData;
-  }
+  //   return userData;
+  // }
 
   Future<void> deleteParticularCartData(
       {required String uid, required String id}) async {

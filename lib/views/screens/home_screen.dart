@@ -276,8 +276,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   productData = product!.docs;
 
                               return SizedBox(
-                                width: w,
-                                height: h * 0.28,
+                                // width: w,
+                                height: h * 0.29,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
@@ -343,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               return SizedBox(
                                 width: w,
-                                height: h * 0.28,
+                                height: h * 0.29,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
@@ -409,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               return SizedBox(
                                 width: w,
-                                height: h * 0.28,
+                                height: h * 0.29,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
@@ -572,7 +572,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               return SizedBox(
                                 width: w,
-                                height: h * 0.28,
+                                height: h * 0.29,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
@@ -638,12 +638,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget get bottomNavigationBar {
     return Container(
-      height: 80,
+      // height: 80,
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+        // borderRadius: BorderRadius.only(
+        //     topRight: Radius.circular(15), topLeft: Radius.circular(15)),
         boxShadow: [
-          BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 5),
+          BoxShadow(
+            color: Colors.black38,
+            spreadRadius: 0,
+            blurRadius: 5,
+          ),
         ],
       ),
       child: ClipRRect(

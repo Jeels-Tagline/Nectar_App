@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (userData[i].data()['uid'] ==
                                     data['user'].uid) {
                                   isUser = true;
-                                  if (userData[i].data()['location'] != null) {
+                                  if (userData[i].data()['location'] != "") {
                                     isLocation = true;
                                   }
                                 }

@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names, use_build_context_synchronously, prefer_typing_uninitialized_variables
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
@@ -25,9 +24,9 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
   late ProductModel productData;
+  PageController pageController = PageController();
 
   bool detail_arrow = false;
   int quantity = 1;
@@ -53,13 +52,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         favorite = true;
       }
     }
-    setState(() {});
+    Future.delayed(Duration.zero, () => {setState(() {})});
   }
 
   @override
   void initState() {
     super.initState();
     getUserId();
+    pageController.addListener(() {
+      setState(() {
+        currentIndex = pageController.page!.round();
+      });
+    });
   }
 
   @override
@@ -73,7 +77,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       productData.image3,
     ];
     quantity = productData.quantity ?? 1;
-    checkFavourite(id: productData.id);
+    // checkFavourite(id: productData.id);
     // favorite = productData.favourite ?? false;
 
     return Scaffold(
@@ -123,24 +127,38 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             SizedBox(
                               height: h * 0.25,
                               width: w,
-                              child: CarouselSlider.builder(
+                              child: PageView.builder(
+                                controller: pageController,
                                 itemCount: images.length,
-                                itemBuilder: (BuildContext context,
-                                        int itemIndex, int pageViewIndex) =>
-                                    Image.network(images[itemIndex]),
-                                options: CarouselOptions(
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 0.9,
-                                  aspectRatio: 2.0,
-                                  initialPage: 2,
-                                  onPageChanged: (index, _) {
-                                    setStateJ(() {
-                                      currentIndex = index;
-                                    });
-                                  },
-                                ),
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    currentIndex = index;
+                                  });
+                                },
+                                itemBuilder: (context, index) {
+                                  return Image.network(
+                                    images[index],
+                                  );
+                                },
                               ),
+                              // CarouselSlider.builder(
+                              //   itemCount: images.length,
+                              //   itemBuilder: (BuildContext context,
+                              //           int itemIndex, int pageViewIndex) =>
+                              //       Image.network(images[itemIndex]),
+                              //   options: CarouselOptions(
+                              //     autoPlay: true,
+                              //     enlargeCenterPage: true,
+                              //     viewportFraction: 0.9,
+                              //     aspectRatio: 2.0,
+                              //     initialPage: 2,
+                              //     onPageChanged: (index, _) {
+                              //       setStateJ(() {
+                              //         currentIndex = index;
+                              //       });
+                              //     },
+                              //   ),
+                              // ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: h * 0.02),
@@ -303,80 +321,92 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.02),
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        onExpansionChanged: (change) {
+                          detail_arrow = change;
+                          // setState(() {});
+                        },
+                        title: Transform.translate(
+                          offset: Offset(w * -0.04, 0),
+                          child: const Text("Product Detail"),
+                        ),
+                        trailing: Transform.translate(
+                          offset: Offset(w * 0.05, 0),
+                          child: (detail_arrow)
+                              ? Image.asset(ImagesPath.downArrow)
+                              : Image.asset(ImagesPath.forwardArrow),
+                        ),
+                        children: [
+                          CommonSmallBodyText(
+                            text: "${productData.detail}\n",
+                            color: Colors.grey.shade700,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Theme(
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
-                      onExpansionChanged: (change) {
-                        detail_arrow = change;
-                        setState(() {});
-                      },
                       title: Transform.translate(
                         offset: Offset(w * -0.04, 0),
-                        child: const Text("Product Detail"),
+                        child: const Text("Nutritions"),
                       ),
                       trailing: Transform.translate(
                         offset: Offset(w * 0.05, 0),
-                        child: (detail_arrow)
-                            ? Image.asset(ImagesPath.downArrow)
-                            : Image.asset(ImagesPath.forwardArrow),
-                      ),
-                      children: [
-                        CommonSmallBodyText(
-                          text: "${productData.detail}\n",
-                          color: Colors.grey.shade700,
-                        ),
-                      ],
-                    ),
-                  ),
-                  ExpansionTile(
-                    title: Transform.translate(
-                      offset: Offset(w * -0.04, 0),
-                      child: const Text("Nutritions"),
-                    ),
-                    trailing: Transform.translate(
-                      offset: Offset(w * 0.05, 0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            height: h * 0.03,
-                            padding: const EdgeInsets.all(5),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Text(
-                              productData.nutrition,
-                              style: TextStyle(color: Colors.grey.shade600),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              height: h * 0.03,
+                              padding: const EdgeInsets.all(5),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Text(
+                                productData.nutrition,
+                                style: TextStyle(color: Colors.grey.shade600),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: w * 00.03,
-                          ),
-                          Image.asset(ImagesPath.forwardArrow),
-                        ],
+                            SizedBox(
+                              width: w * 00.03,
+                            ),
+                            Image.asset(ImagesPath.forwardArrow),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  ExpansionTile(
-                    title: Transform.translate(
-                      offset: Offset(w * -0.04, 0),
-                      child: const Text("Review"),
-                    ),
-                    trailing: Transform.translate(
-                      offset: Offset(w * 0.05, 0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ...List.generate(productData.review, (index) {
-                            return const Icon(
-                              Icons.star,
-                              color: Colors.orange,
-                            );
-                          }),
-                          SizedBox(
-                            width: w * 00.03,
-                          ),
-                          Image.asset(ImagesPath.forwardArrow),
-                        ],
+                  Theme(
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      title: Transform.translate(
+                        offset: Offset(w * -0.04, 0),
+                        child: const Text("Review"),
+                      ),
+                      trailing: Transform.translate(
+                        offset: Offset(w * 0.05, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ...List.generate(productData.review, (index) {
+                              return const Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                              );
+                            }),
+                            SizedBox(
+                              width: w * 00.03,
+                            ),
+                            Image.asset(ImagesPath.forwardArrow),
+                          ],
+                        ),
                       ),
                     ),
                   ),

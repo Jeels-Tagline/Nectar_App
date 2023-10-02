@@ -47,11 +47,10 @@ class _SplashScreenState extends State<SplashScreen> {
               height: h * 0.08,
               child: Image.asset(ImagesPath.carotWhite),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
+            const Padding(
+              padding: EdgeInsets.only(left: 8),
               child: SizedBox(
-                height: h * 0.08,
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [

@@ -97,10 +97,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  // filter = [] as List<String>?;
                                   setState(() {
                                     search = null;
-                                    filter[0] = '';
                                     searchController.clear();
                                   });
                                 },
@@ -195,7 +193,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                     return GridView.count(
                         shrinkWrap: true,
-                        childAspectRatio: ((w / 2) / (h / 3.37)),
+                        childAspectRatio: ((w / 2) / (h / 3.33)),
                         crossAxisCount: 2,
                         mainAxisSpacing: w * 0.02,
                         crossAxisSpacing: h * 0.02,
@@ -225,7 +223,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     highlightColor: Colors.grey[100]!,
                     child: GridView.count(
                       shrinkWrap: true,
-                      childAspectRatio: ((w / 2) / (h / 3.37)),
+                      childAspectRatio: ((w / 2) / (h / 3.33)),
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: 2,
                       mainAxisSpacing: w * 0.02,

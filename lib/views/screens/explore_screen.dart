@@ -131,8 +131,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                height: h * 0.15,
-                                width: w * 0.35,
+                                height: h * 0.14,
+                                // width: w * 0.35,
                                 child: Image.asset(
                                     "${productList[index]['image']}"),
                               ),
