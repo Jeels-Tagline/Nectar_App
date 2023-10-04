@@ -4,13 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
-import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
-import 'package:nectar_app/utils/users_info.dart';
+import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_checkout_expansion.dart';
@@ -28,9 +27,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  String userId = "";
+  // String userId = "";
   double totalPrice = 00;
   bool dataEmpty = true;
+  late List<Map<String, dynamic>> cartData = [];
 
   double calculateTotal({required List myList}) {
     Future.delayed(const Duration(seconds: 0), () {
@@ -43,16 +43,18 @@ class _CartScreenState extends State<CartScreen> {
     return totalPrice;
   }
 
-  getUserId() async {
-    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  // getUserId() async {
+  //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    // cartData = boxCart.get(0, defaultValue: [])!.cast<Map<String, dynamic>>();
+    // print('==============> ${cartData}');
+    // getUserId();
   }
 
   @override
@@ -73,8 +75,8 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 const Divider(),
                 FutureBuilder(
-                  future:
-                      FirestoreHelper.firestoreHelper.getCartData(uid: userId),
+                  future: FirestoreHelper.firestoreHelper
+                      .getCartData(uid: UserData.uid),
                   builder: (context, snapShot) {
                     if (snapShot.hasData) {
                       QuerySnapshot<Map<String, dynamic>>? userData =
@@ -186,8 +188,8 @@ class _CartScreenState extends State<CartScreen> {
                                                               await FirestoreHelper
                                                                   .firestoreHelper
                                                                   .deleteParticularCartData(
-                                                                      uid:
-                                                                          userId,
+                                                                      uid: UserData
+                                                                          .uid,
                                                                       id: allDocs[i]
                                                                               .data()[
                                                                           'id']);
@@ -234,8 +236,8 @@ class _CartScreenState extends State<CartScreen> {
                                                                       context:
                                                                           context);
                                                                   await FirestoreHelper.firestoreHelper.decreseQuantity(
-                                                                      uid:
-                                                                          userId,
+                                                                      uid: UserData
+                                                                          .uid,
                                                                       id: allDocs[i]
                                                                               .data()[
                                                                           'id'],
@@ -257,8 +259,8 @@ class _CartScreenState extends State<CartScreen> {
                                                                   await FirestoreHelper
                                                                       .firestoreHelper
                                                                       .deleteParticularCartData(
-                                                                          uid:
-                                                                              userId,
+                                                                          uid: UserData
+                                                                              .uid,
                                                                           id: allDocs[i]
                                                                               .data()['id']);
                                                                   CommonShowDialog.close(
@@ -315,15 +317,15 @@ class _CartScreenState extends State<CartScreen> {
                                                                     .show(
                                                                         context:
                                                                             context);
-                                                                await FirestoreHelper
-                                                                    .firestoreHelper
-                                                                    .increseQuantity(
-                                                                        uid:
-                                                                            userId,
-                                                                        id: allDocs[i].data()[
-                                                                            'id'],
-                                                                        quantity:
-                                                                            allDocs[i].data()['quantity']);
+                                                                await FirestoreHelper.firestoreHelper.increseQuantity(
+                                                                    uid: UserData
+                                                                        .uid,
+                                                                    id: allDocs[i]
+                                                                            .data()[
+                                                                        'id'],
+                                                                    quantity: allDocs[i]
+                                                                            .data()[
+                                                                        'quantity']);
 
                                                                 CommonShowDialog
                                                                     .close(
@@ -699,7 +701,8 @@ class _CartScreenState extends State<CartScreen> {
                                                 var productData;
                                                 var data = await FirestoreHelper
                                                     .firestoreHelper
-                                                    .getCartData(uid: userId);
+                                                    .getCartData(
+                                                        uid: UserData.uid);
 
                                                 productData = data.docs;
 
@@ -723,7 +726,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     .firestoreHelper
                                                     .insertOrder(
                                                   time: time,
-                                                  uid: userId,
+                                                  uid: UserData.uid,
                                                   orders: orders,
                                                 );
 
@@ -734,14 +737,14 @@ class _CartScreenState extends State<CartScreen> {
                                                   await FirestoreHelper
                                                       .firestoreHelper
                                                       .deleteParticularCartData(
-                                                          uid: userId,
+                                                          uid: UserData.uid,
                                                           id: productData[index]
                                                               .data()['id']);
 
                                                   await FirestoreHelper
                                                       .firestoreHelper
                                                       .insertProductOfOrder(
-                                                    uid: userId,
+                                                    uid: UserData.uid,
                                                     productId:
                                                         productData[index]
                                                             .data()['id'],

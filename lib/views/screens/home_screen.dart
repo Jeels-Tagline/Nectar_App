@@ -1,24 +1,24 @@
 // ignore_for_file: deprecated_member_use, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
+import 'package:nectar_app/models/globals/boxes.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/utils/users_info.dart';
+import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_offer_banner.dart';
 import 'package:nectar_app/views/components/common_product.dart';
-import 'package:nectar_app/views/components/common_product_shimmer.dart';
 import 'package:nectar_app/views/screens/account_screen.dart';
 import 'package:nectar_app/views/screens/cart_screen.dart';
 import 'package:nectar_app/views/screens/explore_screen.dart';
 import 'package:nectar_app/views/screens/favourite_screen.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,12 +28,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String userId = "";
+  late List<HiveProductModel> listOfAllData = [];
 
-  getUserId() async {
-    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  late List<HiveProductModel> fruitData = [];
+  late List<HiveProductModel> vegetableData = [];
+  late List<HiveProductModel> bakeryData = [];
+  late List<HiveProductModel> pulsesData = [];
+  late List<HiveProductModel> baverageData = [];
+  late List<HiveProductModel> riceData = [];
 
-    setState(() {});
+  setAllData() {
+    for (int i = 0; i < listOfAllData.length; i++) {
+      if (listOfAllData[i].type == 'fruit') {
+        fruitData.add(listOfAllData[i]);
+      } else if (listOfAllData[i].type == 'vegetable') {
+        vegetableData.add(listOfAllData[i]);
+      } else if (listOfAllData[i].type == 'bakery') {
+        bakeryData.add(listOfAllData[i]);
+      } else if (listOfAllData[i].type == 'baverage') {
+        baverageData.add(listOfAllData[i]);
+      } else if (listOfAllData[i].type == 'pulses') {
+        pulsesData.add(listOfAllData[i]);
+      } else if (listOfAllData[i].type == 'rice') {
+        riceData.add(listOfAllData[i]);
+      }
+    }
   }
 
   int _selectedIndex = 0;
@@ -44,50 +63,31 @@ class _HomeScreenState extends State<HomeScreen> {
     ImagesPath.banner3,
   ];
 
+  Future setUserData() async {
+    UserData.uid = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+    UserData.displayName =
+        sharedPreferences!.getString(UsersInfo.userDisplayName) ?? '';
+    UserData.email = sharedPreferences!.getString(UsersInfo.userEmail) ?? '';
+    UserData.city = sharedPreferences!.getString(UsersInfo.userCity) ?? '';
+    UserData.location =
+        sharedPreferences!.getString(UsersInfo.userLocation) ?? '';
+    UserData.phoneNumber =
+        sharedPreferences!.getString(UsersInfo.userPhoneNumber) ?? '';
+    UserData.photo = sharedPreferences!.getString(UsersInfo.userPhoto) ?? '';
+    setState(() {});
+  }
+
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    setUserData();
+    listOfAllData =
+        boxListOfProduct.get(0, defaultValue: [])?.cast<HiveProductModel>();
+    setAllData();
   }
-
-  // Chiragbhai
-  // final documentList = [
-  //   {
-  //     'name': 'Jeels',
-  //     'age': 21,
-  //   },
-  //   {
-  //     'name': 'Siddharth',
-  //     'age': 23,
-  //   },
-  //   {
-  //     'name': 'Chirag',
-  //     'age': 26,
-  //   },
-  //   {
-  //     'name': 'Ajay',
-  //     'age': 23,
-  //   },
-  // ];
-  // void storeDocumentsRecursively(
-  //     List<Map<String, dynamic>> documentList, int currentIndex) {
-  //   if (currentIndex >= documentList.length) {
-  //     return;
-  //   }
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   WriteBatch batch = firestore.batch();
-  //   CollectionReference collectionRef = firestore.collection('demo');
-  //   String documentId = 'document_$currentIndex';
-  //   batch.set(collectionRef.doc(documentId), documentList[currentIndex]);
-  //   batch.commit().then((_) {
-  //     storeDocumentsRecursively(documentList, currentIndex + 1);
-  //   }).catchError((error) {
-  //     print('Batch write failed: $error');
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,57 +129,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Center(
-                    child: SizedBox(
-                      height: h * 0.04,
-                      child: Image.asset(ImagesPath.carotOrange),
+                    child: GestureDetector(
+                      onTap: () {
+                        CommonCheckUserConnection();
+                      },
+                      child: SizedBox(
+                        height: h * 0.04,
+                        child: Image.asset(ImagesPath.carotOrange),
+                      ),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.01),
-                    child: FutureBuilder(
-                      future: FirestoreHelper.firestoreHelper
-                          .getUserData(uid: userId),
-                      builder: (context, snapShot) {
-                        if (snapShot.hasError) {
-                          return Text("${snapShot.error}");
-                        } else if (snapShot.hasData) {
-                          QuerySnapshot<Map<String, dynamic>>? userData =
-                              snapShot.data;
-
-                          List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                              allDocs = userData!.docs;
-
-                          return FittedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.location_on,
-                                    color: Colors.grey.shade800),
-                                Text(
-                                  "${allDocs[0].data()['city']}",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    color: Colors.grey.shade800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            height: h * 0.025,
-                            width: w * 0.6,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(7),
+                    child: FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.location_on, color: Colors.grey.shade800),
+                          Text(
+                            UserData.city,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey.shade800,
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -260,66 +236,39 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const CommonOfferBanner(
                           offerName: "Exclusive Offer",
-                          name: "fruit",
+                          name: "Fruit",
                         ),
-                        FutureBuilder(
-                          future: FirestoreHelper.firestoreHelper
-                              .getParticularProductData(type: 'fruit'),
-                          builder: (context, snapShot) {
-                            if (snapShot.hasError) {
-                              return Text("${snapShot.error}");
-                            } else if (snapShot.hasData) {
-                              QuerySnapshot<Map<String, dynamic>>? product =
-                                  snapShot.data;
-
-                              List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                                  productData = product!.docs;
-
-                              return SizedBox(
-                                // width: w,
-                                height: h * 0.29,
-                                child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: productData.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          top: h * 0.02, right: w * 0.025),
-                                      child: CommonProduct(
-                                        userId: userId,
-                                        productData: ProductModel(
-                                          id: productData[index].data()['id'],
-                                          name:
-                                              productData[index].data()['name'],
-                                          subTitle: productData[index]
-                                              .data()['subTitle'],
-                                          price: productData[index]
-                                              .data()['price'],
-                                          detail: productData[index]
-                                              .data()['detail'],
-                                          nutrition: productData[index]
-                                              .data()['nutrition'],
-                                          review: productData[index]
-                                              .data()['review'],
-                                          type:
-                                              productData[index].data()['type'],
-                                          image1: productData[index]
-                                              .data()['image1'],
-                                          image2: productData[index]
-                                              .data()['image2'],
-                                          image3: productData[index]
-                                              .data()['image3'],
-                                        ),
-                                      ),
-                                    );
-                                  },
+                        SizedBox(
+                          // width: w,
+                          height: h * 0.29,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: fruitData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    top: h * 0.02, right: w * 0.025),
+                                child: CommonProduct(
+                                  userId: UserData.uid,
+                                  productData: ProductModel(
+                                    id: fruitData[index].id,
+                                    name: fruitData[index].name,
+                                    subTitle: fruitData[index].subTitle,
+                                    price: fruitData[index].price,
+                                    detail: fruitData[index].detail,
+                                    nutrition: fruitData[index].nutrition,
+                                    review: fruitData[index].review,
+                                    type: fruitData[index].type,
+                                    image1: fruitData[index].image1,
+                                    image2: fruitData[index].image2,
+                                    image3: fruitData[index].image3,
+                                  ),
                                 ),
                               );
-                            }
-                            return const CommonProductShimmer(itemCount: 3);
-                          },
+                            },
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.03),
@@ -328,64 +277,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             name: "Baverage",
                           ),
                         ),
-                        FutureBuilder(
-                          future: FirestoreHelper.firestoreHelper
-                              .getParticularProductData(type: 'baverage'),
-                          builder: (context, snapShot) {
-                            if (snapShot.hasError) {
-                              return Text("${snapShot.error}");
-                            } else if (snapShot.hasData) {
-                              QuerySnapshot<Map<String, dynamic>>? product =
-                                  snapShot.data;
-
-                              List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                                  productData = product!.docs;
-
-                              return SizedBox(
-                                width: w,
-                                height: h * 0.29,
-                                child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: productData.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          top: h * 0.02, right: w * 0.025),
-                                      child: CommonProduct(
-                                        userId: userId,
-                                        productData: ProductModel(
-                                          id: productData[index].data()['id'],
-                                          name:
-                                              productData[index].data()['name'],
-                                          subTitle: productData[index]
-                                              .data()['subTitle'],
-                                          price: productData[index]
-                                              .data()['price'],
-                                          detail: productData[index]
-                                              .data()['detail'],
-                                          nutrition: productData[index]
-                                              .data()['nutrition'],
-                                          review: productData[index]
-                                              .data()['review'],
-                                          type:
-                                              productData[index].data()['type'],
-                                          image1: productData[index]
-                                              .data()['image1'],
-                                          image2: productData[index]
-                                              .data()['image2'],
-                                          image3: productData[index]
-                                              .data()['image3'],
-                                        ),
-                                      ),
-                                    );
-                                  },
+                        SizedBox(
+                          // width: w,
+                          height: h * 0.29,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: baverageData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    top: h * 0.02, right: w * 0.025),
+                                child: CommonProduct(
+                                  userId: UserData.uid,
+                                  productData: ProductModel(
+                                    id: baverageData[index].id,
+                                    name: baverageData[index].name,
+                                    subTitle: baverageData[index].subTitle,
+                                    price: baverageData[index].price,
+                                    detail: baverageData[index].detail,
+                                    nutrition: baverageData[index].nutrition,
+                                    review: baverageData[index].review,
+                                    type: baverageData[index].type,
+                                    image1: baverageData[index].image1,
+                                    image2: baverageData[index].image2,
+                                    image3: baverageData[index].image3,
+                                  ),
                                 ),
                               );
-                            }
-                            return const CommonProductShimmer(itemCount: 3);
-                          },
+                            },
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.03),
@@ -394,64 +316,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             name: "Bakery",
                           ),
                         ),
-                        FutureBuilder(
-                          future: FirestoreHelper.firestoreHelper
-                              .getParticularProductData(type: 'bakery'),
-                          builder: (context, snapShot) {
-                            if (snapShot.hasError) {
-                              return Text("${snapShot.error}");
-                            } else if (snapShot.hasData) {
-                              QuerySnapshot<Map<String, dynamic>>? product =
-                                  snapShot.data;
-
-                              List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                                  productData = product!.docs;
-
-                              return SizedBox(
-                                width: w,
-                                height: h * 0.29,
-                                child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: productData.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          top: h * 0.02, right: w * 0.025),
-                                      child: CommonProduct(
-                                        userId: userId,
-                                        productData: ProductModel(
-                                          id: productData[index].data()['id'],
-                                          name:
-                                              productData[index].data()['name'],
-                                          subTitle: productData[index]
-                                              .data()['subTitle'],
-                                          price: productData[index]
-                                              .data()['price'],
-                                          detail: productData[index]
-                                              .data()['detail'],
-                                          nutrition: productData[index]
-                                              .data()['nutrition'],
-                                          review: productData[index]
-                                              .data()['review'],
-                                          type:
-                                              productData[index].data()['type'],
-                                          image1: productData[index]
-                                              .data()['image1'],
-                                          image2: productData[index]
-                                              .data()['image2'],
-                                          image3: productData[index]
-                                              .data()['image3'],
-                                        ),
-                                      ),
-                                    );
-                                  },
+                        SizedBox(
+                          // width: w,
+                          height: h * 0.29,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: bakeryData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    top: h * 0.02, right: w * 0.025),
+                                child: CommonProduct(
+                                  userId: UserData.uid,
+                                  productData: ProductModel(
+                                    id: bakeryData[index].id,
+                                    name: bakeryData[index].name,
+                                    subTitle: bakeryData[index].subTitle,
+                                    price: bakeryData[index].price,
+                                    detail: bakeryData[index].detail,
+                                    nutrition: bakeryData[index].nutrition,
+                                    review: bakeryData[index].review,
+                                    type: bakeryData[index].type,
+                                    image1: bakeryData[index].image1,
+                                    image2: bakeryData[index].image2,
+                                    image3: bakeryData[index].image3,
+                                  ),
                                 ),
                               );
-                            }
-                            return const CommonProductShimmer(itemCount: 3);
-                          },
+                            },
+                          ),
                         ),
                         Padding(
                           padding:
@@ -557,64 +452,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        FutureBuilder(
-                          future: FirestoreHelper.firestoreHelper
-                              .getParticularProductData(type: 'vegetable'),
-                          builder: (context, snapShot) {
-                            if (snapShot.hasError) {
-                              return Text("${snapShot.error}");
-                            } else if (snapShot.hasData) {
-                              QuerySnapshot<Map<String, dynamic>>? product =
-                                  snapShot.data;
-
-                              List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                                  productData = product!.docs;
-
-                              return SizedBox(
-                                width: w,
-                                height: h * 0.29,
-                                child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: productData.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          top: h * 0.02, right: w * 0.025),
-                                      child: CommonProduct(
-                                        userId: userId,
-                                        productData: ProductModel(
-                                          id: productData[index].data()['id'],
-                                          name:
-                                              productData[index].data()['name'],
-                                          subTitle: productData[index]
-                                              .data()['subTitle'],
-                                          price: productData[index]
-                                              .data()['price'],
-                                          detail: productData[index]
-                                              .data()['detail'],
-                                          nutrition: productData[index]
-                                              .data()['nutrition'],
-                                          review: productData[index]
-                                              .data()['review'],
-                                          type:
-                                              productData[index].data()['type'],
-                                          image1: productData[index]
-                                              .data()['image1'],
-                                          image2: productData[index]
-                                              .data()['image2'],
-                                          image3: productData[index]
-                                              .data()['image3'],
-                                        ),
-                                      ),
-                                    );
-                                  },
+                        SizedBox(
+                          // width: w,
+                          height: h * 0.29,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: vegetableData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    top: h * 0.02, right: w * 0.025),
+                                child: CommonProduct(
+                                  userId: UserData.uid,
+                                  productData: ProductModel(
+                                    id: vegetableData[index].id,
+                                    name: vegetableData[index].name,
+                                    subTitle: vegetableData[index].subTitle,
+                                    price: vegetableData[index].price,
+                                    detail: vegetableData[index].detail,
+                                    nutrition: vegetableData[index].nutrition,
+                                    review: vegetableData[index].review,
+                                    type: vegetableData[index].type,
+                                    image1: vegetableData[index].image1,
+                                    image2: vegetableData[index].image2,
+                                    image3: vegetableData[index].image3,
+                                  ),
                                 ),
                               );
-                            }
-                            return const CommonProductShimmer(itemCount: 3);
-                          },
+                            },
+                          ),
                         ),
                         SizedBox(
                           height: h * 0.03,

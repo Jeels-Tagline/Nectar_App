@@ -7,6 +7,8 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
+import 'package:nectar_app/views/components/common_check_user_connection.dart';
+import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 
@@ -165,52 +167,61 @@ class _NumberScreenState extends State<NumberScreen> {
       floatingActionButton: GestureDetector(
         onTap: () async {
           if (formKey.currentState!.validate()) {
-            bool isPhoneNumber = false;
-            String name = '';
+            bool connection =
+                await CommonCheckUserConnection.checkUserConnection();
 
-            for (int i = 0; i < userData.length; i++) {
-              if (userData[i].data()['phoneNumber'] == phoneController.text) {
-                isPhoneNumber = true;
-                name = userData[i].data()['displayName'];
-                setState(() {});
-                // if (userData[i].data()['location'] != null) {
-                //   isLocation = true;
-                // }
+            if (connection) {
+              bool isPhoneNumber = false;
+              String name = '';
+
+              for (int i = 0; i < userData.length; i++) {
+                if (userData[i].data()['phoneNumber'] == phoneController.text) {
+                  isPhoneNumber = true;
+                  name = userData[i].data()['displayName'];
+                  setState(() {});
+                  // if (userData[i].data()['location'] != null) {
+                  //   isLocation = true;
+                  // }
+                }
               }
-            }
 
-            if (isPhoneNumber) {
-              // if (formKey.currentState!.validate()) {
-              formKey.currentState!.save();
-              await FirebaseAuthHelper.firebaseAuthHelper
-                  .phoneLogin(phoneNumber: phoneController.text);
-
-              Map data = {
-                'phoneNumber': phoneController.text,
-                'userName': name,
-              };
-              Navigator.pushNamed(context, ScreensPath.numberVerificationScreen,
-                  arguments: data);
-              // }
-            } else {
-              setState(() {
-                isUser = false;
-              });
-
-              if (formKey.currentState!.validate() && userVerify) {
+              if (isPhoneNumber) {
+                // if (formKey.currentState!.validate()) {
                 formKey.currentState!.save();
-
                 await FirebaseAuthHelper.firebaseAuthHelper
                     .phoneLogin(phoneNumber: phoneController.text);
 
                 Map data = {
                   'phoneNumber': phoneController.text,
-                  'userName': userNameController.text,
+                  'userName': name,
                 };
                 Navigator.pushNamed(
                     context, ScreensPath.numberVerificationScreen,
                     arguments: data);
+                // }
+              } else {
+                setState(() {
+                  isUser = false;
+                });
+
+                if (formKey.currentState!.validate() && userVerify) {
+                  formKey.currentState!.save();
+
+                  await FirebaseAuthHelper.firebaseAuthHelper
+                      .phoneLogin(phoneNumber: phoneController.text);
+
+                  Map data = {
+                    'phoneNumber': phoneController.text,
+                    'userName': userNameController.text,
+                  };
+                  Navigator.pushNamed(
+                      context, ScreensPath.numberVerificationScreen,
+                      arguments: data);
+                }
               }
+            } else {
+              CommonScaffoldMessenger.failed(
+                  context: context, message: 'Check Internet Connection');
             }
           }
         },

@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:nectar_app/models/globals/boxes.dart';
 import 'package:nectar_app/models/globals/globals.dart';
+import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/screens_path.dart';
@@ -34,7 +37,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  sharedPreferences = await SharedPreferences.getInstance(); 
+  sharedPreferences = await SharedPreferences.getInstance();
+
+  await Hive.initFlutter();
+
+  // Register Adapter
+  Hive.registerAdapter(HiveProductModelAdapter());
+  // Hive.registerAdapter(HiveListProductModelAdapter());
+
+  // Openbox & Create boxfile
+  boxListOfProduct = await Hive.openBox<List>('listOfProductBox');
+  boxCart = await Hive.openBox<List<Map<String, dynamic>>>('cartBox');
 
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Container(

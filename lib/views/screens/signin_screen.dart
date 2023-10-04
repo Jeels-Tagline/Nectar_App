@@ -11,6 +11,7 @@ import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
+import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
@@ -30,11 +31,41 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   bool loggedIn = false;
   var userLocation;
+  // var usercity;
 
-  logIn({required String userId, required bool isLocation}) async {
+  logIn({
+    required String uid,
+    // required String city,
+    // required String displayName,
+    // required String email,
+    // required String location,
+    // required String phoneNumber,
+    required bool isLocation,
+  }) async {
     loggedIn = true;
     await sharedPreferences!.setBool(UsersInfo.userLogin, loggedIn);
-    await sharedPreferences!.setString(UsersInfo.userId, userId);
+    await sharedPreferences!.setString(UsersInfo.userId, uid);
+
+    CommonShowDialog.show(context: context);
+
+    await FirestoreHelper.firestoreHelper.dataStoreInHive();
+
+    var data = await FirestoreHelper.firestoreHelper.getUserData(uid: uid);
+    var userData = data.docs[0].data();
+
+    await sharedPreferences!
+        .setString(UsersInfo.userCity, userData['city'] ?? '');
+    await sharedPreferences!
+        .setString(UsersInfo.userDisplayName, userData['displayName']);
+    await sharedPreferences!.setString(UsersInfo.userEmail, userData['email']);
+    await sharedPreferences!
+        .setString(UsersInfo.userLocation, userData['location'] ?? '');
+    await sharedPreferences!
+        .setString(UsersInfo.userPhoneNumber, userData['phoneNumber'] ?? '');
+    await sharedPreferences!
+        .setString(UsersInfo.userPhoto, userData['photo'] ?? '');
+
+    CommonShowDialog.close(context: context);
 
     (isLocation)
         ? Navigator.pushNamedAndRemoveUntil(
@@ -50,6 +81,8 @@ class _SignInScreenState extends State<SignInScreen> {
     var data = await FirestoreHelper.firestoreHelper.getUserData(uid: uid);
     userLocation = data.docs;
     userLocation = userLocation[0].data()['location'];
+    // usercity = data.docs;
+    // usercity = userLocation[0].data()['city'];
   }
 
   TextEditingController emailController = TextEditingController();
@@ -190,44 +223,64 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: GestureDetector(
                         onTap: () async {
                           if (formKey.currentState!.validate() && emailVerify) {
-                            formKey.currentState!.save();
-                            CommonShowDialog.show(context: context);
+                            bool connection = await CommonCheckUserConnection
+                                .checkUserConnection();
 
-                            Map<String, dynamic> data = await FirebaseAuthHelper
-                                .firebaseAuthHelper
-                                .signIn(
-                                    email: emailController.text,
-                                    password: passwordController.text);
+                            if (connection) {
+                              formKey.currentState!.save();
+                              CommonShowDialog.show(context: context);
 
-                            if (data['user'] != null) {
-                              CommonShowDialog.close(context: context);
+                              Map<String, dynamic> data =
+                                  await FirebaseAuthHelper.firebaseAuthHelper
+                                      .signIn(
+                                          email: emailController.text,
+                                          password: passwordController.text);
 
-                              bool isLocation = false;
-                              await checkUserLocation(uid: data['user'].uid);
+                              if (data['user'] != null) {
+                                CommonShowDialog.close(context: context);
 
-                              if (userLocation != null &&
-                                  userLocation.isNotEmpty) {
-                                isLocation = true;
-                                setState(() {});
+                                bool isLocation = false;
+                                await checkUserLocation(uid: data['user'].uid);
+
+                                // String? location;
+                                // String? city;
+
+                                if (userLocation != null &&
+                                    userLocation.isNotEmpty) {
+                                  // location = userLocation;
+                                  // city = usercity;
+                                  isLocation = true;
+                                  setState(() {});
+                                }
+
+                                await logIn(
+                                  // city: city!,
+                                  // location: location!,
+                                  // displayName: data['user'].displayName,
+                                  // email: data['user'].displayName,
+                                  // phoneNumber: '',
+                                  isLocation: isLocation,
+                                  uid: data['user'].uid,
+                                );
+
+                                CommonScaffoldMessenger.success(
+                                    context: context,
+                                    message: "Signin Successfully....");
+                              } else if (data['msg'] != null) {
+                                CommonShowDialog.close(context: context);
+                                CommonScaffoldMessenger.failed(
+                                    context: context, message: data['msg']);
+                              } else {
+                                CommonShowDialog.close(context: context);
+
+                                CommonScaffoldMessenger.failed(
+                                    context: context,
+                                    message: "Signin Faild.....");
                               }
-
-                              logIn(
-                                  userId: data['user'].uid,
-                                  isLocation: isLocation);
-
-                              CommonScaffoldMessenger.success(
-                                  context: context,
-                                  message: "Signin Successfully....");
-                            } else if (data['msg'] != null) {
-                              CommonShowDialog.close(context: context);
-                              CommonScaffoldMessenger.failed(
-                                  context: context, message: data['msg']);
                             } else {
-                              CommonShowDialog.close(context: context);
-
                               CommonScaffoldMessenger.failed(
                                   context: context,
-                                  message: "Signin Faild.....");
+                                  message: 'Check Internet Connection');
                             }
                           } else {
                             CommonScaffoldMessenger.failed(

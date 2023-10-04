@@ -9,6 +9,7 @@ import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
+import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
@@ -96,10 +97,19 @@ class _LocationScreenState extends State<LocationScreen> {
                           padding: EdgeInsets.only(top: h * 0.01),
                           child: GestureDetector(
                             onTap: () async {
-                              userData = await Navigator.pushNamed(
-                                      context, ScreensPath.getLocationScreen)
-                                  as Map;
-                              setState(() {});
+                              bool connection = await CommonCheckUserConnection
+                                  .checkUserConnection();
+
+                              if (connection) {
+                                userData = await Navigator.pushNamed(
+                                        context, ScreensPath.getLocationScreen)
+                                    as Map;
+                                setState(() {});
+                              } else {
+                                CommonScaffoldMessenger.failed(
+                                    context: context,
+                                    message: 'Check Internet Connection');
+                              }
                             },
                             child: Card(
                               child: ListTile(
@@ -118,19 +128,35 @@ class _LocationScreenState extends State<LocationScreen> {
                           padding: EdgeInsets.only(top: h * 0.2),
                           child: GestureDetector(
                             onTap: () async {
-                              if (userData['location'] != null) {
-                                await FirestoreHelper.firestoreHelper
-                                    .updateAddress(
-                                  uid: userId,
-                                  location: userData['location'],
-                                  city: userData['city'],
-                                );
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    ScreensPath.homeScreen, (route) => false);
+                              bool connection = await CommonCheckUserConnection
+                                  .checkUserConnection();
+
+                              if (connection) {
+                                if (userData['location'] != null) {
+                                  await FirestoreHelper.firestoreHelper
+                                      .updateAddress(
+                                    uid: userId,
+                                    location: userData['location'],
+                                    city: userData['city'],
+                                  );
+
+                                  await sharedPreferences!.setString(
+                                      UsersInfo.userLocation,
+                                      userData['location']);
+                                  await sharedPreferences!.setString(
+                                      UsersInfo.userCity, userData['city']);
+
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      ScreensPath.homeScreen, (route) => false);
+                                } else {
+                                  CommonScaffoldMessenger.failed(
+                                      context: context,
+                                      message: "Please select location.....");
+                                }
                               } else {
                                 CommonScaffoldMessenger.failed(
                                     context: context,
-                                    message: "Please select location.....");
+                                    message: 'Check Internet Connection');
                               }
                             },
                             child: const CommonActionButton(name: "Submit"),

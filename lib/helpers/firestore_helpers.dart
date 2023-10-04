@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nectar_app/models/globals/boxes.dart';
+import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/models/product_models.dart';
 
 class FirestoreHelper {
@@ -140,16 +142,6 @@ class FirestoreHelper {
     });
   }
 
-  // Future<QuerySnapshot<Map<String, dynamic>>> getOrdersId(
-  //     {required String uid}) async {
-  //   QuerySnapshot<Map<String, dynamic>> userData;
-
-  //   userData =
-  //       await db.collection(userCollection).doc(uid).collection('orders').get();
-
-  //   return userData;
-  // }
-
   Future<void> deleteParticularCartData(
       {required String uid, required String id}) async {
     await db
@@ -200,14 +192,21 @@ class FirestoreHelper {
         .update({'location': location, 'city': city});
   }
 
-  Future<void> updateUsernameAnduserphoto(
-      {required String uid,
-      required String photo,
-      required String username}) async {
+  Future<void> updateUserPhoto({
+    required String uid,
+    required String photo,
+  }) async {
+    await db.collection(userCollection).doc(uid).update({
+      'photo': photo,
+    });
+  }
+
+  Future<void> updateUsername(
+      {required String uid, required String username}) async {
     await db
         .collection(userCollection)
         .doc(uid)
-        .update({'photo': photo, 'displayName': username});
+        .update({'displayName': username});
   }
 
   // Future<void> updateCart(
@@ -335,5 +334,41 @@ class FirestoreHelper {
     }
 
     return productList;
+  }
+
+  Future dataStoreInHive() async {
+    QuerySnapshot<Map<String, dynamic>> searchData;
+
+    List<HiveProductModel> list = [];
+    List<HiveProductModel> allData = [];
+
+    List types = [
+      'fruit',
+      'vegetable',
+      'bakery',
+      'baverage',
+      'pulses',
+      'rice',
+    ];
+
+    if (boxListOfProduct.isOpen == true) {
+      await boxListOfProduct.clear();
+      for (int i = 0; i < types.length; i++) {
+        searchData = await db
+            .collection(productCollection)
+            .doc('BZI7tNyult29RjmDJ6Ls')
+            .collection(types[i])
+            .get();
+
+        list = searchData.docs
+            .map((e) => HiveProductModel.fromMap(data: e.data()))
+            .toList();
+
+        for (int i = 0; i < list.length; i++) {
+          allData.add(list[i]);
+        }
+      }
+      await boxListOfProduct.add(allData);
+    }
   }
 }

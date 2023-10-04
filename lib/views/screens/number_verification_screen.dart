@@ -14,6 +14,7 @@ import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
+import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
@@ -55,10 +56,39 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
     startTimer();
   }
 
-  logIn({required String userId, required bool isLocation}) async {
+  logIn({
+    required String uid,
+    // required String city,
+    // required String displayName,
+    // required String email,
+    // required String location,
+    // required String phoneNumber,
+    required bool isLocation,
+  }) async {
     loggedIn = true;
     await sharedPreferences!.setBool(UsersInfo.userLogin, loggedIn);
-    await sharedPreferences!.setString(UsersInfo.userId, userId);
+    await sharedPreferences!.setString(UsersInfo.userId, uid);
+
+    CommonShowDialog.show(context: context);
+
+    await FirestoreHelper.firestoreHelper.dataStoreInHive();
+    var data = await FirestoreHelper.firestoreHelper.getUserData(uid: uid);
+    var userData = data.docs[0].data();
+
+    await sharedPreferences!
+        .setString(UsersInfo.userCity, userData['city'] ?? '');
+    await sharedPreferences!
+        .setString(UsersInfo.userDisplayName, userData['displayName']);
+    await sharedPreferences!
+        .setString(UsersInfo.userEmail, userData['email'] ?? '');
+    await sharedPreferences!
+        .setString(UsersInfo.userLocation, userData['location'] ?? '');
+    await sharedPreferences!
+        .setString(UsersInfo.userPhoneNumber, userData['phoneNumber']);
+    await sharedPreferences!
+        .setString(UsersInfo.userPhoto, userData['photo'] ?? '');
+
+    CommonShowDialog.close(context: context);
 
     (isLocation)
         ? Navigator.pushNamedAndRemoveUntil(
@@ -206,56 +236,77 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
               return GestureDetector(
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
+                    bool connection =
+                        await CommonCheckUserConnection.checkUserConnection();
 
-                    CommonShowDialog.show(context: context);
+                    if (connection) {
+                      formKey.currentState!.save();
 
-                    Map data = await FirebaseAuthHelper.firebaseAuthHelper
-                        .verifyOTP(otp: otpController.text);
+                      CommonShowDialog.show(context: context);
 
-                    if (data['user'] != null) {
-                      CommonShowDialog.close(context: context);
+                      Map data = await FirebaseAuthHelper.firebaseAuthHelper
+                          .verifyOTP(otp: otpController.text);
 
-                      bool isUser = false;
-                      bool isLocation = false;
-                      String location;
+                      if (data['user'] != null) {
+                        CommonShowDialog.close(context: context);
 
-                      for (int i = 0; i < allUsers.length; i++) {
-                        if (allUsers[i].data()['uid'] == data['user'].uid) {
-                          isUser = true;
-                          location = allUsers[i].data()['location'];
-                          if (location.isNotEmpty) {
-                            isLocation = true;
+                        bool isUser = false;
+                        bool isLocation = false;
+                        String? city;
+                        String? location;
+
+                        for (int i = 0; i < allUsers.length; i++) {
+                          if (allUsers[i].data()['uid'] == data['user'].uid) {
+                            isUser = true;
+                            if (userData[i].data()['location'] != "") {
+                              city = userData[i].data()['city'];
+                              location = userData[i].data()['location'];
+                              isLocation = true;
+                            }
                           }
                         }
+
+                        if (isUser == false) {
+                          Map<String, dynamic> userdata = {
+                            'uid': data['user'].uid,
+                            'email': "",
+                            'phoneNumber': userData['phoneNumber'],
+                            'displayName': userData['userName'],
+                            'location': "",
+                            'photo': "",
+                            'totalPrice': 0.00,
+                          };
+
+                          await FirestoreHelper.firestoreHelper
+                              .insertUsers(data: userdata);
+                        }
+
+                        await logIn(
+                          uid: data['user'].uid,
+                          isLocation: isLocation,
+                          // city: city!,
+                          // location: location!,
+                          // displayName: userData['userName'],
+                          // email: '',
+                          // phoneNumber: userData['phoneNumber'],
+                        );
+
+                        CommonScaffoldMessenger.success(
+                            context: context,
+                            message: "Login Successfully....");
+                      } else if (data['msg'] != null) {
+                        CommonShowDialog.close(context: context);
+                        CommonScaffoldMessenger.failed(
+                            context: context, message: data['msg']);
+                      } else {
+                        CommonShowDialog.close(context: context);
+                        CommonScaffoldMessenger.failed(
+                            context: context, message: "Logging Failed.....");
                       }
-
-                      if (isUser == false) {
-                        Map<String, dynamic> userdata = {
-                          'uid': data['user'].uid,
-                          'email': "",
-                          'phoneNumber': userData['phoneNumber'],
-                          'displayName': userData['userName'],
-                          'location': "",
-                          'photo': "",
-                          'totalPrice': 0.00,
-                        };
-
-                        await FirestoreHelper.firestoreHelper
-                            .insertUsers(data: userdata);
-                      }
-
-                      logIn(userId: data['user'].uid, isLocation: isLocation);
-                      CommonScaffoldMessenger.success(
-                          context: context, message: "Login Successfully....");
-                    } else if (data['msg'] != null) {
-                      CommonShowDialog.close(context: context);
-                      CommonScaffoldMessenger.failed(
-                          context: context, message: data['msg']);
                     } else {
-                      CommonShowDialog.close(context: context);
                       CommonScaffoldMessenger.failed(
-                          context: context, message: "Logging Failed.....");
+                          context: context,
+                          message: 'Check Internet Connection');
                     }
                   }
                 },

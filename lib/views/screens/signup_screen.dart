@@ -9,6 +9,7 @@ import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
+import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
@@ -209,45 +210,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if (formKey.currentState!.validate() &&
                               userVerify &&
                               emailVerify) {
-                            formKey.currentState!.save();
-                            CommonShowDialog.show(context: context);
+                            bool connection = await CommonCheckUserConnection
+                                .checkUserConnection();
 
-                            Map<String, dynamic> data = await FirebaseAuthHelper
-                                .firebaseAuthHelper
-                                .signUp(
-                                    email: emailController.text,
-                                    password: passwordController.text);
+                            if (connection) {
+                              formKey.currentState!.save();
+                              CommonShowDialog.show(context: context);
 
-                            if (data['user'] != null) {
-                              CommonScaffoldMessenger.success(
-                                  context: context,
-                                  message: "Signup Successfully....");
+                              Map<String, dynamic> data =
+                                  await FirebaseAuthHelper.firebaseAuthHelper
+                                      .signUp(
+                                          email: emailController.text,
+                                          password: passwordController.text);
 
-                              Map<String, dynamic> userdata = {
-                                'uid': data['user'].uid,
-                                'email': data['user'].email,
-                                'phoneNumber': "",
-                                'displayName': userNameController.text,
-                                'location': "",
-                                'photo': "",
-                                'totalPrice': 0.00,
-                              };
+                              if (data['user'] != null) {
+                                CommonScaffoldMessenger.success(
+                                    context: context,
+                                    message: "Signup Successfully....");
 
-                              await FirestoreHelper.firestoreHelper
-                                  .insertUsers(data: userdata);
+                                Map<String, dynamic> userdata = {
+                                  'uid': data['user'].uid,
+                                  'email': data['user'].email,
+                                  'phoneNumber': "",
+                                  'displayName': userNameController.text,
+                                  'location': "",
+                                  'photo': "",
+                                  'totalPrice': 0.00,
+                                };
 
-                              Navigator.pushReplacementNamed(
-                                  context, ScreensPath.signInScreen);
-                            } else if (data['msg'] != null) {
-                              CommonShowDialog.close(context: context);
-                              CommonScaffoldMessenger.failed(
-                                  context: context, message: data['msg']);
+                                await FirestoreHelper.firestoreHelper
+                                    .insertUsers(data: userdata);
+
+                                Navigator.pushReplacementNamed(
+                                    context, ScreensPath.signInScreen);
+                              } else if (data['msg'] != null) {
+                                CommonShowDialog.close(context: context);
+                                CommonScaffoldMessenger.failed(
+                                    context: context, message: data['msg']);
+                              } else {
+                                CommonShowDialog.close(context: context);
+
+                                CommonScaffoldMessenger.failed(
+                                    context: context,
+                                    message: "Signup Faild.....");
+                              }
                             } else {
-                              CommonShowDialog.close(context: context);
-
                               CommonScaffoldMessenger.failed(
                                   context: context,
-                                  message: "Signup Faild.....");
+                                  message: 'Check Internet Connection');
                             }
                           } else {
                             CommonScaffoldMessenger.failed(

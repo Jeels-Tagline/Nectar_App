@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nectar_app/helpers/auth_helpers.dart';
@@ -10,13 +9,13 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_expansion_tile.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 
 class AccountScreen extends StatefulWidget {
@@ -28,19 +27,18 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final GlobalKey<FormState> updateFormKey = GlobalKey<FormState>();
-  String userId = "";
+  // String userId = "";
   XFile? imageXFile;
   // File? imageXFile;
-  String? userImageUrl;
 
   final TextEditingController usernameController = TextEditingController();
 
-  Future getFromGallery() async {
+  Future<String> getFromGallery({required String oldUrl}) async {
     imageXFile = await ImagePicker()
         .pickImage(source: ImageSource.gallery, imageQuality: 40);
-  }
 
-  Future<String> updateImage({required String oldUrl}) async {
+    // New Update
+    String? userImageUrl;
     fStorage.Reference reference;
     CommonShowDialog.show(context: context);
     String fileName = DateTime.now().microsecondsSinceEpoch.toString();
@@ -63,16 +61,37 @@ class _AccountScreenState extends State<AccountScreen> {
     return userImageUrl!;
   }
 
-  getUserId() async {
-    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  // Future<String> updateImage({required String oldUrl}) async {
+  // String? userImageUrl;
+  // fStorage.Reference reference;
+  // CommonShowDialog.show(context: context);
+  // String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+  // if (oldUrl.isEmpty) {
+  //   reference = fStorage.FirebaseStorage.instance.ref().child(fileName);
+  // } else {
+  //   reference = fStorage.FirebaseStorage.instance.refFromURL(oldUrl);
+  // }
+  // fStorage.UploadTask uploadTask = reference.putFile(File(imageXFile!.path));
+  // fStorage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+  // await taskSnapshot.ref.getDownloadURL().then((url) async {
+  //   setState(() {
+  //     userImageUrl = url;
+  //   });
+  // });
+  // CommonShowDialog.close(context: context);
+  // return userImageUrl!;
+  // }
 
-    setState(() {});
-  }
+  // getUserId() async {
+  //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    // getUserId();
   }
 
   @override
@@ -88,134 +107,73 @@ class _AccountScreenState extends State<AccountScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
-                child: FutureBuilder(
-                  future:
-                      FirestoreHelper.firestoreHelper.getUserData(uid: userId),
-                  builder: (context, snapShot) {
-                    if (snapShot.hasError) {
-                      return Text("${snapShot.error}");
-                    } else if (snapShot.hasData) {
-                      QuerySnapshot<Map<String, dynamic>>? data = snapShot.data;
-
-                      List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                          allDocs = data!.docs;
-
-                      Map<String, dynamic> userData = allDocs[0].data();
-
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: CircleAvatar(
-                              radius: 34,
-                              backgroundColor: Globals.greenColor,
-                              child: CircleAvatar(
-                                radius: 32,
-                                backgroundColor: Colors.grey.shade300,
-                                backgroundImage: (userData['photo'] == "")
-                                    ? const NetworkImage(
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStsRVE2OpWFMYeY5S1bXG5J4UXp-FkBHGpUM5YDpIsXVWPw2ZdmLUzIitofNwhB_7cahk&usqp=CAU")
-                                    : NetworkImage("${userData['photo']}"),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: w * 0.03),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "${userData['displayName']}",
-                                        style: const TextStyle(
-                                            fontSize: 20, height: 1),
-                                      ),
-                                      SizedBox(
-                                        width: w * 0.02,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          await validateUpdate(
-                                            id: userId,
-                                            username: userData['displayName'],
-                                            image: userData['photo'],
-                                            h: h,
-                                          );
-
-                                          setState(() {});
-                                        },
-                                        child: Icon(
-                                          Icons.edit,
-                                          color: Globals.greenColor,
-                                          size: 22,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (userData['email'].isNotEmpty)
-                                    CommonSmallBodyText(
-                                      text: "${userData['email']}",
-                                      color: Colors.grey,
-                                    )
-                                  else
-                                    CommonSmallBodyText(
-                                      text: "${userData['phoneNumber']}",
-                                      color: Colors.grey,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: CircleAvatar(
-                              radius: 32,
-                              backgroundColor: Colors.amber,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: w * 0.03),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: h * 0.03,
-                                    width: w * 0.5,
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: h * 0.01),
-                                    child: Container(
-                                      height: h * 0.02,
-                                      width: w * 0.6,
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CircleAvatar(
+                        radius: 34,
+                        backgroundColor: Globals.greenColor,
+                        child: CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.grey.shade300,
+                          backgroundImage: (UserData.photo == "")
+                              ? const NetworkImage(
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStsRVE2OpWFMYeY5S1bXG5J4UXp-FkBHGpUM5YDpIsXVWPw2ZdmLUzIitofNwhB_7cahk&usqp=CAU")
+                              : NetworkImage(UserData.photo),
+                        ),
                       ),
-                    );
-                  },
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: w * 0.03),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  UserData.displayName,
+                                  style:
+                                      const TextStyle(fontSize: 20, height: 1),
+                                ),
+                                SizedBox(
+                                  width: w * 0.02,
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    await validateUpdate(
+                                      id: UserData.uid,
+                                      username: UserData.displayName,
+                                      image: UserData.photo,
+                                      h: h,
+                                    );
+
+                                    setState(() {});
+                                  },
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Globals.greenColor,
+                                    size: 22,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (UserData.email.isNotEmpty)
+                              CommonSmallBodyText(
+                                text: UserData.email,
+                                color: Colors.grey,
+                              )
+                            else
+                              CommonSmallBodyText(
+                                text: UserData.phoneNumber,
+                                color: Colors.grey,
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -269,6 +227,13 @@ class _AccountScreenState extends State<AccountScreen> {
 
             await sharedPreferences!.setBool(UsersInfo.userLogin, false);
             await sharedPreferences!.setString(UsersInfo.userId, '');
+            await sharedPreferences!.setString(UsersInfo.userDisplayName, '');
+            await sharedPreferences!.setString(UsersInfo.userCity, '');
+            await sharedPreferences!.setString(UsersInfo.userLocation, '');
+            await sharedPreferences!.setString(UsersInfo.userEmail, '');
+            await sharedPreferences!.setString(UsersInfo.userPhoneNumber, '');
+            await sharedPreferences!.setString(UsersInfo.userPhoto, '');
+
             Navigator.pushNamedAndRemoveUntil(
                 context, ScreensPath.onbordingScreen, (route) => false);
           },
@@ -316,6 +281,7 @@ class _AccountScreenState extends State<AccountScreen> {
     usernameController.text = username;
     String showImage = image;
     bool firstTime = true;
+    String? newImageUrl;
 
     showDialog(
       context: context,
@@ -338,7 +304,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 if (firstTime)
                   GestureDetector(
                     onTap: () async {
-                      await getFromGallery();
+                      String data = await getFromGallery(oldUrl: image);
+
+                      newImageUrl = data;
 
                       setstatePhoto(() {
                         firstTime = false;
@@ -357,7 +325,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 else
                   GestureDetector(
                     onTap: () async {
-                      await getFromGallery();
+                      String data = await getFromGallery(oldUrl: image);
+
+                      newImageUrl = data;
 
                       setstatePhoto(() {
                         showImage = imageXFile!.path;
@@ -396,14 +366,44 @@ class _AccountScreenState extends State<AccountScreen> {
                   updateFormKey.currentState!.save();
                   CommonShowDialog.show(context: context);
 
-                  String url = await updateImage(oldUrl: image);
+                  if (username != usernameController.text &&
+                      newImageUrl != null) {
+                    await sharedPreferences!.setString(
+                        UsersInfo.userDisplayName, usernameController.text);
+                    await sharedPreferences!
+                        .setString(UsersInfo.userPhoto, newImageUrl!);
+                    UserData.displayName = sharedPreferences!
+                            .getString(UsersInfo.userDisplayName) ??
+                        '';
+                    UserData.photo =
+                        sharedPreferences!.getString(UsersInfo.userPhoto) ?? '';
+                    await FirestoreHelper.firestoreHelper.updateUsername(
+                      uid: id,
+                      username: usernameController.text,
+                    );
+                    await FirestoreHelper.firestoreHelper.updateUserPhoto(
+                      uid: id,
+                      photo: newImageUrl!,
+                    );
+                  } else if (username != usernameController.text) {
+                    await FirestoreHelper.firestoreHelper.updateUsername(
+                      uid: id,
+                      username: usernameController.text,
+                    );
 
-                  await FirestoreHelper.firestoreHelper
-                      .updateUsernameAnduserphoto(
-                    uid: id,
-                    photo: url,
-                    username: usernameController.text,
-                  );
+                    await sharedPreferences!.setString(
+                        UsersInfo.userDisplayName, usernameController.text);
+                    UserData.displayName = usernameController.text;
+                  } else if (newImageUrl != null) {
+                    await FirestoreHelper.firestoreHelper.updateUserPhoto(
+                      uid: id,
+                      photo: newImageUrl!,
+                    );
+
+                    UserData.photo = newImageUrl!;
+                    await sharedPreferences!
+                        .setString(UsersInfo.userPhoto, newImageUrl!);
+                  }
 
                   CommonScaffoldMessenger.success(
                       context: context, message: 'User data updated...');
@@ -411,8 +411,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   CommonShowDialog.close(context: context);
                   Navigator.pop(context);
                 }
-
-                // setState(() {});
+                setState(() {});
               },
             ),
             OutlinedButton(

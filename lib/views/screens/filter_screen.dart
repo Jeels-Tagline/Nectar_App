@@ -14,14 +14,13 @@ class FilterScreen extends StatefulWidget {
 
 class _FilterScreenState extends State<FilterScreen> {
   List<Map> filterCheckBox = [
-    {"name": "Strawberry", "isChecked": false},
-    {"name": "Kiwi", "isChecked": false},
-    {"name": "Red Bull", "isChecked": false},
-    {"name": "Waffle", "isChecked": false},
-    {"name": "Bagel", "isChecked": false},
-    {"name": "Kidney Beans", "isChecked": false},
-    {"name": "Sushi Rice", "isChecked": false},
-    {"name": "Basmati Rice", "isChecked": false},
+    {"type": "Fruit", "isChecked": false},
+    {"type": "Vegetable", "isChecked": false},
+    {"type": "Bakery", "isChecked": false},
+    {"type": "Baverage", "isChecked": false},
+    {"type": "Bagel", "isChecked": false},
+    {"type": "Pulses", "isChecked": false},
+    {"type": "Rice", "isChecked": false},
   ];
 
   @override
@@ -78,7 +77,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           },
                         ),
                         Text(
-                          e["name"],
+                          e["type"],
                           style: TextStyle(
                             color: (e['isChecked'])
                                 ? Globals.greenColor
@@ -104,7 +103,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
             List.generate(filterCheckBox.length, (index) {
               if (filterCheckBox[index]['isChecked']) {
-                filter.add(filterCheckBox[index]['name']);
+                filter.add(filterCheckBox[index]['type']);
               }
             });
 

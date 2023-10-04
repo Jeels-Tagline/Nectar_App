@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
-import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/utils/screens_path.dart';
-import 'package:nectar_app/utils/users_info.dart';
+import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,18 +16,18 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  String userId = "";
+  // String userId = "";
 
-  getUserId() async {
-    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  // getUserId() async {
+  //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    // getUserId();
   }
 
   @override
@@ -47,8 +46,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
             const Divider(),
             FutureBuilder(
-              future:
-                  FirestoreHelper.firestoreHelper.getOrdersData(uid: userId),
+              future: FirestoreHelper.firestoreHelper
+                  .getOrdersData(uid: UserData.uid),
               builder: (context, snapShot) {
                 if (snapShot.hasData) {
                   QuerySnapshot<Map<String, dynamic>>? userData = snapShot.data;
@@ -90,7 +89,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     Map<String, dynamic> particularOrder = {
-                                      'userId': userId,
+                                      'userId': UserData.uid,
                                       'date': allDocs[i].data()['date'],
                                       'id': allDocs[i].data()['id'],
                                     };

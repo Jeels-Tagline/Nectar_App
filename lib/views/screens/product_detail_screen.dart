@@ -2,13 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
-import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
-import 'package:nectar_app/utils/users_info.dart';
+import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
@@ -33,17 +32,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool favorite = false;
   var userData;
 
-  String userId = "";
+  // String userId = "";
 
-  getUserId() async {
-    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  // getUserId() async {
+  //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   checkFavourite({required String id}) async {
-    var data =
-        await FirestoreHelper.firestoreHelper.getFavouriteData(uid: userId);
+    var data = await FirestoreHelper.firestoreHelper
+        .getFavouriteData(uid: UserData.uid);
 
     userData = data.docs;
 
@@ -52,13 +51,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         favorite = true;
       }
     }
+    // setState(() {});
     Future.delayed(Duration.zero, () => {setState(() {})});
   }
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    // getUserId();
     pageController.addListener(() {
       setState(() {
         currentIndex = pageController.page!.round();
@@ -77,7 +77,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       productData.image3,
     ];
     quantity = productData.quantity ?? 1;
-    // checkFavourite(id: productData.id);
+    checkFavourite(id: productData.id);
     // favorite = productData.favourite ?? false;
 
     return Scaffold(
@@ -141,24 +141,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   );
                                 },
                               ),
-                              // CarouselSlider.builder(
-                              //   itemCount: images.length,
-                              //   itemBuilder: (BuildContext context,
-                              //           int itemIndex, int pageViewIndex) =>
-                              //       Image.network(images[itemIndex]),
-                              //   options: CarouselOptions(
-                              //     autoPlay: true,
-                              //     enlargeCenterPage: true,
-                              //     viewportFraction: 0.9,
-                              //     aspectRatio: 2.0,
-                              //     initialPage: 2,
-                              //     onPageChanged: (index, _) {
-                              //       setStateJ(() {
-                              //         currentIndex = index;
-                              //       });
-                              //     },
-                              //   ),
-                              // ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: h * 0.02),
@@ -225,7 +207,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             };
                             await FirestoreHelper.firestoreHelper
                                 .insertFavouriteData(
-                              uid: userId,
+                              uid: UserData.uid,
                               productData: data,
                             );
                             CommonShowDialog.close(context: context);
@@ -242,7 +224,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 context: NavKey.navKey.currentContext!);
                             await FirestoreHelper.firestoreHelper
                                 .deleteParticularFavouriteData(
-                                    uid: userId, id: productData.id);
+                                    uid: UserData.uid, id: productData.id);
                             CommonShowDialog.close(
                                 context: NavKey.navKey.currentContext!);
 
@@ -430,12 +412,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             'image3': productData.image3,
                             'quantity': productData.quantity ?? 1,
                           };
-                          // await FirestoreHelper.firestoreHelper.updateCart(
-                          //   uid: userId,
-                          //   productData: [data],
-                          // );
+
+                          // TODO : Add in box
+                          // await boxCart.add(productData);
+
                           await FirestoreHelper.firestoreHelper.insertCartData(
-                            uid: userId,
+                            uid: UserData.uid,
                             productData: data,
                           );
                           CommonShowDialog.close(context: context);

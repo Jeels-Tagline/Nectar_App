@@ -3,11 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
-import 'package:nectar_app/main.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/screens_path.dart';
-import 'package:nectar_app/utils/users_info.dart';
+import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
@@ -23,7 +22,7 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  String userId = "";
+  // String userId = "";
   bool dataEmpty = true;
 
   refreshUI() {
@@ -32,16 +31,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     });
   }
 
-  getUserId() async {
-    userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  // getUserId() async {
+  //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    // getUserId();
   }
 
   @override
@@ -60,8 +59,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             ),
             const Divider(),
             FutureBuilder(
-              future:
-                  FirestoreHelper.firestoreHelper.getFavouriteData(uid: userId),
+              future: FirestoreHelper.firestoreHelper
+                  .getFavouriteData(uid: UserData.uid),
               builder: (context, snapShot) {
                 if (snapShot.hasData) {
                   QuerySnapshot<Map<String, dynamic>>? userData = snapShot.data;
@@ -93,8 +92,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     return Transform.translate(
                       offset: Offset(0, -h * 0.04),
                       child: Padding(
-                        padding:
-                            EdgeInsets.only(left: w * 0.04, right: w * 0.04, bottom: h * 0.08),
+                        padding: EdgeInsets.only(
+                            left: w * 0.04, right: w * 0.04, bottom: h * 0.08),
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -305,7 +304,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
                   var productData;
                   var data = await FirestoreHelper.firestoreHelper
-                      .getFavouriteData(uid: userId);
+                      .getFavouriteData(uid: UserData.uid);
 
                   productData = data.docs;
 
@@ -326,7 +325,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       'quantity': productData[index].data()['quantity'] ?? 1,
                     };
                     await FirestoreHelper.firestoreHelper.insertCartData(
-                      uid: userId,
+                      uid: UserData.uid,
                       productData: data,
                     );
                   }
