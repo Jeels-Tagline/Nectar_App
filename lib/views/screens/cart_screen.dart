@@ -18,6 +18,7 @@ import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -70,8 +71,11 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: h * 0.07, bottom: h * 0.02),
-                  child:
-                      const Center(child: CommonHeadlineText(title: "My Cart")),
+                  child: Center(
+                    child: CommonHeadlineText(
+                      title: AppLocalizations.of(context)!.myCart,
+                    ),
+                  ),
                 ),
                 const Divider(),
                 FutureBuilder(
@@ -97,7 +101,7 @@ class _CartScreenState extends State<CartScreen> {
                                 color: Globals.greenColor,
                               ),
                               Text(
-                                "Cart Is Empty",
+                                AppLocalizations.of(context)!.cartIsEmpty,
                                 style: TextStyle(
                                     color: Globals.greenColor, fontSize: 25),
                               ),
@@ -144,7 +148,7 @@ class _CartScreenState extends State<CartScreen> {
                                             arguments: productData);
                                       },
                                       child: SizedBox(
-                                        height: h * 0.14,
+                                        // height: h * 0.14,
                                         width: w,
                                         child: Row(
                                           children: [
@@ -404,13 +408,14 @@ class _CartScreenState extends State<CartScreen> {
                               return Column(
                                 children: [
                                   SizedBox(
-                                    height: h * 0.14,
                                     width: w,
                                     child: Row(
                                       children: [
                                         Expanded(
                                           flex: 2,
                                           child: Container(
+                                            height: h * 0.12,
+                                            width: w,
                                             decoration: BoxDecoration(
                                                 color: Colors.red,
                                                 borderRadius:
@@ -432,38 +437,34 @@ class _CartScreenState extends State<CartScreen> {
                                                           .spaceBetween,
                                                   children: [
                                                     Container(
-                                                      height: h * 0.025,
-                                                      width: w * 0.5,
+                                                      height: h * 0.03,
+                                                      width: w * 0.4,
+                                                      // Main Title
                                                       decoration: BoxDecoration(
-                                                        color: Colors.red,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(7),
-                                                      ),
+                                                          color: Colors.red,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
                                                     ),
-                                                    Transform.translate(
-                                                      offset:
-                                                          Offset(w * 0.03, 0),
-                                                      child: IconButton(
-                                                        onPressed: () {},
-                                                        icon: const Icon(
-                                                          Icons.close,
-                                                          size: 27,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
+                                                    const Icon(
+                                                      Icons.close,
+                                                      size: 27,
+                                                      color: Colors.grey,
                                                     ),
                                                   ],
                                                 ),
+                                                SizedBox(
+                                                  height: h * 0.01,
+                                                ),
                                                 Container(
-                                                  height: h * 0.015,
-                                                  width: w * 0.4,
+                                                  height: h * 0.02,
+                                                  width: w * 0.3,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.red,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
+                                                      color: Colors.red,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
                                                 ),
                                                 SizedBox(
                                                   height: h * 0.01,
@@ -498,18 +499,26 @@ class _CartScreenState extends State<CartScreen> {
                                                                 .remove_outlined,
                                                           ),
                                                         ),
-                                                        Container(
-                                                          height: h * 0.02,
-                                                          width: w * 0.08,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .all(5),
-                                                          decoration: BoxDecoration(
-                                                              color: Colors.red,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5)),
+                                                        SizedBox(
+                                                          width: w * 0.09,
+                                                          child: Center(
+                                                            child: Container(
+                                                              height: h * 0.03,
+                                                              //  num
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    Colors.red,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
                                                         Container(
                                                           height: h * 0.045,
@@ -536,13 +545,13 @@ class _CartScreenState extends State<CartScreen> {
                                                       ],
                                                     ),
                                                     Container(
-                                                      height: h * 0.025,
                                                       width: w * 0.2,
+                                                      height: h * 0.03,
                                                       decoration: BoxDecoration(
                                                         color: Colors.red,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(7),
+                                                                .circular(10),
                                                       ),
                                                     ),
                                                   ],
@@ -602,8 +611,10 @@ class _CartScreenState extends State<CartScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CommonHeadlineText(
-                                              title: "Checkout"),
+                                          CommonHeadlineText(
+                                            title: AppLocalizations.of(context)!
+                                                .checkout,
+                                          ),
                                           GestureDetector(
                                             onTap: () {
                                               Navigator.pop(context);
@@ -624,12 +635,16 @@ class _CartScreenState extends State<CartScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const CommonChechoutExpansion(
-                                            title: "Delivery",
-                                            subTitle: "Select Method",
+                                          CommonChechoutExpansion(
+                                            title: AppLocalizations.of(context)!
+                                                .delivery,
+                                            subTitle:
+                                                AppLocalizations.of(context)!
+                                                    .selectMethod,
                                           ),
                                           CommonChechoutExpansion(
-                                            title: "Payment",
+                                            title: AppLocalizations.of(context)!
+                                                .payment,
                                             widget: Container(
                                               height: h * 0.04,
                                               width: w * 0.11,
@@ -644,12 +659,16 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                             ),
                                           ),
-                                          const CommonChechoutExpansion(
-                                            title: "Promo Code",
-                                            subTitle: "Pick discount",
+                                          CommonChechoutExpansion(
+                                            title: AppLocalizations.of(context)!
+                                                .promoCode,
+                                            subTitle:
+                                                AppLocalizations.of(context)!
+                                                    .pickDiscount,
                                           ),
                                           CommonChechoutExpansion(
-                                            title: "Total Cost",
+                                            title: AppLocalizations.of(context)!
+                                                .totalCost,
                                             subTitle:
                                                 "\$ ${totalPrice.toStringAsFixed(2)}",
                                           ),
@@ -660,28 +679,32 @@ class _CartScreenState extends State<CartScreen> {
                                               text: TextSpan(
                                                 children: [
                                                   TextSpan(
-                                                    text:
-                                                        "By placing an order you agree to our",
+                                                    text: AppLocalizations.of(
+                                                            context)!
+                                                        .cartCheckoutDesc,
                                                     style: TextStyle(
                                                       color:
                                                           Colors.grey.shade600,
                                                     ),
                                                   ),
                                                   TextSpan(
-                                                    text: "  Terms",
+                                                    text:
+                                                        "  ${AppLocalizations.of(context)!.terms}",
                                                     style: TextStyle(
                                                       color: Globals.greenColor,
                                                     ),
                                                   ),
                                                   TextSpan(
-                                                    text: "  And",
+                                                    text:
+                                                        "  ${AppLocalizations.of(context)!.and}",
                                                     style: TextStyle(
                                                       color:
                                                           Colors.grey.shade600,
                                                     ),
                                                   ),
                                                   TextSpan(
-                                                    text: "  Conditions",
+                                                    text:
+                                                        "  ${AppLocalizations.of(context)!.conditions}",
                                                     style: TextStyle(
                                                       color: Globals.greenColor,
                                                     ),
@@ -784,7 +807,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       (BuildContext context) {
                                                     return AlertDialog(
                                                       title: Container(
-                                                        height: h / 1.7,
+                                                        // height: h / 1.7,
                                                         width: w * 8,
                                                         decoration:
                                                             BoxDecoration(
@@ -820,9 +843,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                         top: h *
                                                                             0.04),
                                                                     child:
-                                                                        const CommonTitleText(
-                                                                      title:
-                                                                          "Oops! Order Failed",
+                                                                        CommonTitleText(
+                                                                      title: AppLocalizations.of(
+                                                                              context)!
+                                                                          .oopsOrderFailed,
                                                                     ),
                                                                   ),
                                                                   Padding(
@@ -831,8 +855,9 @@ class _CartScreenState extends State<CartScreen> {
                                                                             0.02),
                                                                     child:
                                                                         CommonSmallBodyText(
-                                                                      text:
-                                                                          "Something went tembly wrong.",
+                                                                      text: AppLocalizations.of(
+                                                                              context)!
+                                                                          .somethingWentTemblyWrong,
                                                                       color: Colors
                                                                           .grey
                                                                           .shade700,
@@ -850,9 +875,9 @@ class _CartScreenState extends State<CartScreen> {
                                                                             context);
                                                                       },
                                                                       child:
-                                                                          const CommonActionButton(
-                                                                        name:
-                                                                            "Please Try Again",
+                                                                          CommonActionButton(
+                                                                        name: AppLocalizations.of(context)!
+                                                                            .pleaseTryAgain,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -872,10 +897,11 @@ class _CartScreenState extends State<CartScreen> {
                                                                                 false);
                                                                       },
                                                                       child:
-                                                                          const Text(
-                                                                        "Back to home",
+                                                                          Text(
+                                                                        AppLocalizations.of(context)!
+                                                                            .backToHome,
                                                                         style:
-                                                                            TextStyle(
+                                                                            const TextStyle(
                                                                           fontSize:
                                                                               18,
                                                                         ),
@@ -892,8 +918,10 @@ class _CartScreenState extends State<CartScreen> {
                                                   },
                                                 );
                                               },
-                                              child: const CommonActionButton(
-                                                name: "Place Order",
+                                              child: CommonActionButton(
+                                                name: AppLocalizations.of(
+                                                        context)!
+                                                    .placeOrder,
                                               ),
                                             ),
                                           ),
@@ -907,8 +935,8 @@ class _CartScreenState extends State<CartScreen> {
                           },
                         );
                       },
-                      child: const CommonActionButton(
-                        name: "Go to Checkout",
+                      child: CommonActionButton(
+                        name: AppLocalizations.of(context)!.goToCheckout,
                       ),
                     ),
                     Positioned(
@@ -935,351 +963,6 @@ class _CartScreenState extends State<CartScreen> {
             ),
         ],
       ),
-      // floatingActionButton: (dataEmpty)
-      //     ? null
-      //     : Padding(
-      //         padding: EdgeInsets.only(left: w * 0.08),
-      //         child: Stack(
-      //           children: [
-      //             GestureDetector(
-      //               onTap: () {
-      //                 showModalBottomSheet<void>(
-      //                   context: context,
-      //                   builder: (BuildContext context) {
-      //                     return Container(
-      //                       height: h / 2,
-      //                       decoration: BoxDecoration(
-      //                           borderRadius: BorderRadius.circular(5)),
-      //                       child: Padding(
-      //                         padding: EdgeInsets.only(
-      //                           top: h * 0.03,
-      //                           bottom: h * 0.03,
-      //                         ),
-      //                         child: Column(
-      //                           mainAxisSize: MainAxisSize.min,
-      //                           children: [
-      //                             Padding(
-      //                               padding: EdgeInsets.only(
-      //                                 left: w * 0.06,
-      //                                 right: w * 0.06,
-      //                                 bottom: h * 0.02,
-      //                               ),
-      //                               child: Row(
-      //                                 mainAxisAlignment:
-      //                                     MainAxisAlignment.spaceBetween,
-      //                                 children: [
-      //                                   const CommonHeadlineText(
-      //                                       title: "Checkout"),
-      //                                   GestureDetector(
-      //                                     onTap: () {
-      //                                       Navigator.pop(context);
-      //                                     },
-      //                                     child:
-      //                                         const Icon(Icons.close_rounded),
-      //                                   ),
-      //                                 ],
-      //                               ),
-      //                             ),
-      //                             const Divider(),
-      //                             Padding(
-      //                               padding: EdgeInsets.only(
-      //                                 left: w * 0.06,
-      //                                 right: w * 0.06,
-      //                               ),
-      //                               child: Column(
-      //                                 crossAxisAlignment:
-      //                                     CrossAxisAlignment.start,
-      //                                 children: [
-      //                                   const CommonChechoutExpansion(
-      //                                     title: "Delivery",
-      //                                     subTitle: "Select Method",
-      //                                   ),
-      //                                   CommonChechoutExpansion(
-      //                                     title: "Payment",
-      //                                     widget: Container(
-      //                                       height: h * 0.04,
-      //                                       width: w * 0.11,
-      //                                       decoration: BoxDecoration(
-      //                                         borderRadius:
-      //                                             BorderRadius.circular(10),
-      //                                         image: const DecorationImage(
-      //                                           image: NetworkImage(
-      //                                               "https://cdn.vox-cdn.com/thumbor/FtAV-Waa1rTPheAkxv3o4i0MVf0=/0x0:1000x1000/1200x800/filters:focal(421x430:581x590)/cdn.vox-cdn.com/uploads/chorus_image/image/62800797/Mastercard_logo.0.jpg"),
-      //                                           fit: BoxFit.cover,
-      //                                         ),
-      //                                       ),
-      //                                     ),
-      //                                   ),
-      //                                   const CommonChechoutExpansion(
-      //                                     title: "Promo Code",
-      //                                     subTitle: "Pick discount",
-      //                                   ),
-      //                                   CommonChechoutExpansion(
-      //                                     title: "Total Cost",
-      //                                     subTitle:
-      //                                         "\$ ${totalPrice.toStringAsFixed(2)}",
-      //                                   ),
-      //                                   Padding(
-      //                                     padding:
-      //                                         EdgeInsets.only(top: h * 0.01),
-      //                                     child: RichText(
-      //                                       text: TextSpan(
-      //                                         children: [
-      //                                           TextSpan(
-      //                                             text:
-      //                                                 "By placing an order you agree to our",
-      //                                             style: TextStyle(
-      //                                               color: Colors.grey.shade600,
-      //                                             ),
-      //                                           ),
-      //                                           TextSpan(
-      //                                             text: "  Terms",
-      //                                             style: TextStyle(
-      //                                               color: Globals.greenColor,
-      //                                             ),
-      //                                           ),
-      //                                           TextSpan(
-      //                                             text: "  And",
-      //                                             style: TextStyle(
-      //                                               color: Colors.grey.shade600,
-      //                                             ),
-      //                                           ),
-      //                                           TextSpan(
-      //                                             text: "  Conditions",
-      //                                             style: TextStyle(
-      //                                               color: Globals.greenColor,
-      //                                             ),
-      //                                           ),
-      //                                         ],
-      //                                       ),
-      //                                     ),
-      //                                   ),
-      //                                   Padding(
-      //                                     padding:
-      //                                         EdgeInsets.only(top: h * 0.02),
-      //                                     child: GestureDetector(
-      //                                       onTap: () async {
-      //                                         CommonShowDialog.show(
-      //                                             context: context);
-      //                                         var productData;
-      //                                         var data = await FirestoreHelper
-      //                                             .firestoreHelper
-      //                                             .getCartData(uid: userId);
-      //                                         productData = data.docs;
-      //                                         var dt = DateTime.now();
-      //                                         String time =
-      //                                             "${dt.year}:${dt.month}:${dt.day} ${dt.hour}:${dt.minute}:${dt.second}";
-      //                                         Map<String, dynamic> orders = {
-      //                                           'id': time,
-      //                                           'date':
-      //                                               DateFormat("MMMM, dd, yyyy")
-      //                                                   .format(DateTime.now())
-      //                                                   .toString(),
-      //                                           'items': productData.length,
-      //                                           'total_price': totalPrice
-      //                                               .toStringAsFixed(2),
-      //                                         };
-      //                                         await FirestoreHelper
-      //                                             .firestoreHelper
-      //                                             .insertOrder(
-      //                                           time: time,
-      //                                           uid: userId,
-      //                                           orders: orders,
-      //                                         );
-      //                                         // Insert Records
-      //                                         for (int index = 0;
-      //                                             index < productData.length;
-      //                                             index++) {
-      //                                           await FirestoreHelper
-      //                                               .firestoreHelper
-      //                                               .deleteParticularCartData(
-      //                                                   uid: userId,
-      //                                                   id: productData[index]
-      //                                                       .data()['id']);
-      //                                           await FirestoreHelper
-      //                                               .firestoreHelper
-      //                                               .insertProductOfOrder(
-      //                                             uid: userId,
-      //                                             productId: productData[index]
-      //                                                 .data()['id'],
-      //                                             image: productData[index]
-      //                                                 .data()['image1'],
-      //                                             name: productData[index]
-      //                                                 .data()['name'],
-      //                                             price: productData[index]
-      //                                                 .data()['price']
-      //                                                 .toString(),
-      //                                             quantity: productData[index]
-      //                                                 .data()['quantity']
-      //                                                 .toString(),
-      //                                             orderId: time,
-      //                                             date: DateFormat(
-      //                                                     "MMMM, dd, yyyy")
-      //                                                 .format(DateTime.now())
-      //                                                 .toString(),
-      //                                           );
-      //                                         }
-      //                                         CommonShowDialog.close(
-      //                                             context: context);
-      //                                         Navigator.pushNamed(
-      //                                           context,
-      //                                           ScreensPath.orderAcceptedScreen,
-      //                                         );
-      //                                       },
-      //                                       onLongPress: () {
-      //                                         Navigator.pop(context);
-      //                                         showDialog(
-      //                                           context: context,
-      //                                           barrierDismissible: false,
-      //                                           builder:
-      //                                               (BuildContext context) {
-      //                                             return AlertDialog(
-      //                                               title: Container(
-      //                                                 height: h / 1.7,
-      //                                                 width: w * 8,
-      //                                                 decoration: BoxDecoration(
-      //                                                   borderRadius:
-      //                                                       BorderRadius
-      //                                                           .circular(15),
-      //                                                 ),
-      //                                                 child: Column(
-      //                                                   crossAxisAlignment:
-      //                                                       CrossAxisAlignment
-      //                                                           .start,
-      //                                                   children: [
-      //                                                     GestureDetector(
-      //                                                       onTap: () {
-      //                                                         Navigator.pop(
-      //                                                             context);
-      //                                                       },
-      //                                                       child: const Icon(
-      //                                                           Icons.close),
-      //                                                     ),
-      //                                                     Padding(
-      //                                                       padding:
-      //                                                           EdgeInsets.only(
-      //                                                               top: h *
-      //                                                                   0.01),
-      //                                                       child: Column(
-      //                                                         children: [
-      //                                                           Image.asset(
-      //                                                               ImagesPath
-      //                                                                   .error),
-      //                                                           Padding(
-      //                                                             padding: EdgeInsets.only(
-      //                                                                 top: h *
-      //                                                                     0.04),
-      //                                                             child:
-      //                                                                 const CommonTitleText(
-      //                                                               title:
-      //                                                                   "Oops! Order Failed",
-      //                                                             ),
-      //                                                           ),
-      //                                                           Padding(
-      //                                                             padding: EdgeInsets.only(
-      //                                                                 top: h *
-      //                                                                     0.02),
-      //                                                             child:
-      //                                                                 CommonSmallBodyText(
-      //                                                               text:
-      //                                                                   "Something went tembly wrong.",
-      //                                                               color: Colors
-      //                                                                   .grey
-      //                                                                   .shade700,
-      //                                                             ),
-      //                                                           ),
-      //                                                           Padding(
-      //                                                             padding: EdgeInsets.only(
-      //                                                                 top: h *
-      //                                                                     0.06),
-      //                                                             child:
-      //                                                                 GestureDetector(
-      //                                                               onTap: () {
-      //                                                                 Navigator.pop(
-      //                                                                     context);
-      //                                                               },
-      //                                                               child:
-      //                                                                   const CommonActionButton(
-      //                                                                 name:
-      //                                                                     "Please Try Again",
-      //                                                               ),
-      //                                                             ),
-      //                                                           ),
-      //                                                           Padding(
-      //                                                             padding: EdgeInsets.only(
-      //                                                                 top: h *
-      //                                                                     0.02),
-      //                                                             child:
-      //                                                                 GestureDetector(
-      //                                                               onTap: () {
-      //                                                                 Navigator.pushNamedAndRemoveUntil(
-      //                                                                     context,
-      //                                                                     ScreensPath
-      //                                                                         .homeScreen,
-      //                                                                     (route) =>
-      //                                                                         false);
-      //                                                               },
-      //                                                               child:
-      //                                                                   const Text(
-      //                                                                 "Back to home",
-      //                                                                 style:
-      //                                                                     TextStyle(
-      //                                                                   fontSize:
-      //                                                                       18,
-      //                                                                 ),
-      //                                                               ),
-      //                                                             ),
-      //                                                           ),
-      //                                                         ],
-      //                                                       ),
-      //                                                     ),
-      //                                                   ],
-      //                                                 ),
-      //                                               ),
-      //                                             );
-      //                                           },
-      //                                         );
-      //                                       },
-      //                                       child: const CommonActionButton(
-      //                                         name: "Place Order",
-      //                                       ),
-      //                                     ),
-      //                                   ),
-      //                                 ],
-      //                               ),
-      //                             ),
-      //                           ],
-      //                         ),
-      //                       ),
-      //                     );
-      //                   },
-      //                 );
-      //               },
-      //               child: const CommonActionButton(
-      //                 name: "Go to Checkout",
-      //               ),
-      //             ),
-      //             Positioned(
-      //               left: w * 0.67,
-      //               top: h * 0.021,
-      //               child: Container(
-      //                 height: h * 0.028,
-      //                 width: w * 0.2,
-      //                 alignment: Alignment.center,
-      //                 decoration: BoxDecoration(
-      //                   color: Colors.transparent.withOpacity(0.2),
-      //                   borderRadius: BorderRadius.circular(5),
-      //                 ),
-      //                 child: Text(
-      //                   "  \$ ${totalPrice.toStringAsFixed(2)}  ",
-      //                   style: const TextStyle(color: Colors.white),
-      //                   overflow: TextOverflow.ellipsis,
-      //                 ),
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
     );
   }
 }

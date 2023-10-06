@@ -13,6 +13,7 @@ import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});
@@ -77,14 +78,16 @@ class _LocationScreenState extends State<LocationScreen> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: h * 0.04),
-                                child: const CommonTitleText(
-                                    title: "Select Your Location"),
+                                child: CommonTitleText(
+                                  title: AppLocalizations.of(context)!
+                                      .selectYourLocation,
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: h * 0.01),
                                 child: CommonSmallBodyText(
-                                  text:
-                                      "Swithch on your location to stay in tune with what's happning in your area",
+                                  text: AppLocalizations.of(context)!
+                                      .locationDesc,
                                   color: Colors.grey.shade700,
                                   align: TextAlign.center,
                                 ),
@@ -92,7 +95,9 @@ class _LocationScreenState extends State<LocationScreen> {
                             ],
                           ),
                         ),
-                        const CommonBodyText(text: "Your Location"),
+                        CommonBodyText(
+                          text: AppLocalizations.of(context)!.yourLocation,
+                        ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.01),
                           child: GestureDetector(
@@ -107,14 +112,17 @@ class _LocationScreenState extends State<LocationScreen> {
                                 setState(() {});
                               } else {
                                 CommonScaffoldMessenger.failed(
-                                    context: context,
-                                    message: 'Check Internet Connection');
+                                  context: context,
+                                  message: AppLocalizations.of(context)!
+                                      .checkInternetConnection,
+                                );
                               }
                             },
                             child: Card(
                               child: ListTile(
                                 title: Text(
-                                  userData['location'] ?? "Get Location",
+                                  userData['location'] ??
+                                      AppLocalizations.of(context)!.getLocation,
                                   style: const TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -150,16 +158,22 @@ class _LocationScreenState extends State<LocationScreen> {
                                       ScreensPath.homeScreen, (route) => false);
                                 } else {
                                   CommonScaffoldMessenger.failed(
-                                      context: context,
-                                      message: "Please select location.....");
+                                    context: context,
+                                    message: AppLocalizations.of(context)!
+                                        .selectYourLocation,
+                                  );
                                 }
                               } else {
                                 CommonScaffoldMessenger.failed(
-                                    context: context,
-                                    message: 'Check Internet Connection');
+                                  context: context,
+                                  message: AppLocalizations.of(context)!
+                                      .checkInternetConnection,
+                                );
                               }
                             },
-                            child: const CommonActionButton(name: "Submit"),
+                            child: CommonActionButton(
+                              name: AppLocalizations.of(context)!.submit,
+                            ),
                           ),
                         ),
                       ],

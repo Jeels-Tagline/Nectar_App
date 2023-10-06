@@ -14,6 +14,7 @@ import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -212,8 +213,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             );
                             CommonShowDialog.close(context: context);
                             CommonScaffoldMessenger.success(
-                                context: context,
-                                message: "Product add to Favourite.....");
+                              context: context,
+                              message: AppLocalizations.of(context)!
+                                  .productAddedToFavourite,
+                            );
 
                             setState(() {
                               favorite = true;
@@ -229,8 +232,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 context: NavKey.navKey.currentContext!);
 
                             CommonScaffoldMessenger.failed(
-                                context: context,
-                                message: "Product remove from Favourite.....");
+                              context: context,
+                              message: AppLocalizations.of(context)!
+                                  .productRemoveFromFavourite,
+                            );
 
                             setState(() {
                               favorite = false;
@@ -313,7 +318,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         },
                         title: Transform.translate(
                           offset: Offset(w * -0.04, 0),
-                          child: const Text("Product Detail"),
+                          child: Text(
+                            AppLocalizations.of(context)!.productDetail,
+                          ),
                         ),
                         trailing: Transform.translate(
                           offset: Offset(w * 0.05, 0),
@@ -336,7 +343,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: ExpansionTile(
                       title: Transform.translate(
                         offset: Offset(w * -0.04, 0),
-                        child: const Text("Nutritions"),
+                        child: Text(
+                          AppLocalizations.of(context)!.nutritions,
+                        ),
                       ),
                       trailing: Transform.translate(
                         offset: Offset(w * 0.05, 0),
@@ -370,7 +379,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: ExpansionTile(
                       title: Transform.translate(
                         offset: Offset(w * -0.04, 0),
-                        child: const Text("Review"),
+                        child: Text(
+                          AppLocalizations.of(context)!.review,
+                        ),
                       ),
                       trailing: Transform.translate(
                         offset: Offset(w * 0.05, 0),
@@ -395,38 +406,40 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.04),
                     child: GestureDetector(
-                        onTap: () async {
-                          CommonShowDialog.show(context: context);
+                      onTap: () async {
+                        CommonShowDialog.show(context: context);
 
-                          Map<String, dynamic> data = {
-                            'id': productData.id,
-                            'name': productData.name,
-                            'subTitle': productData.subTitle,
-                            'price': productData.price,
-                            'detail': productData.detail,
-                            'nutrition': productData.nutrition,
-                            'review': productData.review,
-                            'type': productData.type,
-                            'image1': productData.image1,
-                            'image2': productData.image2,
-                            'image3': productData.image3,
-                            'quantity': productData.quantity ?? 1,
-                          };
+                        Map<String, dynamic> data = {
+                          'id': productData.id,
+                          'name': productData.name,
+                          'subTitle': productData.subTitle,
+                          'price': productData.price,
+                          'detail': productData.detail,
+                          'nutrition': productData.nutrition,
+                          'review': productData.review,
+                          'type': productData.type,
+                          'image1': productData.image1,
+                          'image2': productData.image2,
+                          'image3': productData.image3,
+                          'quantity': productData.quantity ?? 1,
+                        };
 
-                          // TODO : Add in box
-                          // await boxCart.add(productData);
+                        await FirestoreHelper.firestoreHelper.insertCartData(
+                          uid: UserData.uid,
+                          productData: data,
+                        );
+                        CommonShowDialog.close(context: context);
 
-                          await FirestoreHelper.firestoreHelper.insertCartData(
-                            uid: UserData.uid,
-                            productData: data,
-                          );
-                          CommonShowDialog.close(context: context);
-
-                          CommonScaffoldMessenger.success(
-                              context: context,
-                              message: "Product add to bag.....");
-                        },
-                        child: const CommonActionButton(name: "Add To Basket")),
+                        CommonScaffoldMessenger.success(
+                          context: context,
+                          message:
+                              AppLocalizations.of(context)!.productAddedToCart,
+                        );
+                      },
+                      child: CommonActionButton(
+                        name: AppLocalizations.of(context)!.addToBasket,
+                      ),
+                    ),
                   ),
                 ],
               ),

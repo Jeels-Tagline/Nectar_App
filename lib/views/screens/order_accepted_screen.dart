@@ -5,6 +5,7 @@ import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_auth_background.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderAcceptedScreen extends StatefulWidget {
   const OrderAcceptedScreen({super.key});
@@ -32,16 +33,16 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                   Image.asset(ImagesPath.success),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.08),
-                    child: const CommonTitleText(
-                      title: "Your Order has been\n accepted",
+                    child: CommonTitleText(
+                      title: AppLocalizations.of(context)!
+                          .yourOrderHasBeenAccepted,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.04),
-                    child: const CommonSmallBodyText(
-                      text:
-                          "Your items has been placed and is on it's way to begin processed",
+                    child: CommonSmallBodyText(
+                      text: AppLocalizations.of(context)!.orderAcceptDesc,
                       color: Colors.grey,
                       align: TextAlign.center,
                     ),
@@ -53,8 +54,8 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                         Navigator.pushNamedAndRemoveUntil(
                             context, ScreensPath.homeScreen, (route) => false);
                       },
-                      child: const CommonActionButton(
-                        name: "Track Order",
+                      child: CommonActionButton(
+                        name: AppLocalizations.of(context)!.trackOrder,
                       ),
                     ),
                   ),
@@ -65,9 +66,9 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                         Navigator.pushNamedAndRemoveUntil(
                             context, ScreensPath.homeScreen, (route) => false);
                       },
-                      child: const Text(
-                        "Back to home",
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.backToHome,
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
-import 'package:nectar_app/models/globals/boxes.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/models/product_models.dart';
@@ -10,6 +9,7 @@ import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/views/components/common_product.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -45,17 +45,19 @@ class _SearchScreenState extends State<SearchScreen> {
       filterShowList.clear();
       for (var e in filterList) {
         var name = e.name.toString().toLowerCase();
-        if (name.contains(search.toLowerCase())) {
-          filterShowList.add(e);
+        if (name[0] == search[0].toLowerCase()) {
+          if (name.contains(search.toLowerCase())) {
+            filterShowList.add(e);
+          }
         }
       }
-      print("============ Filter Data");
     } else {
-      print("============ All Data");
       for (var e in listOfAllData) {
         var name = e.name.toString().toLowerCase();
-        if (name.contains(search.toLowerCase())) {
-          searchList.add(e);
+        if (name[0] == search[0].toLowerCase()) {
+          if (name.contains(search.toLowerCase())) {
+            searchList.add(e);
+          }
         }
       }
     }
@@ -83,8 +85,8 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     // getUserId();
-    listOfAllData =
-        boxListOfProduct.get(0, defaultValue: [])?.cast<HiveProductModel>();
+    listOfAllData = Globals.boxListOfProduct
+        .get(0, defaultValue: [])?.cast<HiveProductModel>();
 
     setSearchList();
   }
@@ -97,8 +99,8 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: EdgeInsets.only(
-            top: h * 0.04, bottom: h * 0.02, left: w * 0.04, right: w * 0.04),
+        padding:
+            EdgeInsets.only(top: h * 0.04, left: w * 0.04, right: w * 0.04),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -148,7 +150,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 }
                                 return null;
                               },
-                              hineText: "Search Store",
+                              hineText:
+                                  AppLocalizations.of(context)!.searchStore,
                               inputBorder: InputBorder.none,
                             ),
                           ),

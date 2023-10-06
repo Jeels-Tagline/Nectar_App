@@ -1,0 +1,518 @@
+{
+    "language" : "English",
+    "@language": {
+        "description" : "The Curret Language"
+    },
+    "shop" : "Shop",
+    "@shop": {
+        "description" : "Main Page shop"
+    },
+    "explore" : "Explore",
+    "@explore": {
+        "description" : "Main Page explore"
+    },
+    "cart" : "Cart",
+    "@cart": {
+        "description" : "Main Page cart"
+    },
+    "favourite" : "Favourite",
+    "@favourite": {
+        "description" : "Main Page favourite"
+    },
+    "account" : "Account",
+    "@account": {
+        "description" : "Main Page account"
+    },
+    "exclusiveOffer" : "Exclusive Offer",
+    "@exclusiveOffer": {
+        "description" : "Main Page exclusive offer"
+    },
+    "bestSelling" : "Best Selling",
+    "@bestSelling": {
+        "description" : "Main Page best selling"
+    },
+    "groceries" : "Groceries",
+    "@groceries": {
+        "description" : "Main Page groceries"
+    },
+    "seeAll" : "See all",
+    "@seeAll": {
+        "description" : "Main Page see all"
+    },
+    "fruit" : "Fruit",
+    "@fruit": {
+        "description" : "Main Page fruit"
+    },
+    "vegetable" : "Vegetable",
+    "@vegetable": {
+        "description" : "Main Page vegetable"
+    },
+    "bakery" : "Bakery",
+    "@bakery": {
+        "description" : "Main Page bakery"
+    },
+    "baverage" : "baverage",
+    "@baverage": {
+        "description" : "Main Page baverage"
+    },
+    "pulses" : "Pulses",
+    "@pulses": {
+        "description" : "Main Page pulses"
+    },
+    "rices" : "Rices",
+    "@rices": {
+        "description" : "Main Page rices"
+    },
+    "findProducts" : "Find products",
+    "@findProducts": {
+        "description" : "Explore Page findProducts"
+    },
+    "searchStore" : "Search Store",
+    "@searchStore": {
+        "description" : "Explore Page searchStore"
+    },
+    "myCart" : "My Cart",
+    "@myCart": {
+        "description" : "Cart Page myCart"
+    },
+    "goToCheckout" : "Go to Checkout",
+    "@goToCheckout": {
+        "description" : "Cart Page goToCheckout"
+    },
+    "cartIsEmpty" : "Cart Is Empty",
+    "@cartIsEmpty": {
+        "description" : "Cart Page cartIsEmpty"
+    },
+    "myFavourite" : "My Favourite",
+    "@myFavourite": {
+        "description" : "Favourite Page myFavourite"
+    },
+    "favouriteIsEmpty" : "Favourite Is Empty",
+    "@favouriteIsEmpty": {
+        "description" : "Favourite Page favouriteIsEmpty"
+    },
+    "addAllToCart" : "Add all to Cart",
+    "@addAllToCart": {
+        "description" : "Favourite Page addAllToCart"
+    },
+    "nectar" : "nectar",
+    "@nectar": {
+        "description" : "App Name nectar"
+    },
+    "onlineGroceries" : "online groceries",
+    "@onlineGroceries": {
+        "description" : "Splash Page onlineGroceries"
+    },
+    "welcome" : "Welcome",
+    "@welcome": {
+        "description" : "On ording Page welcome"
+    },
+    "toOurStore" : "to our store",
+    "@toOurStore": {
+        "description" : "On ording Page toOurStore"
+    },
+    "onBordingDesc" : "Get your groceries in as fast as one hour",
+    "@onBordingDesc": {
+        "description" : "On ording Page onBordingDesc"
+    },
+    "getStarted" : "Get Started",
+    "@getStarted": {
+        "description" : "On ording Page getStarted"
+    },
+    "getYourGroceries" : "Get your groceries",
+    "@getYourGroceries": {
+        "description" : "Login Page getYourGroceries"
+    },
+    "withNectar" : "with nectar",
+    "@withNectar": {
+        "description" : "Login Page withNectar"
+    },
+    "phone" : "Phone",
+    "@phone": {
+        "description" : "Login Page phone"
+    },
+    "email" : "Email",
+    "@email": {
+        "description" : "Login Page email"
+    },
+    "orConnectLogin" : "Or connect with social media",
+    "@orConnectLogin": {
+        "description" : "Login Page orConnect"
+    },
+    "continueWithGoogle" : "Continue with Google",
+    "@continueWithGoogle": {
+        "description" : "Login Page continueWithGoogle"
+    },
+    "continueWithFacebook" : "Continue with Facebook",
+    "@continueWithFacebook": {
+        "description" : "Login Page continueWithFacebook"
+    },
+    "enterYourMobileNumber" : "Enter your mobile number",
+    "@enterYourMobileNumber": {
+        "description" : "Number Page enterYourMobileNumber"
+    },
+    "username" : "Username",
+    "@username": {
+        "description" : "Login Page username"
+    },
+    "checkInternetConnection" : "Check Internet Connection",
+    "@checkInternetConnection": {
+        "description" : "Phone Page checkInternetConnection"
+    },
+    "loginSuccesfully" : "Login Successfully",
+    "@loginSuccesfully": {
+        "description" : "Phone Page loginSuccesfully"
+    },
+    "loginFailed" : "Login Failed",
+    "@loginFailed": {
+        "description" : "Phone Page loginFailed"
+    },
+    "somethingWrong" : "Something went wrong",
+    "@somethingWrong": {
+        "description" : "Signin Page somethingWrong"
+    },
+    "pleaseEnterPhoneNumber" : "Please enter a phone number",
+    "@pleaseEnterPhoneNumber": {
+        "description" : "Phone Page pleaseEnterPhoneNumber"
+    },
+    "enterValidPhoneNumber" : "Enter a valid phone number",
+    "@enterValidPhoneNumber": {
+        "description" : "Phone Page enterValidPhoneNumber"
+    },
+    "enterYourUsername" : "Enter your Username",
+    "@enterYourUsername": {
+        "description" : "Phone Page enterYourUsername"
+    },
+    "enterMinimum7Character" : "Enter minimum 7 character",
+    "@enterMinimum7Character": {
+        "description" : "Phone Page enterMinimum7Character"
+    },
+    "enterYour6DigitCode" : "Enter your 6-digit code",
+    "@enterYour6DigitCode": {
+        "description" : "Phone Auth Page enterYour6DigitCode"
+    },
+    "code" : "Code",
+    "@code": {
+        "description" : "Phone Auth Page code"
+    },
+    "enterOtp" : "Enter OTP",
+    "@enterOtp": {
+        "description" : "Phone Auth Page enterOtp"
+    },
+    "enterValidOtp" : "Enter Valid OTP",
+    "@enterValidOtp": {
+        "description" : "Phone Auth Page enterValidOtp"
+    },
+    "reset" : "Reset",
+    "@reset": {
+        "description" : "Phone Auth Page reset"
+    },
+    "resetOtpIn" : "Reset OTP in",
+    "@resetOtpIn": {
+        "description" : "Phone Auth Page resetOtpIn"
+    },
+    "signIn" : "Sign In",
+    "@signIn": {
+        "description" : "Signin Page signIn"
+    },
+    "enterYourEmailAndPassword" : "Enter your email and password",
+    "@enterYourEmailAndPassword": {
+        "description" : "Signin Page enterYourEmailAndPassword"
+    },
+    "password" : "Password",
+    "@password": {
+        "description" : "Signin Page password"
+    },
+    "enterYourEmail" : "Enter your email",
+    "@enterYourEmail": {
+        "description" : "Signin Page enterYourEmail"
+    },
+    "enterYourPassword" : "Enter your password",
+    "@enterYourPassword": {
+        "description" : "Signin Page enterYourPassword"
+    },
+    "enterMinimum6CharacterPassword" : "Enter Minimum 6 character password",
+    "@enterMinimum6CharacterPassword": {
+        "description" : "Signin Page enterMinimum6CharacterPassword"
+    },
+    "forgotPassword" : "Forgot password?",
+    "@forgotPassword": {
+        "description" : "Signin Page forgotPassword"
+    },
+    "dontHaveAnAccount" : "Don't have an account?",
+    "@dontHaveAnAccount": {
+        "description" : "Signin Page dontHaveAnAccount"
+    },
+    "signUp" : "Sign Up",
+    "@signUp": {
+        "description" : "Signin Page signUp"
+    },
+    "checkYourEmailAndResetPassword" : "Check your email and reset password",
+    "@checkYourEmailAndResetPassword": {
+        "description" : "Signin Page checkYourEmailAndResetPassword"
+    },
+    "enterYourCredentialsToContinue" : "Enter your credentials to continue",
+    "@enterYourCredentialsToContinue": {
+        "description" : "SignUp Page enterYourCredentialsToContinue"
+    },
+    "byContinueYouAgreeToOur" : "By continuing you agree to our",
+    "@byContinueYouAgreeToOur": {
+        "description" : "SignUp Page byContinueYouAgreeToOur"
+    },
+    "termsOfService" : "Terms of Service",
+    "@termsOfService": {
+        "description" : "SignUp Page termsOfService"
+    },
+    "and" : "and",
+    "@and": {
+        "description" : "SignUp Page and"
+    },
+    "privacyPolicy" : "Privacy Policy",
+    "@privacyPolicy": {
+        "description" : "SignUp Page privacyPolicy"
+    },
+    "signUpSuccessfully" : "Signup Successfully",
+    "@signUpSuccessfully": {
+        "description" : "SignUp Page signUpSuccessfully"
+    },
+    "signUpFailed" : "Signup Failed",
+    "@signUpFailed": {
+        "description" : "SignUp Page signUpFailed"
+    },
+    "alredyHaveAnAccount" : "Already have an account?",
+    "@alredyHaveAnAccount": {
+        "description" : "SignUp Page alredyHaveAnAccount"
+    },
+    "selectYourLocation" : "Select Your Location",
+    "@selectYourLocation": {
+        "description" : "Location Page selectYourLocation"
+    },
+    "locationDesc" : "Swithch on your location to stay in tune with what's happning in your area",
+    "@locationDesc": {
+        "description" : "Location Page locationDesc"
+    },
+    "yourLocation" : "Your Location",
+    "@yourLocation": {
+        "description" : "Location Page yourLocation"
+    },
+    "getLocation" : "Get Location",
+    "@getLocation": {
+        "description" : "Location Page getLocation"
+    },
+    "submit" : "Submit",
+    "@submit": {
+        "description" : "Location Page submit"
+    },
+    "location" : "Location",
+    "@location": {
+        "description" : "Get Location Page location"
+    },
+    "pleaseAllowLocationPermission" : "Please Allow Location Permission",
+    "@pleaseAllowLocationPermission": {
+        "description" : "Get Location Page pleaseAllowLocationPermission"
+    },
+    "setting" : "Setting",
+    "@setting": {
+        "description" : "Get Location Page setting"
+    },
+    "loading" : "Loading",
+    "@loading": {
+        "description" : "showDialog loading"
+    },
+    "productAddedToFavourite" : "Product added to Favourite",
+    "@productAddedToFavourite": {
+        "description" : "Product Detail screen productAddedToFavourite"
+    },
+    "productRemoveFromFavourite" : "Product removed from Favourite",
+    "@productRemoveFromFavourite": {
+        "description" : "Product Detail screen productRemoveFromFavourite"
+    },
+    "productDetail" : "Product Detail",
+    "@productDetail": {
+        "description" : "Product Detail screen productDetail"
+    },
+    "nutritions" : "Nutritions",
+    "@nutritions": {
+        "description" : "Product Detail screen nutritions"
+    },
+    "review" : "Review",
+    "@review": {
+        "description" : "Product Detail screen review"
+    },
+    "productAddedToCart" : "Product added to Cart",
+    "@productAddedToCart": {
+        "description" : "Product Detail screen productAddedToCart"
+    },
+    "addToBasket" : "Add To Basket",
+    "@addToBasket": {
+        "description" : "Product Detail screen addToBasket"
+    },
+    "myOrders" : "My Orders",
+    "@myOrders": {
+        "description" : "Order screen myOrders"
+    },
+    "orderIsEmpty" : "Order is Empty",
+    "@orderIsEmpty": {
+        "description" : "Order screen orderIsEmpty"
+    },
+    "orders" : "Orders",
+    "@orders": {
+        "description" : "Account screen orders"
+    },
+    "myDetails" : "My Details",
+    "@myDetails": {
+        "description" : "Account screen myDetails"
+    },
+    "deliveryAddress" : "Delivery Address",
+    "@deliveryAddress": {
+        "description" : "Account screen deliveryAddress"
+    },
+    "paymentMethods" : "Payment Methods",
+    "@paymentMethods": {
+        "description" : "Account screen paymentMethods"
+    },
+    "language" : "Language",
+    "@language": {
+        "description" : "Account screen language"
+    },
+    "notifications" : "Notifications",
+    "@notifications": {
+        "description" : "Account screen notifications"
+    },
+    "help" : "Help",
+    "@help": {
+        "description" : "Account screen help"
+    },
+    "about" : "About",
+    "@about": {
+        "description" : "Account screen about"
+    },
+    "logOut" : "Log Out",
+    "@logOut": {
+        "description" : "Account screen logOut"
+    },
+    "update" : "Update",
+    "@update": {
+        "description" : "Change User Info screen update"
+    },
+    "cancel" : "Cancel",
+    "@cancel": {
+        "description" : "Change User Info screen cancel"
+    },
+    "userDataUpdated" : "User Data Updated",
+    "@userDataUpdated": {
+        "description" : "Change User Info screen userDataUpdated"
+    },
+    "oopsOrderFailed" : "Oops! Order Failed",
+    "@oopsOrderFailed": {
+        "description" : "Order Faild screen oopsOrderFailed"
+    },
+    "somethingWentTemblyWrong" : "Something went tembly wrong.",
+    "@somethingWentTemblyWrong": {
+        "description" : "Order Faild screen somethingWentTemblyWrong"
+    },
+    "pleaseTryAgain" : "Please Try Again",
+    "@pleaseTryAgain": {
+        "description" : "Order Faild screen pleaseTryAgain"
+    },
+    "backToHome" : "Back to home",
+    "@backToHome": {
+        "description" : "Order Faild screen backToHome"
+    },
+    "checkout" : "Checkout",
+    "@checkout": {
+        "description" : "Cart screen checkout"
+    },
+    "delivery" : "Delivery",
+    "@delivery": {
+        "description" : "Cart screen delivery"
+    },
+    "payment" : "Payment",
+    "@payment": {
+        "description" : "Cart screen payment"
+    },
+    "promoCode" : "Promo Code",
+    "@promoCode": {
+        "description" : "Cart screen promoCode"
+    },
+    "pickDiscount" : "Pick Discount",
+    "@pickDiscount": {
+        "description" : "Cart screen pickDiscount"
+    },
+    "totalCost" : "Total Cost",
+    "@totalCost": {
+        "description" : "Cart screen totalCost"
+    },
+    "cartCheckoutDesc" : "By placing an order you agree to our",
+    "@cartCheckoutDesc": {
+        "description" : "Cart screen cartCheckoutDesc"
+    },
+    "terms" : "Terms",
+    "@terms": {
+        "description" : "Cart screen terms"
+    },
+    "conditions" : "Conditions",
+    "@conditions": {
+        "description" : "Cart screen conditions"
+    },
+    "placeOrder" : "Place Order",
+    "@placeOrder": {
+        "description" : "Cart screen placeOrder"
+    },
+    "selectMethod" : "Select Method",
+    "@selectMethod": {
+        "description" : "Cart screen selectMethod"
+    },
+    "yourOrderHasBeenAccepted" : "Your Order has been accepted",
+    "@yourOrderHasBeenAccepted": {
+        "description" : "Order Accept screen yourOrderHasBeenAccepted"
+    },
+    "orderAcceptDesc" : "Your items has been placed and is on it's way to begin processed",
+    "@orderAcceptDesc": {
+        "description" : "Order Accept screen orderAcceptDesc"
+    },
+    "trackOrder" : "Track Order",
+    "@trackOrder": {
+        "description" : "Order Accept screen trackOrder"
+    },
+    "filters" : "Filters",
+    "@filters": {
+        "description" : "Filter screen filters"
+    },
+    "categories" : "Categories",
+    "@categories": {
+        "description" : "Filter screen categories"
+    },
+    "apply" : "Apply",
+    "@apply": {
+        "description" : "Filter screen apply"
+    },
+    "english" : "English",
+    "@english": {
+        "description" : "Filter screen english"
+    },
+    "gujarati" : "Gujarati",
+    "@gujarati": {
+        "description" : "Filter screen gujarati"
+    },
+    "urdu" : "Urdu",
+    "@urdu": {
+        "description" : "Filter screen urdu"
+    },
+    "areYouSure" : "Are you sure",
+    "@areYouSure": {
+        "description" : "Willpop screen areYouSure"
+    },
+    "doYouWantCloseTheApp" : "Do you want close the app?",
+    "@doYouWantCloseTheApp": {
+        "description" : "Willpop screen doYouWantCloseTheApp"
+    },
+    "yes" : "Yes",
+    "@yes": {
+        "description" : "Willpop screen yes"
+    },
+    "no" : "No",
+    "@no": {
+        "description" : "Willpop screen no"
+    }
+}

@@ -7,6 +7,7 @@ import 'package:nectar_app/utils/user_data.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
@@ -41,8 +42,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: h * 0.07, bottom: h * 0.02),
-              child:
-                  const Center(child: CommonHeadlineText(title: "My Orders")),
+              child: Center(
+                  child: CommonHeadlineText(
+                title: AppLocalizations.of(context)!.myOrders,
+              )),
             ),
             const Divider(),
             FutureBuilder(
@@ -66,7 +69,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             color: Globals.greenColor,
                           ),
                           Text(
-                            "Order is empty",
+                            AppLocalizations.of(context)!.orderIsEmpty,
                             style: TextStyle(
                                 color: Globals.greenColor, fontSize: 25),
                           ),

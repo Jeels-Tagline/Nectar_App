@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommonShowDialog {
   // bool dismissible = false;
@@ -7,12 +8,14 @@ class CommonShowDialog {
       context: context,
       barrierDismissible: dismissible ?? false,
       builder: (BuildContext context) {
-        return const AlertDialog(
+        return AlertDialog(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Loading'),
-              CircularProgressIndicator(),
+              Text(
+                AppLocalizations.of(context)!.loading,
+              ),
+              const CircularProgressIndicator(),
             ],
           ),
         );

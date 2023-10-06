@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nectar_app/models/globals/boxes.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/images_path.dart';
@@ -27,8 +27,8 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
 
   setData({required String name}) {
     productData.clear();
-    listOfAllData =
-        boxListOfProduct.get(0, defaultValue: [])?.cast<HiveProductModel>();
+    listOfAllData = Globals.boxListOfProduct
+        .get(0, defaultValue: [])?.cast<HiveProductModel>();
     for (int i = 0; i < listOfAllData.length; i++) {
       if (listOfAllData[i].type == name.toLowerCase()) {
         productData.add(listOfAllData[i]);
@@ -47,8 +47,9 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    String name = ModalRoute.of(context)!.settings.arguments as String;
-    setData(name: name);
+    Map<String, dynamic> data =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    setData(name: data['name']);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -58,7 +59,7 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: EdgeInsets.only(right: w * 0.03),
+                padding: EdgeInsets.only(right: w * 0.00),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -68,8 +69,11 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
                       },
                       icon: const Icon(Icons.arrow_back_ios_new_rounded),
                     ),
-                    CommonHeadlineText(title: name),
-                    Image.asset(ImagesPath.filter),
+                    CommonHeadlineText(title: data['showTitle']),
+                    Padding(
+                      padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
+                      child: Image.asset(ImagesPath.filter),
+                    ),
                   ],
                 ),
               ),

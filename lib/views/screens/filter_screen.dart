@@ -4,6 +4,7 @@ import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
@@ -14,19 +15,46 @@ class FilterScreen extends StatefulWidget {
 
 class _FilterScreenState extends State<FilterScreen> {
   List<Map> filterCheckBox = [
-    {"type": "Fruit", "isChecked": false},
-    {"type": "Vegetable", "isChecked": false},
-    {"type": "Bakery", "isChecked": false},
-    {"type": "Baverage", "isChecked": false},
-    {"type": "Bagel", "isChecked": false},
-    {"type": "Pulses", "isChecked": false},
-    {"type": "Rice", "isChecked": false},
+    {
+      "type": "Fruit",
+      "isChecked": false,
+    },
+    {
+      "type": "Vegetable",
+      "isChecked": false,
+    },
+    {
+      "type": "Bakery",
+      "isChecked": false,
+    },
+    {
+      "type": "Baverage",
+      "isChecked": false,
+    },
+    {
+      "type": "Pulses",
+      "isChecked": false,
+    },
+    {
+      "type": "Rice",
+      "isChecked": false,
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
+    List showLanguageWise = [
+      AppLocalizations.of(context)!.fruit,
+      AppLocalizations.of(context)!.vegetable,
+      AppLocalizations.of(context)!.bakery,
+      AppLocalizations.of(context)!.baverage,
+      AppLocalizations.of(context)!.pulses,
+      AppLocalizations.of(context)!.rices,
+    ];
+
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -35,86 +63,100 @@ class _FilterScreenState extends State<FilterScreen> {
           },
           icon: const Icon(Icons.close),
         ),
-        title: const CommonHeadlineText(
-          title: 'Filters',
+        title: CommonHeadlineText(
+          title: AppLocalizations.of(context)!.filters,
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Container(
-          height: h,
-          width: w,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-            color: Colors.grey.shade200,
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: h * 0.03,
-              bottom: 0.03,
-              left: w * 0.05,
-              right: w * 0.05,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CommonTitleText(title: "Categories"),
-                SizedBox(
-                  height: h * 0.02,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Container(
+              height: h,
+              width: w,
+              decoration: BoxDecoration(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30)),
+                color: Colors.grey.shade200,
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: h * 0.03,
+                  bottom: 0.03,
+                  left: w * 0.05,
+                  right: w * 0.05,
                 ),
-                ...filterCheckBox.map((e) {
-                  return Transform.translate(
-                    offset: Offset(-w * 0.025, 0),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: e["isChecked"],
-                          onChanged: (value) {
-                            setState(() {
-                              e["isChecked"] = !e["isChecked"];
-                            });
-                          },
-                        ),
-                        Text(
-                          e["type"],
-                          style: TextStyle(
-                            color: (e['isChecked'])
-                                ? Globals.greenColor
-                                : Colors.black,
-                            fontSize: 16,
-                            fontFamily: FontFamily.medium,
-                          ),
-                        ),
-                      ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CommonTitleText(
+                      title: AppLocalizations.of(context)!.categories,
                     ),
-                  );
-                }).toList()
-              ],
+                    SizedBox(
+                      height: h * 0.02,
+                    ),
+                    ...List.generate(filterCheckBox.length, (index) {
+                      return Transform.translate(
+                        offset: Offset(-w * 0.025, 0),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: filterCheckBox[index]["isChecked"],
+                              onChanged: (value) {
+                                setState(() {
+                                  filterCheckBox[index]["isChecked"] =
+                                      !filterCheckBox[index]["isChecked"];
+                                });
+                              },
+                            ),
+                            Text(
+                              showLanguageWise[index],
+                              style: TextStyle(
+                                color: (filterCheckBox[index]['isChecked'])
+                                    ? Globals.greenColor
+                                    : Colors.black,
+                                fontSize: 16,
+                                fontFamily: FontFamily.medium,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(left: w * 0.08),
-        child: GestureDetector(
-          onTap: () {
-            List<String>? filter = [];
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: w * 0.04, right: w * 0.04, bottom: h * 0.03),
+              child: GestureDetector(
+                onTap: () {
+                  List<String>? filter = [];
 
-            List.generate(filterCheckBox.length, (index) {
-              if (filterCheckBox[index]['isChecked']) {
-                filter.add(filterCheckBox[index]['type']);
-              }
-            });
+                  List.generate(filterCheckBox.length, (index) {
+                    if (filterCheckBox[index]['isChecked']) {
+                      filter.add(filterCheckBox[index]['type']);
+                    }
+                  });
 
-            if (filter.isEmpty) {
-              Navigator.pop(context);
-            } else {
-              Navigator.pop(context, filter);
-            }
-          },
-          child: const CommonActionButton(name: 'Apply'),
-        ),
+                  if (filter.isEmpty) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pop(context, filter);
+                  }
+                },
+                child: CommonActionButton(
+                  name: AppLocalizations.of(context)!.apply,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

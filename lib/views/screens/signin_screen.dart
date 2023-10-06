@@ -20,6 +20,7 @@ import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/forgot_password_screen.dart';
 import 'package:nectar_app/views/screens/signup_screen.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -119,11 +120,14 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                     ),
-                    const CommonTitleText(title: "Sign In"),
+                    CommonTitleText(
+                      title: AppLocalizations.of(context)!.signIn,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: h * 0.01),
                       child: CommonSmallBodyText(
-                        text: "Enter your email and password",
+                        text: AppLocalizations.of(context)!
+                            .enterYourEmailAndPassword,
                         color: Colors.grey.shade600,
                       ),
                     ),
@@ -133,7 +137,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller: emailController,
                         textType: TextInputType.emailAddress,
                         textAction: TextInputAction.next,
-                        labelText: "Email",
+                        labelText: AppLocalizations.of(context)!.email,
                         onChange: (val) {
                           if (val!.contains('@') && val.contains('.com')) {
                             setState(() {
@@ -158,7 +162,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return "Enter your email...";
+                            return AppLocalizations.of(context)!.enterYourEmail;
                           }
                           return null;
                         },
@@ -185,13 +189,15 @@ class _SignInScreenState extends State<SignInScreen> {
                                   child: const Icon(Icons.visibility),
                                 ),
                         ),
-                        labelText: "Password",
+                        labelText: AppLocalizations.of(context)!.password,
                         secureText: (passwordShow) ? false : true,
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return "Enter your Password...";
+                            return AppLocalizations.of(context)!
+                                .enterYourPassword;
                           } else if (val.length < 6) {
-                            return "Enter Minimum 6 character password";
+                            return AppLocalizations.of(context)!
+                                .enterMinimum6CharacterPassword;
                           }
                           return null;
                         },
@@ -212,7 +218,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             );
                           },
                           child: CommonSmallBodyText(
-                            text: "Forgot passwor?",
+                            text: AppLocalizations.of(context)!.forgotPassword,
                             color: Globals.greenColor,
                           ),
                         ),
@@ -264,8 +270,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                 );
 
                                 CommonScaffoldMessenger.success(
-                                    context: context,
-                                    message: "Signin Successfully....");
+                                  context: context,
+                                  message: AppLocalizations.of(context)!
+                                      .loginSuccesfully,
+                                );
                               } else if (data['msg'] != null) {
                                 CommonShowDialog.close(context: context);
                                 CommonScaffoldMessenger.failed(
@@ -274,21 +282,29 @@ class _SignInScreenState extends State<SignInScreen> {
                                 CommonShowDialog.close(context: context);
 
                                 CommonScaffoldMessenger.failed(
-                                    context: context,
-                                    message: "Signin Faild.....");
+                                  context: context,
+                                  message:
+                                      AppLocalizations.of(context)!.loginFailed,
+                                );
                               }
                             } else {
                               CommonScaffoldMessenger.failed(
-                                  context: context,
-                                  message: 'Check Internet Connection');
+                                context: context,
+                                message: AppLocalizations.of(context)!
+                                    .checkInternetConnection,
+                              );
                             }
                           } else {
                             CommonScaffoldMessenger.failed(
-                                context: context,
-                                message: "Something went wrong....");
+                              context: context,
+                              message:
+                                  AppLocalizations.of(context)!.somethingWrong,
+                            );
                           }
                         },
-                        child: const CommonActionButton(name: "Sign In"),
+                        child: CommonActionButton(
+                          name: AppLocalizations.of(context)!.signIn,
+                        ),
                       ),
                     ),
                     Center(
@@ -307,15 +323,17 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: RichText(
                             text: TextSpan(
                               children: [
-                                const TextSpan(
-                                  text: "Don't have an account?",
-                                  style: TextStyle(
+                                TextSpan(
+                                  text: AppLocalizations.of(context)!
+                                      .dontHaveAnAccount,
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontFamily: FontFamily.bold,
                                   ),
                                 ),
                                 TextSpan(
-                                  text: "  Sign Up",
+                                  text:
+                                      "  ${AppLocalizations.of(context)!.signUp}",
                                   style: TextStyle(
                                     color: Globals.greenColor,
                                     fontFamily: FontFamily.bold,

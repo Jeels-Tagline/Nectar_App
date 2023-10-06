@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
-import 'package:nectar_app/models/globals/boxes.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/utils/font_family.dart';
@@ -107,7 +106,7 @@ class CommonProduct extends StatelessWidget {
                         List<Map<String, dynamic>> demo = [];
                         demo.add(data);
 
-                        await boxCart.add(demo);
+                        await Globals.boxCart.add(demo);
 
                         await FirestoreHelper.firestoreHelper.insertCartData(
                           uid: userId,

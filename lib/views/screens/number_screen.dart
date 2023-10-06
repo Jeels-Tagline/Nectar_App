@@ -11,6 +11,7 @@ import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NumberScreen extends StatefulWidget {
   const NumberScreen({super.key});
@@ -29,18 +30,6 @@ class _NumberScreenState extends State<NumberScreen> {
 
   final String phoneRegex = r'^\+91\d{10}$';
 
-  String? validatePhoneNumber(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a phone number.';
-    }
-
-    if (!RegExp(phoneRegex).hasMatch(value)) {
-      return 'Enter a valid phone number.';
-    }
-
-    return null;
-  }
-
   void dataCheck() async {
     var data = await FirestoreHelper.firestoreHelper.fetchUsers();
     userData = data.docs;
@@ -55,6 +44,18 @@ class _NumberScreenState extends State<NumberScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String? validatePhoneNumber(String? value) {
+      if (value == null || value.isEmpty) {
+        return AppLocalizations.of(context)!.pleaseEnterPhoneNumber;
+      }
+
+      if (!RegExp(phoneRegex).hasMatch(value)) {
+        return AppLocalizations.of(context)!.enterValidPhoneNumber;
+      }
+
+      return null;
+    }
+
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -86,8 +87,9 @@ class _NumberScreenState extends State<NumberScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CommonTitleText(
-                          title: "Enter your mobile number",
+                        CommonTitleText(
+                          title: AppLocalizations.of(context)!
+                              .enterYourMobileNumber,
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.05),
@@ -139,16 +141,18 @@ class _NumberScreenState extends State<NumberScreen> {
                                       color: Colors.red,
                                     ),
                               textAction: TextInputAction.next,
-                              labelText: "Username",
+                              labelText: AppLocalizations.of(context)!.username,
                               // digitsOnly: [
                               //   FilteringTextInputFormatter.deny(RegExp(r'\s')),
                               // ],
                               validator: (val) {
                                 if (val!.trim().isEmpty) {
-                                  return "Enter your Username...";
+                                  return AppLocalizations.of(context)!
+                                      .enterYourUsername;
                                 } else {
                                   if (val.trim().length <= 6) {
-                                    return "Enter minimum 7 character...";
+                                    return AppLocalizations.of(context)!
+                                        .enterMinimum7Character;
                                   }
                                 }
                                 return null;
@@ -221,7 +225,9 @@ class _NumberScreenState extends State<NumberScreen> {
               }
             } else {
               CommonScaffoldMessenger.failed(
-                  context: context, message: 'Check Internet Connection');
+                context: context,
+                message: AppLocalizations.of(context)!.checkInternetConnection,
+              );
             }
           }
         },

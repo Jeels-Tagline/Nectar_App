@@ -14,6 +14,7 @@ import 'package:nectar_app/views/components/common_logo_button.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -108,10 +109,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CommonTitleText(title: "Get your groceries"),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: CommonTitleText(title: "with nectar"),
+                      CommonTitleText(
+                        title: AppLocalizations.of(context)!.getYourGroceries,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: CommonTitleText(
+                            title: AppLocalizations.of(context)!.withNectar),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: h * 0.03),
@@ -140,10 +144,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    const Center(
+                                    Center(
                                       child: Text(
-                                        "Phone",
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!.phone,
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
                                         ),
@@ -175,10 +179,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    const Center(
+                                    Center(
                                       child: Text(
-                                        "Email",
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!.email,
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
                                         ),
@@ -195,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(top: h * 0.03),
                         child: Center(
                           child: Text(
-                            "Or connect with social media",
+                            AppLocalizations.of(context)!.orConnectLogin,
                             style: TextStyle(
                               height: 1.8,
                               fontFamily: FontFamily.medium,
@@ -265,7 +269,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
 
                                 CommonScaffoldMessenger.success(
-                                  message: 'Loggin Successfully......',
+                                  message: AppLocalizations.of(context)!
+                                      .loginSuccesfully,
                                   context: context,
                                 );
                               } else if (data['msg'] != null) {
@@ -280,27 +285,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 CommonScaffoldMessenger.failed(
                                     context: context,
-                                    message: 'Loggin Failed.....');
+                                    message: AppLocalizations.of(context)!
+                                        .loginFailed);
                               }
                             } else {
                               CommonScaffoldMessenger.failed(
-                                  context: context,
-                                  message: 'Check Internet Connection');
+                                context: context,
+                                message: AppLocalizations.of(context)!
+                                    .checkInternetConnection,
+                              );
                             }
                           },
                           child: CommonLogoButton(
                             logo: ImagesPath.google,
-                            name: "Continue with Google",
+                            name: AppLocalizations.of(context)!
+                                .continueWithGoogle,
                             color: Colors.red.shade400,
                           ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: h * 0.02),
-                        child: const CommonLogoButton(
+                        child: CommonLogoButton(
                           logo: ImagesPath.facebook,
-                          name: "Continue with Facebook",
-                          color: Color(0xff4A66Ac),
+                          name: AppLocalizations.of(context)!
+                              .continueWithFacebook,
+                          color: const Color(0xff4A66Ac),
                         ),
                       ),
                     ],

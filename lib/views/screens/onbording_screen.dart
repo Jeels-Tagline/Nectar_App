@@ -8,6 +8,7 @@ import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/users_info.dart';
 import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_small_body_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBordingScreen extends StatefulWidget {
   const OnBordingScreen({super.key});
@@ -66,9 +67,9 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.02),
-                    child: const Text(
-                      "Welcome",
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.welcome,
+                      style: const TextStyle(
                         fontSize: 45,
                         fontFamily: FontFamily.medium,
                         height: 0.9,
@@ -78,9 +79,9 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.01),
-                    child: const Text(
-                      "to our store",
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.toOurStore,
+                      style: const TextStyle(
                         fontSize: 45,
                         fontFamily: FontFamily.medium,
                         height: 0.2,
@@ -90,8 +91,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: h * 0.03),
-                    child: const CommonSmallBodyText(
-                      text: "Get your groceries in as fast as one hour",
+                    child: CommonSmallBodyText(
+                      text: AppLocalizations.of(context)!.onBordingDesc,
                       color: Colors.white,
                     ),
                   ),
@@ -101,7 +102,9 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       onTap: () {
                         checkLogin();
                       },
-                      child: const CommonActionButton(name: "Get Started"),
+                      child: CommonActionButton(
+                        name: AppLocalizations.of(context)!.getStarted,
+                      ),
                     ),
                   ),
                 ],

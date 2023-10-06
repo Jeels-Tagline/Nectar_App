@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -47,24 +48,24 @@ class _SplashScreenState extends State<SplashScreen> {
               height: h * 0.08,
               child: Image.asset(ImagesPath.carotWhite),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 8),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
               child: SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "nectar",
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.nectar,
+                      style: const TextStyle(
                         fontSize: 55,
                         height: 1,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      "online groceriet",
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.onlineGroceries,
+                      style: const TextStyle(
                         height: 1,
                         fontFamily: FontFamily.medium,
                         letterSpacing: 3.9,

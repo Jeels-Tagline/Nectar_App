@@ -12,6 +12,7 @@ import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/signin_screen.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -53,11 +54,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                     ),
-                    const CommonTitleText(title: "Forgot Password"),
+                    CommonTitleText(
+                      title: AppLocalizations.of(context)!.forgotPassword,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: h * 0.01),
                       child: CommonSmallBodyText(
-                        text: "Enter your email",
+                        text: AppLocalizations.of(context)!.enterYourEmail,
                         color: Colors.grey.shade600,
                       ),
                     ),
@@ -67,7 +70,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         controller: emailController,
                         textType: TextInputType.emailAddress,
                         textAction: TextInputAction.done,
-                        labelText: "Email",
+                        labelText: AppLocalizations.of(context)!.email,
                         onChange: (val) {
                           if (val!.contains('@') && val.contains('.com')) {
                             setState(() {
@@ -92,12 +95,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               ),
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return "Enter your email...";
+                            return AppLocalizations.of(context)!.enterYourEmail;
                           } else {
                             if (val.contains('@') && val.contains('.com')) {
                               return null;
                             } else {
-                              return "Enter valid email....";
+                              return AppLocalizations.of(context)!
+                                  .somethingWrong;
                             }
                           }
                         },
@@ -119,9 +123,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             if (data['user'] != null) {
                               CommonShowDialog.close(context: context);
                               CommonScaffoldMessenger.success(
-                                  context: context,
-                                  message:
-                                      'Check your email and reset password...');
+                                context: context,
+                                message: AppLocalizations.of(context)!
+                                    .checkYourEmailAndResetPassword,
+                              );
 
                               Navigator.pushReplacement(
                                 context,
@@ -138,12 +143,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               CommonShowDialog.close(context: context);
 
                               CommonScaffoldMessenger.failed(
-                                  context: context,
-                                  message: "Signin Faild.....");
+                                context: context,
+                                message: AppLocalizations.of(context)!
+                                    .somethingWrong,
+                              );
                             }
                           }
                         },
-                        child: const CommonActionButton(name: "Reset Password"),
+                        child: CommonActionButton(
+                            name:
+                                "${AppLocalizations.of(context)!.reset} ${AppLocalizations.of(context)!.password}"),
                       ),
                     ),
                   ],

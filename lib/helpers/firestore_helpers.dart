@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nectar_app/models/globals/boxes.dart';
+import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/models/product_models.dart';
 
@@ -351,8 +351,8 @@ class FirestoreHelper {
       'rice',
     ];
 
-    if (boxListOfProduct.isOpen == true) {
-      await boxListOfProduct.clear();
+    if (Globals.boxListOfProduct.isOpen == true) {
+      await Globals.boxListOfProduct.clear();
       for (int i = 0; i < types.length; i++) {
         searchData = await db
             .collection(productCollection)
@@ -368,7 +368,7 @@ class FirestoreHelper {
           allData.add(list[i]);
         }
       }
-      await boxListOfProduct.add(allData);
+      await Globals.boxListOfProduct.add(allData);
     }
   }
 }

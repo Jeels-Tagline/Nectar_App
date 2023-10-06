@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:nectar_app/models/globals/boxes.dart';
+import 'package:nectar_app/l10n/l10n.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/utils/font_family.dart';
+import 'package:nectar_app/utils/language_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/screens/account_screen.dart';
 import 'package:nectar_app/views/screens/cart_screen.dart';
@@ -30,6 +31,8 @@ import 'package:nectar_app/views/screens/signin_screen.dart';
 import 'package:nectar_app/views/screens/signup_screen.dart';
 import 'package:nectar_app/views/screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 SharedPreferences? sharedPreferences;
 
@@ -43,11 +46,10 @@ void main() async {
 
   // Register Adapter
   Hive.registerAdapter(HiveProductModelAdapter());
-  // Hive.registerAdapter(HiveListProductModelAdapter());
 
   // Openbox & Create boxfile
-  boxListOfProduct = await Hive.openBox<List>('listOfProductBox');
-  boxCart = await Hive.openBox<List<Map<String, dynamic>>>('cartBox');
+  Globals.boxListOfProduct = await Hive.openBox<List>('listOfProductBox');
+  Globals.boxCart = await Hive.openBox<List<Map<String, dynamic>>>('cartBox');
 
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Container(
@@ -63,8 +65,48 @@ void main() async {
     );
   };
 
-  runApp(
-    MaterialApp(
+  runApp(const MyNectarApp());
+}
+
+class MyNectarApp extends StatefulWidget {
+  const MyNectarApp({super.key});
+
+  @override
+  State<MyNectarApp> createState() => _MyNectarAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyNectarAppState? state =
+        context.findAncestorStateOfType<_MyNectarAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+class _MyNectarAppState extends State<MyNectarApp> {
+  Locale? myLocale;
+
+  setLocale(Locale locale) {
+    setState(() {
+      myLocale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    LanguagePath.getLanguage().then((locale) => setLocale(locale));
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      supportedLocales: L10n.all,
+      locale: myLocale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       navigatorKey: NavKey.navKey,
       debugShowCheckedModeBanner: false,
       initialRoute: ScreensPath.splashScreen,
@@ -106,6 +148,6 @@ void main() async {
             const ParticularOrderScreen(),
         ScreensPath.filterScreen: (context) => const FilterScreen(),
       },
-    ),
-  );
+    );
+  }
 }

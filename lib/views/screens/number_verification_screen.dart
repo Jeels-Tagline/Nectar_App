@@ -18,6 +18,7 @@ import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NumberVerificationScreen extends StatefulWidget {
   const NumberVerificationScreen({super.key});
@@ -136,12 +137,15 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CommonTitleText(
-                          title: "Enter your 6-digit code",
+                        CommonTitleText(
+                          title:
+                              AppLocalizations.of(context)!.enterYour6DigitCode,
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.05),
-                          child: const CommonBodyText(text: "Code"),
+                          child: CommonBodyText(
+                            text: AppLocalizations.of(context)!.code,
+                          ),
                         ),
                         TextFormField(
                           controller: otpController,
@@ -149,10 +153,11 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                           maxLength: 6,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              return "Enter OTP";
+                              return AppLocalizations.of(context)!.enterOtp;
                             } else {
                               if (val.length != 6) {
-                                return "Enter Valid OTP";
+                                return AppLocalizations.of(context)!
+                                    .enterValidOtp;
                               }
                             }
                             return null;
@@ -188,7 +193,7 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                                                 userData['phoneNumber']);
                                   },
                                   child: Text(
-                                    'Resend',
+                                    AppLocalizations.of(context)!.reset,
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: Globals.greenColor,
@@ -197,7 +202,7 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                                 )
                               else
                                 Text(
-                                  'Resend OTP in 00:$secResend',
+                                  '${AppLocalizations.of(context)!.resetOtpIn} 00:$secResend',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontFamily: FontFamily.medium,
@@ -292,8 +297,10 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                         );
 
                         CommonScaffoldMessenger.success(
-                            context: context,
-                            message: "Login Successfully....");
+                          context: context,
+                          message:
+                              AppLocalizations.of(context)!.loginSuccesfully,
+                        );
                       } else if (data['msg'] != null) {
                         CommonShowDialog.close(context: context);
                         CommonScaffoldMessenger.failed(
@@ -301,12 +308,16 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
                       } else {
                         CommonShowDialog.close(context: context);
                         CommonScaffoldMessenger.failed(
-                            context: context, message: "Logging Failed.....");
+                          context: context,
+                          message: AppLocalizations.of(context)!.loginFailed,
+                        );
                       }
                     } else {
                       CommonScaffoldMessenger.failed(
-                          context: context,
-                          message: 'Check Internet Connection');
+                        context: context,
+                        message: AppLocalizations.of(context)!
+                            .checkInternetConnection,
+                      );
                     }
                   }
                 },

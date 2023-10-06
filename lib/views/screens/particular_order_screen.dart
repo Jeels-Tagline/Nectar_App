@@ -4,6 +4,7 @@ import 'package:nectar_app/helpers/firestore_helpers.dart';
 import 'package:nectar_app/views/components/common_body_text.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ParticularOrderScreen extends StatefulWidget {
   const ParticularOrderScreen({super.key});
@@ -25,7 +26,10 @@ class _ParticularOrderScreenState extends State<ParticularOrderScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: h * 0.07, bottom: h * 0.02),
-              child: const Center(child: CommonHeadlineText(title: "My Order")),
+              child: Center(
+                  child: CommonHeadlineText(
+                title: AppLocalizations.of(context)!.myOrders,
+              )),
             ),
             const Divider(),
             FutureBuilder(

@@ -1,9 +1,7 @@
-// ignore_for_file: deprecated_member_use, unrelated_type_equality_checks, use_build_context_synchronously
+// ignore_for_file: deprecated_member_use, unrelated_type_equality_checks, use_build_context_synchronously, unused_element
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:nectar_app/main.dart';
-import 'package:nectar_app/models/globals/boxes.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/hive_product_models.dart';
 import 'package:nectar_app/models/product_models.dart';
@@ -11,14 +9,13 @@ import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/utils/user_data.dart';
-import 'package:nectar_app/utils/users_info.dart';
-import 'package:nectar_app/views/components/common_check_user_connection.dart';
 import 'package:nectar_app/views/components/common_offer_banner.dart';
 import 'package:nectar_app/views/components/common_product.dart';
 import 'package:nectar_app/views/screens/account_screen.dart';
 import 'package:nectar_app/views/screens/cart_screen.dart';
 import 'package:nectar_app/views/screens/explore_screen.dart';
 import 'package:nectar_app/views/screens/favourite_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,19 +60,19 @@ class _HomeScreenState extends State<HomeScreen> {
     ImagesPath.banner3,
   ];
 
-  Future setUserData() async {
-    UserData.uid = sharedPreferences!.getString(UsersInfo.userId) ?? '';
-    UserData.displayName =
-        sharedPreferences!.getString(UsersInfo.userDisplayName) ?? '';
-    UserData.email = sharedPreferences!.getString(UsersInfo.userEmail) ?? '';
-    UserData.city = sharedPreferences!.getString(UsersInfo.userCity) ?? '';
-    UserData.location =
-        sharedPreferences!.getString(UsersInfo.userLocation) ?? '';
-    UserData.phoneNumber =
-        sharedPreferences!.getString(UsersInfo.userPhoneNumber) ?? '';
-    UserData.photo = sharedPreferences!.getString(UsersInfo.userPhoto) ?? '';
-    setState(() {});
-  }
+  // Future setUserData() async {
+  //   UserData.uid = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  //   UserData.displayName =
+  //       sharedPreferences!.getString(UsersInfo.userDisplayName) ?? '';
+  //   UserData.email = sharedPreferences!.getString(UsersInfo.userEmail) ?? '';
+  //   UserData.city = sharedPreferences!.getString(UsersInfo.userCity) ?? '';
+  //   UserData.location =
+  //       sharedPreferences!.getString(UsersInfo.userLocation) ?? '';
+  //   UserData.phoneNumber =
+  //       sharedPreferences!.getString(UsersInfo.userPhoneNumber) ?? '';
+  //   UserData.photo = sharedPreferences!.getString(UsersInfo.userPhoto) ?? '';
+  //   setState(() {});
+  // }
 
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
@@ -83,14 +80,41 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    setUserData();
-    listOfAllData =
-        boxListOfProduct.get(0, defaultValue: [])?.cast<HiveProductModel>();
+    UserData.setUserData();
+    listOfAllData = Globals.boxListOfProduct
+        .get(0, defaultValue: [])?.cast<HiveProductModel>();
     setAllData();
   }
 
   @override
   Widget build(BuildContext context) {
+    title(String val) {
+      switch (val) {
+        case 'en':
+          return const Text(
+            'English',
+            style: TextStyle(fontSize: 16.0),
+          );
+        case 'gu':
+          return const Text(
+            'Gujarati',
+            style: TextStyle(fontSize: 16.0),
+          );
+
+        case 'ur':
+          return const Text(
+            'Urdu',
+            style: TextStyle(fontSize: 16.0),
+          );
+
+        default:
+          return const Text(
+            'English',
+            style: TextStyle(fontSize: 16.0),
+          );
+      }
+    }
+
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return WillPopScope(
@@ -98,20 +122,28 @@ class _HomeScreenState extends State<HomeScreen> {
         bool? isClose = await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Are you sure?'),
-            content: const Text('Do you want close the app??'),
+            title: Text(
+              AppLocalizations.of(context)!.areYouSure,
+            ),
+            content: Text(
+              AppLocalizations.of(context)!.doYouWantCloseTheApp,
+            ),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: const Text('No'),
+                child: Text(
+                  AppLocalizations.of(context)!.no,
+                ),
               ),
               TextButton(
                 onPressed: () async {
                   Navigator.of(context).pop(true);
                 },
-                child: const Text('Yes'),
+                child: Text(
+                  AppLocalizations.of(context)!.yes,
+                ),
               ),
             ],
           ),
@@ -129,14 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        CommonCheckUserConnection();
-                      },
-                      child: SizedBox(
-                        height: h * 0.04,
-                        child: Image.asset(ImagesPath.carotOrange),
-                      ),
+                    child: SizedBox(
+                      height: h * 0.04,
+                      child: Image.asset(ImagesPath.carotOrange),
                     ),
                   ),
                   Padding(
@@ -228,18 +255,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.only(
                       top: h * 0.02,
-                      left: w * 0.05,
-                      right: w * 0.05,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const CommonOfferBanner(
-                          offerName: "Exclusive Offer",
+                        CommonOfferBanner(
+                          offerName:
+                              AppLocalizations.of(context)!.exclusiveOffer,
                           name: "Fruit",
                         ),
                         SizedBox(
-                          // width: w,
                           height: h * 0.29,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
@@ -248,8 +273,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: fruitData.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: EdgeInsets.only(
-                                    top: h * 0.02, right: w * 0.025),
+                                padding: (index == 0)
+                                    ? EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                        left: w * 0.05,
+                                      )
+                                    : EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                      ),
                                 child: CommonProduct(
                                   userId: UserData.uid,
                                   productData: ProductModel(
@@ -272,13 +305,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.03),
-                          child: const CommonOfferBanner(
-                            offerName: "Best Selling",
+                          child: CommonOfferBanner(
+                            offerName:
+                                AppLocalizations.of(context)!.bestSelling,
                             name: "Baverage",
                           ),
                         ),
                         SizedBox(
-                          // width: w,
                           height: h * 0.29,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
@@ -287,8 +320,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: baverageData.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: EdgeInsets.only(
-                                    top: h * 0.02, right: w * 0.025),
+                                padding: (index == 0)
+                                    ? EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                        left: w * 0.05,
+                                      )
+                                    : EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                      ),
                                 child: CommonProduct(
                                   userId: UserData.uid,
                                   productData: ProductModel(
@@ -311,13 +352,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: h * 0.03),
-                          child: const CommonOfferBanner(
-                            offerName: "Bakery",
+                          child: CommonOfferBanner(
+                            offerName: AppLocalizations.of(context)!.bakery,
                             name: "Bakery",
                           ),
                         ),
                         SizedBox(
-                          // width: w,
                           height: h * 0.29,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
@@ -326,8 +366,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: bakeryData.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: EdgeInsets.only(
-                                    top: h * 0.02, right: w * 0.025),
+                                padding: (index == 0)
+                                    ? EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                        left: w * 0.05,
+                                      )
+                                    : EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                      ),
                                 child: CommonProduct(
                                   userId: UserData.uid,
                                   productData: ProductModel(
@@ -351,8 +399,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding:
                               EdgeInsets.only(top: h * 0.03, bottom: h * 0.018),
-                          child: const CommonOfferBanner(
-                            offerName: "Groceries",
+                          child: CommonOfferBanner(
+                            offerName: AppLocalizations.of(context)!.groceries,
                             name: "Rice",
                           ),
                         ),
@@ -363,55 +411,71 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
+                                  Map<String, dynamic> data = {
+                                    'name': 'Pulses',
+                                    'showTitle':
+                                        AppLocalizations.of(context)!.pulses,
+                                  };
                                   Navigator.pushNamed(
                                     context,
                                     ScreensPath.exploreProductScreen,
-                                    arguments: 'Pulses',
+                                    arguments: data,
                                   );
                                 },
-                                child: Container(
-                                  height: h * 0.11,
-                                  width: w * 0.55,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: const Color.fromARGB(
-                                        255, 255, 224, 188),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: w * 0.025, right: w * 0.025),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          child: Image.asset(ImagesPath.pulses),
-                                        ),
-                                        SizedBox(
-                                          width: w * 0.02,
-                                        ),
-                                        const Expanded(
-                                          flex: 2,
-                                          child: Text(
-                                            "Pulses",
-                                            style: TextStyle(
-                                              fontFamily: FontFamily.medium,
-                                              fontSize: 19,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: w * 0.05),
+                                  child: Container(
+                                    height: h * 0.11,
+                                    width: w * 0.55,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: const Color.fromARGB(
+                                          255, 255, 224, 188),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: w * 0.025, right: w * 0.025),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child:
+                                                Image.asset(ImagesPath.pulses),
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .pulses,
+                                              style: const TextStyle(
+                                                fontFamily: FontFamily.medium,
+                                                fontSize: 19,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: w * 0.04),
+                                padding: EdgeInsets.only(
+                                    left: w * 0.04, right: w * 0.04),
                                 child: GestureDetector(
                                   onTap: () {
+                                    Map<String, dynamic> data = {
+                                      'name': 'Rice',
+                                      'showTitle':
+                                          AppLocalizations.of(context)!.rices,
+                                    };
                                     Navigator.pushNamed(
                                       context,
                                       ScreensPath.exploreProductScreen,
-                                      arguments: 'Rice',
+                                      arguments: data,
                                     );
                                   },
                                   child: Container(
@@ -433,11 +497,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           SizedBox(
                                             width: w * 0.02,
                                           ),
-                                          const Expanded(
+                                          Expanded(
                                             flex: 2,
                                             child: Text(
-                                              "Rices",
-                                              style: TextStyle(
+                                              AppLocalizations.of(context)!
+                                                  .rices,
+                                              style: const TextStyle(
                                                 fontFamily: FontFamily.medium,
                                                 fontSize: 19,
                                               ),
@@ -453,7 +518,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(
-                          // width: w,
                           height: h * 0.29,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
@@ -462,8 +526,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: vegetableData.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: EdgeInsets.only(
-                                    top: h * 0.02, right: w * 0.025),
+                                padding: (index == 0)
+                                    ? EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                        left: w * 0.05,
+                                      )
+                                    : EdgeInsets.only(
+                                        top: h * 0.02,
+                                        right: w * 0.025,
+                                      ),
                                 child: CommonProduct(
                                   userId: UserData.uid,
                                   productData: ProductModel(
@@ -506,10 +578,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget get bottomNavigationBar {
     return Container(
-      // height: 80,
       decoration: const BoxDecoration(
-        // borderRadius: BorderRadius.only(
-        //     topRight: Radius.circular(15), topLeft: Radius.circular(15)),
         boxShadow: [
           BoxShadow(
             color: Colors.black38,
@@ -524,26 +593,26 @@ class _HomeScreenState extends State<HomeScreen> {
           topRight: Radius.circular(15.0),
         ),
         child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag_outlined),
-              label: 'Shop',
+              icon: const Icon(Icons.shopping_bag_outlined),
+              label: AppLocalizations.of(context)!.shop,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Explore',
+              icon: const Icon(Icons.search),
+              label: AppLocalizations.of(context)!.explore,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined),
-              label: 'Cart',
+              icon: const Icon(Icons.shopping_cart_outlined),
+              label: AppLocalizations.of(context)!.cart,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              label: 'Favourite',
+              icon: const Icon(Icons.favorite_border),
+              label: AppLocalizations.of(context)!.favourite,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline_outlined),
-              label: 'Account',
+              icon: const Icon(Icons.person_outline_outlined),
+              label: AppLocalizations.of(context)!.account,
             ),
           ],
           unselectedItemColor: Colors.black,

@@ -17,6 +17,7 @@ import 'package:nectar_app/views/components/common_textfield.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:nectar_app/views/screens/signin_screen.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -62,11 +63,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                     ),
-                    const CommonTitleText(title: "Sign Up"),
+                    CommonTitleText(
+                      title: AppLocalizations.of(context)!.signUp,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: h * 0.01),
                       child: CommonSmallBodyText(
-                        text: "Enter your credentials to continue",
+                        text: AppLocalizations.of(context)!
+                            .enterYourCredentialsToContinue,
                         color: Colors.grey.shade600,
                       ),
                     ),
@@ -97,10 +101,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: Colors.red,
                               ),
                         textAction: TextInputAction.next,
-                        labelText: "Username",
+                        labelText: AppLocalizations.of(context)!.username,
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return "Enter your Username...";
+                            return AppLocalizations.of(context)!
+                                .enterYourUsername;
                           }
                           return null;
                         },
@@ -112,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: emailController,
                         textType: TextInputType.emailAddress,
                         textAction: TextInputAction.next,
-                        labelText: "Email",
+                        labelText: AppLocalizations.of(context)!.email,
                         onChange: (val) {
                           if (val!.contains('@') && val.contains('.com')) {
                             setState(() {
@@ -137,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return "Enter your email...";
+                            return AppLocalizations.of(context)!.enterYourEmail;
                           }
                           return null;
                         },
@@ -158,13 +163,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ? const Icon(Icons.visibility_off)
                               : const Icon(Icons.visibility),
                         ),
-                        labelText: "Password",
+                        labelText: AppLocalizations.of(context)!.password,
                         secureText: (passwordShow) ? false : true,
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return "Enter your Password...";
+                            return AppLocalizations.of(context)!
+                                .enterYourPassword;
                           } else if (val.length < 6) {
-                            return "Enter Minimum 6 character password";
+                            return AppLocalizations.of(context)!
+                                .enterMinimum6CharacterPassword;
                           }
                           return null;
                         },
@@ -176,25 +183,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "By continuing you agree to our",
+                              text: AppLocalizations.of(context)!
+                                  .byContinueYouAgreeToOur,
                               style: TextStyle(
                                 color: Colors.grey.shade600,
                               ),
                             ),
                             TextSpan(
-                              text: "  Terms of Service",
+                              text:
+                                  "  ${AppLocalizations.of(context)!.termsOfService}",
                               style: TextStyle(
                                 color: Globals.greenColor,
                               ),
                             ),
                             TextSpan(
-                              text: "  and",
+                              text: "  ${AppLocalizations.of(context)!.and}",
                               style: TextStyle(
                                 color: Colors.grey.shade600,
                               ),
                             ),
                             TextSpan(
-                              text: "  Privacy Policy",
+                              text:
+                                  "  ${AppLocalizations.of(context)!.privacyPolicy}",
                               style: TextStyle(
                                 color: Globals.greenColor,
                               ),
@@ -225,8 +235,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                               if (data['user'] != null) {
                                 CommonScaffoldMessenger.success(
-                                    context: context,
-                                    message: "Signup Successfully....");
+                                  context: context,
+                                  message: AppLocalizations.of(context)!
+                                      .signUpSuccessfully,
+                                );
 
                                 Map<String, dynamic> userdata = {
                                   'uid': data['user'].uid,
@@ -251,21 +263,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 CommonShowDialog.close(context: context);
 
                                 CommonScaffoldMessenger.failed(
-                                    context: context,
-                                    message: "Signup Faild.....");
+                                  context: context,
+                                  message: AppLocalizations.of(context)!
+                                      .signUpFailed,
+                                );
                               }
                             } else {
                               CommonScaffoldMessenger.failed(
-                                  context: context,
-                                  message: 'Check Internet Connection');
+                                context: context,
+                                message: AppLocalizations.of(context)!
+                                    .checkInternetConnection,
+                              );
                             }
                           } else {
                             CommonScaffoldMessenger.failed(
-                                context: context,
-                                message: "Something went wrong....");
+                              context: context,
+                              message:
+                                  AppLocalizations.of(context)!.somethingWrong,
+                            );
                           }
                         },
-                        child: const CommonActionButton(name: "Sign Up"),
+                        child: CommonActionButton(
+                          name: AppLocalizations.of(context)!.signUp,
+                        ),
                       ),
                     ),
                     Center(
@@ -284,15 +304,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: RichText(
                             text: TextSpan(
                               children: [
-                                const TextSpan(
-                                  text: "Already have an account?",
-                                  style: TextStyle(
+                                TextSpan(
+                                  text: AppLocalizations.of(context)!
+                                      .alredyHaveAnAccount,
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontFamily: FontFamily.bold,
                                   ),
                                 ),
                                 TextSpan(
-                                  text: "  Sign In",
+                                  text:
+                                      "  ${AppLocalizations.of(context)!.signIn}",
                                   style: TextStyle(
                                     color: Globals.greenColor,
                                     fontFamily: FontFamily.bold,

@@ -13,6 +13,7 @@ import 'package:nectar_app/views/components/common_action_button.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GetLocationScreen extends StatefulWidget {
   const GetLocationScreen({super.key});
@@ -86,9 +87,9 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
             color: Colors.white,
           ),
         ),
-        title: const Text(
-          "Location",
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.location,
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
@@ -132,15 +133,15 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
                   CommonShowDialog.close(context: context);
                 },
                 child: Container(
-                  width: w * 0.25,
+                  padding: const EdgeInsets.all(10),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Globals.greenColor,
                   ),
-                  child: const Text(
-                    "Done",
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.submit,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                     ),
@@ -208,9 +209,9 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(top: h * 0.04),
-                                        child: const CommonTitleText(
-                                          title:
-                                              "Please Allow location permission",
+                                        child: CommonTitleText(
+                                          title: AppLocalizations.of(context)!
+                                              .pleaseAllowLocationPermission,
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -223,8 +224,9 @@ class _GetLocationScreenState extends State<GetLocationScreen> {
                                                 type: AppSettingsType.location);
                                             Navigator.pop(context);
                                           },
-                                          child: const CommonActionButton(
-                                            name: "Setting",
+                                          child: CommonActionButton(
+                                            name: AppLocalizations.of(context)!
+                                                .setting,
                                           ),
                                         ),
                                       ),
