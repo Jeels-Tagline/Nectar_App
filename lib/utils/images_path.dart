@@ -6,6 +6,7 @@ class ImagesPath {
   static const String downArrow = 'assets/icons/down_arrow.png';
   static const String forwardArrow = 'assets/icons/forward_arrow.png';
   static const String filter = 'assets/icons/filter.png';
+  static const String locationIcon = 'assets/icons/location_icon.png';
 
   static const String authBackground = 'assets/images/auth_background.png';
   static const String background = 'assets/images/background.jpeg';

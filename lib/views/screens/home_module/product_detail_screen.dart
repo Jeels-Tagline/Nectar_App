@@ -25,19 +25,18 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int currentIndex = 0;
+  double offerPrice = 0;
   late ProductModel productData;
   PageController pageController = PageController();
-
   bool detail_arrow = false;
   int quantity = 1;
   bool favorite = false;
   var userData;
+  List images = [];
 
   // String userId = "";
-
   // getUserId() async {
   //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
-
   //   setState(() {});
   // }
 
@@ -52,8 +51,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         favorite = true;
       }
     }
-    // setState(() {});
-    Future.delayed(Duration.zero, () => {setState(() {})});
+    setState(() {});
+    // Future.delayed(Duration.zero, () => {setState(() {})});
+  }
+
+  setPrice() {
+    double per;
+    double discount;
+    per = productData.exclusiveOffer / 100;
+    discount = productData.price * per;
+    offerPrice = productData.price - discount;
   }
 
   @override
@@ -72,7 +79,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     productData = ModalRoute.of(context)!.settings.arguments as ProductModel;
-    List images = [
+    images = [
       productData.image1,
       productData.image2,
       productData.image3,
@@ -80,6 +87,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     quantity = productData.quantity ?? 1;
     checkFavourite(id: productData.id);
     // favorite = productData.favourite ?? false;
+    setPrice();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -195,7 +203,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               'id': productData.id,
                               'name': productData.name,
                               'subTitle': productData.subTitle,
-                              'price': productData.price,
+                              'price': offerPrice,
                               'detail': productData.detail,
                               'nutrition': productData.nutrition,
                               'review': productData.review,
@@ -205,6 +213,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               'image3': productData.image3,
                               'quantity': productData.quantity ?? 1,
                               'favourite': productData.favourite ?? false,
+                              'exclusiveOffer': productData.exclusiveOffer,
                             };
                             await FirestoreHelper.firestoreHelper
                                 .insertFavouriteData(
@@ -302,7 +311,47 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ],
                           );
                         }),
-                        CommonTitleText(title: "\$ ${productData.price}"),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (productData.exclusiveOffer != 0)
+                                  Text(
+                                    "-${productData.exclusiveOffer}%  ",
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                CommonTitleText(
+                                    title:
+                                        "\$ ${offerPrice.toStringAsFixed(2)}"),
+                              ],
+                            ),
+                            if (productData.exclusiveOffer != 0)
+                              Row(
+                                children: [
+                                  const Text(
+                                    "MRP : ",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "\$${productData.price.toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -413,7 +462,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           'id': productData.id,
                           'name': productData.name,
                           'subTitle': productData.subTitle,
-                          'price': productData.price,
+                          'price': offerPrice,
                           'detail': productData.detail,
                           'nutrition': productData.nutrition,
                           'review': productData.review,
@@ -422,6 +471,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           'image2': productData.image2,
                           'image3': productData.image3,
                           'quantity': productData.quantity ?? 1,
+                          'exclusiveOffer': productData.exclusiveOffer,
                         };
 
                         await FirestoreHelper.firestoreHelper.insertCartData(

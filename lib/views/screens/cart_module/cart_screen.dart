@@ -32,6 +32,7 @@ class _CartScreenState extends State<CartScreen> {
   double totalPrice = 00;
   bool dataEmpty = true;
   late List<Map<String, dynamic>> cartData = [];
+  double? offerPrice;
 
   double calculateTotal({required List myList}) {
     Future.delayed(const Duration(seconds: 0), () {
@@ -49,6 +50,13 @@ class _CartScreenState extends State<CartScreen> {
 
   //   setState(() {});
   // }
+  setPrice({required int exclusiveOffer, required double price}) {
+    double per;
+    double discount;
+    per = exclusiveOffer / 100;
+    discount = price * per;
+    offerPrice = price - discount;
+  }
 
   @override
   void initState() {
@@ -88,6 +96,8 @@ class _CartScreenState extends State<CartScreen> {
 
                       List<QueryDocumentSnapshot<Map<String, dynamic>>>
                           allDocs = userData!.docs;
+
+                      // setPrice(exclusiveOffer: exclusiveOffer, price: allDocs[i].data()['price']);
                       calculateTotal(myList: allDocs);
                       if (allDocs.isEmpty) {
                         dataEmpty = true;
@@ -142,6 +152,8 @@ class _CartScreenState extends State<CartScreen> {
                                           image3: allDocs[i].data()['image3'],
                                           quantity:
                                               allDocs[i].data()['quantity'],
+                                          exclusiveOffer: allDocs[i]
+                                              .data()['exclusiveOffer'],
                                         );
                                         Navigator.pushNamed(context,
                                             ScreensPath.productDetailScreen,
@@ -367,7 +379,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           ],
                                                         ),
                                                         Text(
-                                                          "\$ ${allDocs[i].data()['price']}",
+                                                          "\$ ${allDocs[i].data()['price'].toStringAsFixed(2)}",
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 17,
@@ -892,7 +904,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                         Navigator.pushNamedAndRemoveUntil(
                                                                             context,
                                                                             ScreensPath
-                                                                                .homeScreen,
+                                                                                .bottomNavigationScreen,
                                                                             (route) =>
                                                                                 false);
                                                                       },

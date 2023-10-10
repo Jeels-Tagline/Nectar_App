@@ -9,6 +9,7 @@ class ScreensPath {
   static const String locationScreen = 'location_screen';
   static const String getLocationScreen = 'get_location_screen';
   static const String homeScreen = 'home_screen';
+  static const String bottomNavigationScreen = 'bottom_navigation_screen';
   static const String productDetailScreen = 'product_detail_screen';
   static const String exploreScreen = 'explore_screen';
   static const String searchScreen = 'search_screen';

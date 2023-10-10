@@ -129,6 +129,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                           quantity:
                                               allDocs[i].data()['quantity'],
                                           favourite: true,
+                                          exclusiveOffer: allDocs[i]
+                                              .data()['exclusiveOffer'],
                                         );
                                         Navigator.pushNamed(context,
                                             ScreensPath.productDetailScreen,
@@ -179,7 +181,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          "\$ ${allDocs[i].data()['price']}",
+                                                          "\$ ${allDocs[i].data()['price'].toStringAsFixed(2)}",
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 17,

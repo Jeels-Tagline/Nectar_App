@@ -237,15 +237,17 @@ class _SearchScreenState extends State<SearchScreen> {
             (filter != null)
                 ? Expanded(
                     flex: 8,
-                    child: GridView.count(
+                    child: GridView.builder(
                       shrinkWrap: true,
-                      childAspectRatio: ((w / 2) / (h / 3.33)),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: w * 0.02,
-                      crossAxisSpacing: h * 0.02,
-                      children: List.generate(
-                        filterShowList.length,
-                        (index) => CommonProduct(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: ((w / 2) / (h / 3.33)),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: w * 0.02,
+                        crossAxisSpacing: h * 0.02,
+                      ),
+                      itemCount: filterShowList.length,
+                      itemBuilder: (context, index) {
+                        return CommonProduct(
                           userId: UserData.uid,
                           productData: ProductModel(
                             id: filterShowList[index].id,
@@ -259,39 +261,43 @@ class _SearchScreenState extends State<SearchScreen> {
                             image1: filterShowList[index].image1,
                             image2: filterShowList[index].image2,
                             image3: filterShowList[index].image3,
+                            exclusiveOffer:
+                                filterShowList[index].exclusiveOffer,
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   )
                 : Expanded(
                     flex: 8,
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      childAspectRatio: ((w / 2) / (h / 3.33)),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: w * 0.02,
-                      crossAxisSpacing: h * 0.02,
-                      children: List.generate(
-                        searchList.length,
-                        (index) => CommonProduct(
-                          userId: UserData.uid,
-                          productData: ProductModel(
-                            id: searchList[index].id,
-                            name: searchList[index].name,
-                            subTitle: searchList[index].subTitle,
-                            price: searchList[index].price,
-                            detail: searchList[index].detail,
-                            nutrition: searchList[index].nutrition,
-                            review: searchList[index].review,
-                            type: searchList[index].type,
-                            image1: searchList[index].image1,
-                            image2: searchList[index].image2,
-                            image3: searchList[index].image3,
-                          ),
+                    child: GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: ((w / 2) / (h / 3.33)),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: w * 0.02,
+                          crossAxisSpacing: h * 0.02,
                         ),
-                      ),
-                    ),
+                        itemCount: searchList.length,
+                        itemBuilder: (context, index) {
+                          return CommonProduct(
+                            userId: UserData.uid,
+                            productData: ProductModel(
+                              id: searchList[index].id,
+                              name: searchList[index].name,
+                              subTitle: searchList[index].subTitle,
+                              price: searchList[index].price,
+                              detail: searchList[index].detail,
+                              nutrition: searchList[index].nutrition,
+                              review: searchList[index].review,
+                              type: searchList[index].type,
+                              image1: searchList[index].image1,
+                              image2: searchList[index].image2,
+                              image3: searchList[index].image3,
+                              exclusiveOffer: searchList[index].exclusiveOffer,
+                            ),
+                          );
+                        }),
                     //     FutureBuilder(
                     //   future: FirestoreHelper.firestoreHelper.getSearchProductData(
                     //     search: search ?? '',

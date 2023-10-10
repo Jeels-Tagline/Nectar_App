@@ -1,22 +1,24 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:nectar_app/utils/images_path.dart';
 
 class CommonAuthBackground extends StatelessWidget {
-  const CommonAuthBackground({super.key});
+  Widget? child;
+  CommonAuthBackground({super.key, this.child});
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Container(
-      height: h,
-      width: w,
+      height: double.infinity,
+      width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage(ImagesPath.authBackground),
           fit: BoxFit.cover,
         ),
       ),
+      child: child,
     );
   }
 }

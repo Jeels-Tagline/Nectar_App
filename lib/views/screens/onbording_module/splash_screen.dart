@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   nextPage() {
     Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushNamed(context, ScreensPath.onbordingScreen),
+      () =>
+          Navigator.pushReplacementNamed(context, ScreensPath.onbordingScreen),
     );
   }
 
@@ -29,13 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: Container(
-        height: h,
-        width: w,
+        height: double.infinity,
+        width: double.infinity,
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           color: Color(0xff53B175),
@@ -45,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: h * 0.08,
+              height: 60,
               child: Image.asset(ImagesPath.carotWhite),
             ),
             Padding(

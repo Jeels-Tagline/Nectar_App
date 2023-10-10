@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:nectar_app/models/globals/globals.dart';
-import 'package:nectar_app/utils/screens_path.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommonOfferBanner extends StatelessWidget {
   final String offerName;
-  final String name;
+  // final String? name;
+  final Function()? onTap;
+  // final List<HiveProductModel>? productList;
   // final String showTitle;
 
-  const CommonOfferBanner(
-      {required this.name, required this.offerName, super.key});
+  const CommonOfferBanner({
+    // this.name,
+    required this.offerName,
+    this.onTap,
+    // this.productList,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +35,19 @@ class CommonOfferBanner extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Map<String, dynamic> data = {
-                'name': name,
-                'showTitle': offerName,
-              };
-              Navigator.pushNamed(
-                context,
-                ScreensPath.exploreProductScreen,
-                arguments: data,
-              );
-            },
+            onTap: onTap,
+            // onTap: () {
+            //   Map<String, dynamic> data = {
+            //     'name': name,
+            //     'list': productList,
+            //     'showTitle': offerName,
+            //   };
+            //   Navigator.pushNamed(
+            //     context,
+            //     ScreensPath.exploreProductScreen,
+            //     arguments: data,
+            //   );
+            // },
             child: Text(
               AppLocalizations.of(context)!.seeAll,
               style: TextStyle(

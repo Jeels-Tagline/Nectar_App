@@ -43,6 +43,12 @@ class HiveProductModel {
   @HiveField(12)
   bool? favourite;
 
+  @HiveField(13)
+  int bestSelling;
+
+  @HiveField(14)
+  int exclusiveOffer;
+
   HiveProductModel({
     required this.id,
     required this.name,
@@ -57,6 +63,8 @@ class HiveProductModel {
     required this.image3,
     this.quantity,
     this.favourite,
+    required this.bestSelling,
+    required this.exclusiveOffer,
   });
 
   factory HiveProductModel.fromMap({required Map<String, dynamic> data}) {
@@ -74,6 +82,8 @@ class HiveProductModel {
       image3: data['image3'],
       quantity: data['quantity'] ?? 1,
       favourite: data['favourite'] ?? false,
+      bestSelling: data['bestSelling'],
+      exclusiveOffer: data['exclusiveOffer'],
     );
   }
 }

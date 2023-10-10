@@ -8,28 +8,29 @@ import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/utils/font_family.dart';
 import 'package:nectar_app/utils/language_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
-import 'package:nectar_app/views/screens/account_screen.dart';
-import 'package:nectar_app/views/screens/cart_screen.dart';
-import 'package:nectar_app/views/screens/explore_product_screen.dart';
-import 'package:nectar_app/views/screens/explore_screen.dart';
-import 'package:nectar_app/views/screens/favourite_screen.dart';
-import 'package:nectar_app/views/screens/filter_screen.dart';
-import 'package:nectar_app/views/screens/forgot_password_screen.dart';
-import 'package:nectar_app/views/screens/get_location_screen.dart';
-import 'package:nectar_app/views/screens/order_accepted_screen.dart';
-import 'package:nectar_app/views/screens/orders_screen.dart';
-import 'package:nectar_app/views/screens/particular_order_screen.dart';
-import 'package:nectar_app/views/screens/product_detail_screen.dart';
-import 'package:nectar_app/views/screens/location_screen.dart';
-import 'package:nectar_app/views/screens/number_screen.dart';
-import 'package:nectar_app/views/screens/home_screen.dart';
-import 'package:nectar_app/views/screens/login_screen.dart';
-import 'package:nectar_app/views/screens/number_verification_screen.dart';
-import 'package:nectar_app/views/screens/onbording_screen.dart';
-import 'package:nectar_app/views/screens/search_screen.dart';
-import 'package:nectar_app/views/screens/signin_screen.dart';
-import 'package:nectar_app/views/screens/signup_screen.dart';
-import 'package:nectar_app/views/screens/splash_screen.dart';
+import 'package:nectar_app/views/screens/account_module/account_screen.dart';
+import 'package:nectar_app/views/screens/bottom_navigation_module/bottom_navigation_screen.dart';
+import 'package:nectar_app/views/screens/cart_module/cart_screen.dart';
+import 'package:nectar_app/views/screens/explore_module/explore_product_screen.dart';
+import 'package:nectar_app/views/screens/explore_module/explore_screen.dart';
+import 'package:nectar_app/views/screens/favourite_module/favourite_screen.dart';
+import 'package:nectar_app/views/screens/explore_module/filter_screen.dart';
+import 'package:nectar_app/views/screens/auth_module/forgot_password_screen.dart';
+import 'package:nectar_app/views/screens/location_module/get_location_screen.dart';
+import 'package:nectar_app/views/screens/cart_module/order_accepted_screen.dart';
+import 'package:nectar_app/views/screens/account_module/orders_screen.dart';
+import 'package:nectar_app/views/screens/account_module/particular_order_screen.dart';
+import 'package:nectar_app/views/screens/home_module/product_detail_screen.dart';
+import 'package:nectar_app/views/screens/location_module/location_screen.dart';
+import 'package:nectar_app/views/screens/auth_module/number_screen.dart';
+import 'package:nectar_app/views/screens/home_module/home_screen.dart';
+import 'package:nectar_app/views/screens/auth_module/login_screen.dart';
+import 'package:nectar_app/views/screens/auth_module/number_verification_screen.dart';
+import 'package:nectar_app/views/screens/onbording_module/onbording_screen.dart';
+import 'package:nectar_app/views/screens/explore_module/search_screen.dart';
+import 'package:nectar_app/views/screens/auth_module/signin_screen.dart';
+import 'package:nectar_app/views/screens/auth_module/signup_screen.dart';
+import 'package:nectar_app/views/screens/onbording_module/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -129,6 +130,8 @@ class _MyNectarAppState extends State<MyNectarApp> {
         ScreensPath.signUpScreen: (context) => const SignUpScreen(),
         ScreensPath.locationScreen: (context) => const LocationScreen(),
         ScreensPath.getLocationScreen: (context) => const GetLocationScreen(),
+        ScreensPath.bottomNavigationScreen: (context) =>
+            const BottomNavigationScreen(),
         ScreensPath.homeScreen: (context) => const HomeScreen(),
         ScreensPath.productDetailScreen: (context) =>
             const ProductDetailScreen(),
@@ -151,3 +154,6 @@ class _MyNectarAppState extends State<MyNectarApp> {
     );
   }
 }
+
+
+// TODO : check cart product are not open and also favourite product

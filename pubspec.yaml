@@ -106,6 +106,7 @@ flutter:
     - assets/icons/down_arrow.png
     - assets/icons/forward_arrow.png
     - assets/icons/filter.png
+    - assets/icons/location_icon.png
     - assets/images/fruit.png
     - assets/images/vegetable.png
     - assets/images/bakery.png

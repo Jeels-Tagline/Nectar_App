@@ -12,6 +12,7 @@ class ProductModel {
   String image3;
   int? quantity;
   bool? favourite;
+  int exclusiveOffer;
 
   ProductModel({
     required this.id,
@@ -27,6 +28,7 @@ class ProductModel {
     required this.image3,
     this.quantity,
     this.favourite,
+    required this.exclusiveOffer,
   });
 
   factory ProductModel.fromMap({required Map<String, dynamic> data}) {
@@ -44,6 +46,7 @@ class ProductModel {
       image3: data['image3'],
       quantity: data['quantity'] ?? 1,
       favourite: data['favourite'] ?? false,
+      exclusiveOffer: data['exclusiveOffer'],
     );
   }
 }

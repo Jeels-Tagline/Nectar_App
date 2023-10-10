@@ -24,9 +24,9 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
     loggedIn = sharedPreferences!.getBool(UsersInfo.userLogin) ?? false;
     if (loggedIn == true) {
       Navigator.pushNamedAndRemoveUntil(
-          context, ScreensPath.homeScreen, (route) => false);
+          context, ScreensPath.bottomNavigationScreen, (route) => false);
     } else {
-      Navigator.pushNamed(context, ScreensPath.logInScreen);
+      Navigator.pushReplacementNamed(context, ScreensPath.logInScreen);
     }
     setState(() {});
   }
@@ -66,7 +66,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                     child: Image.asset(ImagesPath.carotWhite),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.02),
+                    padding: const EdgeInsets.only(top: 15),
                     child: Text(
                       AppLocalizations.of(context)!.welcome,
                       style: const TextStyle(
@@ -78,7 +78,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 5),
                     child: Text(
                       AppLocalizations.of(context)!.toOurStore,
                       style: const TextStyle(
@@ -90,14 +90,14 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.03),
+                    padding: const EdgeInsets.only(top: 25),
                     child: CommonSmallBodyText(
                       text: AppLocalizations.of(context)!.onBordingDesc,
                       color: Colors.white,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.03),
+                    padding: const EdgeInsets.only(top: 30),
                     child: GestureDetector(
                       onTap: () {
                         checkLogin();

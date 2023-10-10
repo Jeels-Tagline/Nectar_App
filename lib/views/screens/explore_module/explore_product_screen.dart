@@ -15,26 +15,27 @@ class ExploreProductScreen extends StatefulWidget {
 }
 
 class _ExploreProductScreenState extends State<ExploreProductScreen> {
-  // String userId = "";
   late List<HiveProductModel> listOfAllData = [];
   late List<HiveProductModel> productData = [];
 
-  // getUserId() async {
-  //   userId = sharedPreferences!.getString(UsersInfo.userId) ?? '';
+  setData({required String name, List<HiveProductModel>? givenList}) {
+    if (name != '') {
+      productData.clear();
+      listOfAllData = Globals.boxListOfProduct
+          .get(0, defaultValue: [])?.cast<HiveProductModel>();
+      for (int i = 0; i < listOfAllData.length; i++) {
+        if (listOfAllData[i].type == name.toLowerCase()) {
+          productData.add(listOfAllData[i]);
+        }
+      }
+      setState(() {});
+    } else {
+      productData.clear();
 
-  //   setState(() {});
-  // }
-
-  setData({required String name}) {
-    productData.clear();
-    listOfAllData = Globals.boxListOfProduct
-        .get(0, defaultValue: [])?.cast<HiveProductModel>();
-    for (int i = 0; i < listOfAllData.length; i++) {
-      if (listOfAllData[i].type == name.toLowerCase()) {
-        productData.add(listOfAllData[i]);
+      for (int i = 0; i < givenList!.length; i++) {
+        productData.add(givenList[i]);
       }
     }
-    setState(() {});
   }
 
   @override
@@ -49,7 +50,7 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
     double w = MediaQuery.of(context).size.width;
     Map<String, dynamic> data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    setData(name: data['name']);
+    setData(name: data['name'] ?? '', givenList: data['list']);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -105,6 +106,7 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
                           image1: productData[index].image1,
                           image2: productData[index].image2,
                           image3: productData[index].image3,
+                          exclusiveOffer: productData[index].exclusiveOffer,
                         ),
                       ),
                     ),

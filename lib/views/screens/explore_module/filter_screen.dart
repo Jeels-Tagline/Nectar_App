@@ -14,43 +14,51 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  List<Map> filterCheckBox = [
-    {
-      "type": "Fruit",
-      "isChecked": false,
-    },
-    {
-      "type": "Vegetable",
-      "isChecked": false,
-    },
-    {
-      "type": "Bakery",
-      "isChecked": false,
-    },
-    {
-      "type": "Baverage",
-      "isChecked": false,
-    },
-    {
-      "type": "Pulses",
-      "isChecked": false,
-    },
-    {
-      "type": "Rice",
-      "isChecked": false,
-    },
-  ];
+  List<Map> filterCheckBox = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      filterCheckBox = [
+        {
+          "type": "Fruit",
+          "isChecked": false,
+          'show': AppLocalizations.of(context)!.fruit,
+        },
+        {
+          "type": "Vegetable",
+          "isChecked": false,
+          'show': AppLocalizations.of(context)!.vegetable,
+        },
+        {
+          "type": "Bakery",
+          "isChecked": false,
+          'show': AppLocalizations.of(context)!.bakery,
+        },
+        {
+          "type": "Baverage",
+          "isChecked": false,
+          'show': AppLocalizations.of(context)!.baverage,
+        },
+        {
+          "type": "Pulses",
+          "isChecked": false,
+          'show': AppLocalizations.of(context)!.pulses,
+        },
+        {
+          "type": "Rice",
+          "isChecked": false,
+          'show': AppLocalizations.of(context)!.rices,
+        },
+      ];
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List showLanguageWise = [
-      AppLocalizations.of(context)!.fruit,
-      AppLocalizations.of(context)!.vegetable,
-      AppLocalizations.of(context)!.bakery,
-      AppLocalizations.of(context)!.baverage,
-      AppLocalizations.of(context)!.pulses,
-      AppLocalizations.of(context)!.rices,
-    ];
+    // List showLanguageWise = [];
 
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
@@ -111,7 +119,7 @@ class _FilterScreenState extends State<FilterScreen> {
                               },
                             ),
                             Text(
-                              showLanguageWise[index],
+                              filterCheckBox[index]["show"],
                               style: TextStyle(
                                 color: (filterCheckBox[index]['isChecked'])
                                     ? Globals.greenColor

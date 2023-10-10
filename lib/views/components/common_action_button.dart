@@ -6,11 +6,9 @@ class CommonActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Container(
-      height: h * 0.07,
-      width: w ,
+      height: 62,
+      width: double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: const Color(0xff53B175),

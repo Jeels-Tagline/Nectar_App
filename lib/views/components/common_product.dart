@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
@@ -9,16 +9,37 @@ import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_show_dialog.dart';
 
-class CommonProduct extends StatelessWidget {
+class CommonProduct extends StatefulWidget {
   final ProductModel productData;
   final Function()? onTap;
   final String userId;
   const CommonProduct({
-    super.key,
     required this.productData,
-    required this.userId,
     this.onTap,
+    required this.userId,
+    super.key,
   });
+
+  @override
+  State<CommonProduct> createState() => _CommonProductState();
+}
+
+class _CommonProductState extends State<CommonProduct> {
+  double? offerPrice;
+
+  setPrice() {
+    double per;
+    double discount;
+    per = widget.productData.exclusiveOffer / 100;
+    discount = widget.productData.price * per;
+    offerPrice = widget.productData.price - discount;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setPrice();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +48,7 @@ class CommonProduct extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, ScreensPath.productDetailScreen,
-            arguments: productData);
+            arguments: widget.productData);
       },
       child: Container(
         height: h * 0.26,
@@ -51,18 +72,18 @@ class CommonProduct extends StatelessWidget {
                 height: h * 0.1,
                 width: w,
                 child: Image.network(
-                  productData.image1,
+                  widget.productData.image1,
                 ),
               ),
               Text(
-                productData.name,
+                widget.productData.name,
                 style: const TextStyle(
                   fontSize: 17,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Text(
-                productData.subTitle,
+                widget.productData.subTitle,
                 style: TextStyle(
                   fontSize: 13,
                   fontFamily: FontFamily.medium,
@@ -77,7 +98,7 @@ class CommonProduct extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "\$ ${productData.price.toString()}",
+                        "\$ ${offerPrice!.toStringAsFixed(2)}",
                         style: const TextStyle(
                           fontSize: 17,
                           overflow: TextOverflow.ellipsis,
@@ -89,18 +110,20 @@ class CommonProduct extends StatelessWidget {
                         CommonShowDialog.show(context: context);
 
                         Map<String, dynamic> data = {
-                          'id': productData.id,
-                          'name': productData.name,
-                          'subTitle': productData.subTitle,
-                          'price': productData.price,
-                          'detail': productData.detail,
-                          'nutrition': productData.nutrition,
-                          'review': productData.review,
-                          'type': productData.type,
-                          'image1': productData.image1,
-                          'image2': productData.image2,
-                          'image3': productData.image3,
-                          'quantity': productData.quantity ?? 1,
+                          'id': widget.productData.id,
+                          'name': widget.productData.name,
+                          'subTitle': widget.productData.subTitle,
+                          'price': offerPrice,
+                          // 'price': widget.productData.price,
+                          'detail': widget.productData.detail,
+                          'nutrition': widget.productData.nutrition,
+                          'review': widget.productData.review,
+                          'type': widget.productData.type,
+                          'image1': widget.productData.image1,
+                          'image2': widget.productData.image2,
+                          'image3': widget.productData.image3,
+                          'quantity': widget.productData.quantity ?? 1,
+                          'exclusiveOffer': widget.productData.exclusiveOffer,
                         };
 
                         List<Map<String, dynamic>> demo = [];
@@ -109,7 +132,7 @@ class CommonProduct extends StatelessWidget {
                         await Globals.boxCart.add(demo);
 
                         await FirestoreHelper.firestoreHelper.insertCartData(
-                          uid: userId,
+                          uid: widget.userId,
                           productData: data,
                         );
                         CommonShowDialog.close(context: context);

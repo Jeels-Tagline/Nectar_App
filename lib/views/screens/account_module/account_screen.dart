@@ -202,15 +202,13 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: AppLocalizations.of(context)!.myDetails,
                     icon: const Icon(Icons.badge_outlined),
                   ),
-                  GestureDetector(
+                  CommonExpansionTile(
                     onTap: () {
                       Navigator.pushNamed(
                           context, ScreensPath.getLocationScreen);
                     },
-                    child: CommonExpansionTile(
-                      title: AppLocalizations.of(context)!.deliveryAddress,
-                      icon: const Icon(Icons.location_on_outlined),
-                    ),
+                    title: AppLocalizations.of(context)!.deliveryAddress,
+                    icon: const Icon(Icons.location_on_outlined),
                   ),
                   CommonExpansionTile(
                     title: AppLocalizations.of(context)!.paymentMethods,
@@ -243,6 +241,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 onChanged: (value) async {
                                   setState(() {
                                     language = value!;
+                                    selectLanguage = !selectLanguage;
                                   });
                                   CommonShowDialog.show(context: context);
                                   await sharedPreferences!.setString(
@@ -265,6 +264,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 onChanged: (value) async {
                                   setState(() {
                                     language = value!;
+                                    selectLanguage = !selectLanguage;
                                   });
                                   CommonShowDialog.show(context: context);
                                   await sharedPreferences!.setString(
@@ -286,6 +286,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 onChanged: (value) async {
                                   setState(() {
                                     language = value!;
+                                    selectLanguage = !selectLanguage;
                                   });
                                   CommonShowDialog.show(context: context);
                                   await sharedPreferences!.setString(
@@ -347,7 +348,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     await sharedPreferences!.setString(UsersInfo.userPhoto, '');
 
                     Navigator.pushNamedAndRemoveUntil(
-                        context, ScreensPath.onbordingScreen, (route) => false);
+                        context, ScreensPath.logInScreen, (route) => false);
                   },
                   child: Container(
                     height: h * 0.07,

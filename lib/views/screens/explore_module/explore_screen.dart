@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar_app/navigator.dart';
 import 'package:nectar_app/utils/images_path.dart';
 import 'package:nectar_app/utils/screens_path.dart';
 import 'package:nectar_app/views/components/common_headline_text.dart';
@@ -12,52 +13,66 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  List productList = [];
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      productList = [
+        {
+          'color': Colors.green,
+          'backgroundColor': Colors.green.shade50,
+          'name': 'Fruit',
+          'image': ImagesPath.fruit,
+          'showTitle':
+              AppLocalizations.of(NavKey.navKey.currentContext!)!.fruit,
+        },
+        {
+          'color': Colors.orange,
+          'backgroundColor': Colors.orange.shade50,
+          'name': 'Vegetable',
+          'image': ImagesPath.vegetable,
+          'showTitle':
+              AppLocalizations.of(NavKey.navKey.currentContext!)!.vegetable,
+        },
+        {
+          'color': Colors.red,
+          'backgroundColor': Colors.red.shade50,
+          'name': 'Bakery',
+          'image': ImagesPath.bakery,
+          'showTitle':
+              AppLocalizations.of(NavKey.navKey.currentContext!)!.bakery,
+        },
+        {
+          'color': Colors.purple,
+          'backgroundColor': Colors.purple.shade50,
+          'name': 'Baverage',
+          'image': ImagesPath.baverage,
+          'showTitle': AppLocalizations.of(context)!.baverage,
+        },
+        {
+          'color': Colors.brown,
+          'backgroundColor': Colors.brown.shade50,
+          'name': 'Pulses',
+          'image': ImagesPath.pulses,
+          'showTitle':
+              AppLocalizations.of(NavKey.navKey.currentContext!)!.pulses,
+        },
+        {
+          'color': Colors.blue,
+          'backgroundColor': Colors.blue.shade50,
+          'name': 'Rice',
+          'image': ImagesPath.rice,
+          'showTitle':
+              AppLocalizations.of(NavKey.navKey.currentContext!)!.rices,
+        },
+      ];
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List productList = [
-      {
-        'color': Colors.green,
-        'backgroundColor': Colors.green.shade50,
-        'name': 'Fruit',
-        'image': ImagesPath.fruit,
-        'showTitle': AppLocalizations.of(context)!.fruit,
-      },
-      {
-        'color': Colors.orange,
-        'backgroundColor': Colors.orange.shade50,
-        'name': 'Vegetable',
-        'image': ImagesPath.vegetable,
-        'showTitle': AppLocalizations.of(context)!.vegetable,
-      },
-      {
-        'color': Colors.red,
-        'backgroundColor': Colors.red.shade50,
-        'name': 'Bakery',
-        'image': ImagesPath.bakery,
-        'showTitle': AppLocalizations.of(context)!.bakery,
-      },
-      {
-        'color': Colors.purple,
-        'backgroundColor': Colors.purple.shade50,
-        'name': 'Baverage',
-        'image': ImagesPath.baverage,
-        'showTitle': AppLocalizations.of(context)!.baverage,
-      },
-      {
-        'color': Colors.brown,
-        'backgroundColor': Colors.brown.shade50,
-        'name': 'Pulses',
-        'image': ImagesPath.pulses,
-        'showTitle': AppLocalizations.of(context)!.pulses,
-      },
-      {
-        'color': Colors.blue,
-        'backgroundColor': Colors.blue.shade50,
-        'name': 'Rice',
-        'image': ImagesPath.rice,
-        'showTitle': AppLocalizations.of(context)!.rices,
-      },
-    ];
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -69,8 +84,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-               Center(
-                child: CommonHeadlineText(title: AppLocalizations.of(context)!.findProducts),
+              Center(
+                child: CommonHeadlineText(
+                    title: AppLocalizations.of(context)!.findProducts),
               ),
               Padding(
                 padding: EdgeInsets.only(top: h * 0.04),

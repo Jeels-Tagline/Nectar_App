@@ -23,7 +23,7 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          const CommonAuthBackground(),
+          CommonAuthBackground(),
           Padding(
             padding:
                 EdgeInsets.only(top: h * 0.2, left: w * 0.04, right: w * 0.04),
@@ -52,7 +52,9 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, ScreensPath.homeScreen, (route) => false);
+                            context,
+                            ScreensPath.bottomNavigationScreen,
+                            (route) => false);
                       },
                       child: CommonActionButton(
                         name: AppLocalizations.of(context)!.trackOrder,
@@ -64,7 +66,9 @@ class _OrderAcceptedScreenState extends State<OrderAcceptedScreen> {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, ScreensPath.homeScreen, (route) => false);
+                            context,
+                            ScreensPath.bottomNavigationScreen,
+                            (route) => false);
                       },
                       child: Text(
                         AppLocalizations.of(context)!.backToHome,

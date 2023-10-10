@@ -30,13 +30,15 @@ class HiveProductModelAdapter extends TypeAdapter<HiveProductModel> {
       image3: fields[10] as String,
       quantity: fields[11] as int?,
       favourite: fields[12] as bool?,
+      bestSelling: fields[13] as int,
+      exclusiveOffer: fields[14] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveProductModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -62,7 +64,11 @@ class HiveProductModelAdapter extends TypeAdapter<HiveProductModel> {
       ..writeByte(11)
       ..write(obj.quantity)
       ..writeByte(12)
-      ..write(obj.favourite);
+      ..write(obj.favourite)
+      ..writeByte(13)
+      ..write(obj.bestSelling)
+      ..writeByte(14)
+      ..write(obj.exclusiveOffer);
   }
 
   @override
