@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nectar_app/helpers/firestore_helpers.dart';
+import 'package:nectar_app/helpers/provider/quentity_provider.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/product_models.dart';
 import 'package:nectar_app/navigator.dart';
@@ -15,6 +16,7 @@ import 'package:nectar_app/views/components/common_small_body_text.dart';
 import 'package:nectar_app/views/components/common_scaffold_messenger.dart';
 import 'package:nectar_app/views/components/common_title_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -84,10 +86,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       productData.image2,
       productData.image3,
     ];
-    quantity = productData.quantity ?? 1;
-    checkFavourite(id: productData.id);
+    Provider.of<QuantityProvider>(context, listen: true)
+        .quantityModel
+        .quantity = productData.quantity ?? 1;
     // favorite = productData.favourite ?? false;
+    checkFavourite(id: productData.id);
     setPrice();
+    // favorite = productData.favourite ?? false;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -95,7 +100,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           children: [
             Container(
               height: h * 0.45,
-              width: w,
+              width: double.infinity,
               decoration: const BoxDecoration(
                 color: Color(0xffF2F3F2),
                 borderRadius: BorderRadius.vertical(
@@ -129,13 +134,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: h * 0.01),
+                      padding: const EdgeInsets.only(top: 5),
                       child: StatefulBuilder(builder: (context, setStateJ) {
                         return Column(
                           children: [
                             SizedBox(
                               height: h * 0.25,
-                              width: w,
+                              width: double.infinity,
                               child: PageView.builder(
                                 controller: pageController,
                                 itemCount: images.length,
@@ -203,7 +208,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               'id': productData.id,
                               'name': productData.name,
                               'subTitle': productData.subTitle,
-                              'price': offerPrice,
+                              'price': productData.price,
                               'detail': productData.detail,
                               'nutrition': productData.nutrition,
                               'review': productData.review,
@@ -270,9 +275,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  (quantity > 1) ? quantity-- : null;
-                                  productData.quantity = quantity;
-                                  setStateQty(() {});
+                                  Provider.of<QuantityProvider>(context,
+                                          listen: false)
+                                      .decreseQuantity(
+                                          quantity: productData.quantity ?? 1);
+                                  // (quantity > 1) ? quantity-- : null;
+                                  productData.quantity =
+                                      Provider.of<QuantityProvider>(context,
+                                              listen: false)
+                                          .quantityModel
+                                          .quantity;
+                                  // setStateQty(() {});
                                 },
                                 icon: const Icon(
                                   Icons.remove,
@@ -281,8 +294,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               ),
                               Container(
-                                height: h * 0.05,
-                                width: w * 0.1,
+                                height: 43,
+                                width: 43,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -290,7 +303,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Text(
-                                  "$quantity",
+                                  "${Provider.of<QuantityProvider>(context, listen: false).quantityModel.quantity}",
                                   style: const TextStyle(
                                     fontSize: 17,
                                   ),
@@ -298,9 +311,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  quantity++;
-                                  productData.quantity = quantity;
-                                  setStateQty(() {});
+                                  Provider.of<QuantityProvider>(context,
+                                          listen: false)
+                                      .increseQuantity(
+                                          quantity: productData.quantity ?? 1);
+                                  productData.quantity =
+                                      Provider.of<QuantityProvider>(context,
+                                              listen: false)
+                                          .quantityModel
+                                          .quantity;
+                                  // setStateQty(() {});
                                 },
                                 icon: Icon(
                                   Icons.add,
@@ -402,7 +422,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
-                              height: h * 0.03,
+                              height: 25,
                               padding: const EdgeInsets.all(5),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -462,7 +482,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           'id': productData.id,
                           'name': productData.name,
                           'subTitle': productData.subTitle,
-                          'price': offerPrice,
+                          'price': productData.price,
                           'detail': productData.detail,
                           'nutrition': productData.nutrition,
                           'review': productData.review,
@@ -490,6 +510,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         name: AppLocalizations.of(context)!.addToBasket,
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                 ],
               ),

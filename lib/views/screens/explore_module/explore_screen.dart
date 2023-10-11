@@ -95,7 +95,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     Navigator.pushNamed(context, ScreensPath.searchScreen);
                   },
                   child: Container(
-                    height: h * 0.055,
+                    height: 45,
                     width: w,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(

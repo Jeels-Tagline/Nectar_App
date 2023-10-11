@@ -43,22 +43,15 @@ class _CommonProductState extends State<CommonProduct> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, ScreensPath.productDetailScreen,
             arguments: widget.productData);
       },
       child: Container(
-        height: h * 0.26,
-        width: w * 0.4,
-        padding: EdgeInsets.only(
-          top: h * 0.01,
-          bottom: h * 0.01,
-          left: w * 0.01,
-          right: w * 0.01,
-        ),
+        height: 250,
+        width: 170,
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade400),
           borderRadius: BorderRadius.circular(15),
@@ -69,8 +62,8 @@ class _CommonProductState extends State<CommonProduct> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: h * 0.1,
-                width: w,
+                height: 100,
+                width: double.infinity,
                 child: Image.network(
                   widget.productData.image1,
                 ),
@@ -92,7 +85,7 @@ class _CommonProductState extends State<CommonProduct> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: h * 0.013),
+                padding: const EdgeInsets.only(top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -113,8 +106,8 @@ class _CommonProductState extends State<CommonProduct> {
                           'id': widget.productData.id,
                           'name': widget.productData.name,
                           'subTitle': widget.productData.subTitle,
-                          'price': offerPrice,
-                          // 'price': widget.productData.price,
+                          // 'price': offerPrice,
+                          'price': widget.productData.price,
                           'detail': widget.productData.detail,
                           'nutrition': widget.productData.nutrition,
                           'review': widget.productData.review,
@@ -142,8 +135,8 @@ class _CommonProductState extends State<CommonProduct> {
                             message: "Product add to bag.....");
                       },
                       child: Container(
-                        height: h * 0.055,
-                        width: w * 0.12,
+                        height: 50,
+                        width: 50,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Globals.greenColor,

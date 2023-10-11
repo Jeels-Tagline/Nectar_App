@@ -39,23 +39,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: CommonAuthBackground(
         child: Padding(
-          padding:
-              EdgeInsets.only(top: h * 0.04, left: w * 0.06, right: w * 0.06),
+          padding: const EdgeInsets.only(
+            top: 35,
+            left: 16,
+            right: 16,
+          ),
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: h * 0.27,
-                    width: w,
-                    child: const Image(
+                  const SizedBox(
+                    height: 240,
+                    width: double.infinity,
+                    child: Image(
                       image: AssetImage(
                         ImagesPath.carotOrange,
                       ),
@@ -65,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     title: AppLocalizations.of(context)!.signUp,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 8),
                     child: CommonSmallBodyText(
                       text: AppLocalizations.of(context)!
                           .enterYourCredentialsToContinue,
@@ -73,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.04),
+                    padding: const EdgeInsets.only(top: 35),
                     child: CommonTextFormField(
                       controller: userNameController,
                       onChange: (val) {
@@ -110,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 8),
                     child: CommonTextFormField(
                       controller: emailController,
                       textType: TextInputType.emailAddress,
@@ -147,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 8),
                     child: CommonTextFormField(
                       controller: passwordController,
                       textAction: TextInputAction.done,
@@ -176,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.02),
+                    padding: const EdgeInsets.only(top: 17),
                     child: RichText(
                       text: TextSpan(
                         children: [
@@ -212,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.05),
+                    padding: const EdgeInsets.only(top: 45),
                     child: GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate() &&
@@ -288,7 +289,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: h * 0.02),
+                      padding: const EdgeInsets.only(top: 18),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(

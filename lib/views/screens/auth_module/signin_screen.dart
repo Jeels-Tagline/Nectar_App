@@ -95,24 +95,25 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CommonAuthBackground(
         child: Padding(
-          padding:
-              EdgeInsets.only(top: h * 0.04, left: w * 0.06, right: w * 0.06),
+          padding: const EdgeInsets.only(
+            top: 35,
+            left: 16,
+            right: 16,
+          ),
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: h * 0.27,
-                    width: w,
-                    child: const Image(
+                  const SizedBox(
+                    height: 240,
+                    width: double.infinity,
+                    child: Image(
                       image: AssetImage(
                         ImagesPath.carotOrange,
                       ),
@@ -122,7 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     title: AppLocalizations.of(context)!.signIn,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 8),
                     child: CommonSmallBodyText(
                       text: AppLocalizations.of(context)!
                           .enterYourEmailAndPassword,
@@ -130,7 +131,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.04),
+                    padding: const EdgeInsets.only(top: 35),
                     child: CommonTextFormField(
                       controller: emailController,
                       textType: TextInputType.emailAddress,
@@ -166,7 +167,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 8),
                     child: CommonTextFormField(
                       controller: passwordController,
                       textAction: TextInputAction.done,
@@ -177,13 +178,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           });
                         },
                         icon: (passwordShow)
-                            ? SizedBox(
-                                height: h * 0.020,
-                                child: const Icon(Icons.visibility_off),
+                            ? const SizedBox(
+                                child: Icon(Icons.visibility_off),
                               )
-                            : SizedBox(
-                                height: h * 0.010,
-                                child: const Icon(Icons.visibility),
+                            : const SizedBox(
+                                child: Icon(Icons.visibility),
                               ),
                       ),
                       labelText: AppLocalizations.of(context)!.password,
@@ -203,7 +202,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: EdgeInsets.only(top: h * 0.02),
+                      padding: const EdgeInsets.only(top: 17),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -222,7 +221,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.05),
+                    padding: const EdgeInsets.only(top: 40),
                     child: GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate() && emailVerify) {
@@ -306,7 +305,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: h * 0.02),
+                      padding: const EdgeInsets.only(top: 17),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(

@@ -111,8 +111,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: h * 0.055,
-                      width: w * 0.84,
+                      height: 45,
+                      width: w * 0.8,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
@@ -240,7 +240,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: GridView.builder(
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: ((w / 2) / (h / 3.33)),
+                        childAspectRatio: ((w / 2) / (260)),
                         crossAxisCount: 2,
                         mainAxisSpacing: w * 0.02,
                         crossAxisSpacing: h * 0.02,
@@ -273,7 +273,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: ((w / 2) / (h / 3.33)),
+                          childAspectRatio: ((w / 2) / (260)),
                           crossAxisCount: 2,
                           mainAxisSpacing: w * 0.02,
                           crossAxisSpacing: h * 0.02,

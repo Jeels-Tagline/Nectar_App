@@ -351,7 +351,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         context, ScreensPath.logInScreen, (route) => false);
                   },
                   child: Container(
-                    height: h * 0.07,
+                    height: 62,
                     width: w,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -362,7 +362,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       children: [
                         Positioned(
                           left: w * 0.06,
-                          top: h * 0.021,
+                          top: 20,
                           child: Icon(
                             Icons.logout,
                             color: Globals.greenColor,

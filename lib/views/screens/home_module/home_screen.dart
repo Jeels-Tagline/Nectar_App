@@ -152,7 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // }
 
     double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: h * 0.06),
@@ -163,12 +162,12 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Center(
                 child: SizedBox(
-                  height: h * 0.04,
+                  height: 35,
                   child: Image.asset(ImagesPath.carotOrange),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: h * 0.01),
+                padding: const EdgeInsets.only(top: 8),
                 child: FittedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -187,13 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: h * 0.02),
+                padding: const EdgeInsets.only(top: 15),
                 child: StatefulBuilder(builder: (context, setStateJ) {
                   return Stack(
                     children: [
                       SizedBox(
-                        height: h * 0.123,
-                        width: w,
+                        height: 110,
+                        width: double.infinity,
                         child: CarouselSlider.builder(
                           itemCount: images.length,
                           itemBuilder: (BuildContext context, int itemIndex,
@@ -202,8 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               image: DecorationImage(
-                                image: AssetImage(images[itemIndex]),
-                              ),
+                                  image: AssetImage(images[itemIndex]),
+                                  fit: BoxFit.cover),
                             ),
                           ),
                           options: CarouselOptions(
@@ -222,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Positioned(
                         bottom: 0,
-                        top: h * 0.105,
+                        top: 90,
                         left: 0,
                         right: 0,
                         child: Row(
@@ -232,10 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () =>
                                   carouselController.animateToPage(e.key),
                               child: Container(
-                                width: (currentIndex == e.key)
-                                    ? w * 0.04
-                                    : w * 0.016,
-                                height: h * 0.008,
+                                width: (currentIndex == e.key) ? 18 : 6,
+                                height: 6,
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 3),
                                 decoration: BoxDecoration(
@@ -254,8 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 }),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                  top: h * 0.02,
+                padding: const EdgeInsets.only(
+                  top: 16,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -278,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // name: 'fruit',
                     ),
                     SizedBox(
-                      height: h * 0.29,
+                      height: 250,
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
@@ -287,14 +284,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: (index == 0)
-                                ? EdgeInsets.only(
-                                    top: h * 0.02,
-                                    right: w * 0.025,
-                                    left: w * 0.05,
+                                ? const EdgeInsets.only(
+                                    top: 16,
+                                    right: 10,
+                                    left: 16,
                                   )
-                                : EdgeInsets.only(
-                                    top: h * 0.02,
-                                    right: w * 0.025,
+                                : const EdgeInsets.only(
+                                    top: 16,
+                                    right: 10,
                                   ),
                             child: CommonProduct(
                               userId: UserData.uid,
@@ -319,10 +316,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: h * 0.03),
+                      padding: const EdgeInsets.only(top: 22),
                       child: CommonOfferBanner(
                         offerName: AppLocalizations.of(context)!.bestSelling,
-                        // name: "Baverage",
                         onTap: () {
                           Map<String, dynamic> data = {
                             'list': bestSellingList,
@@ -338,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: h * 0.29,
+                      height: 250,
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
@@ -347,14 +343,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: (index == 0)
-                                ? EdgeInsets.only(
-                                    top: h * 0.02,
-                                    right: w * 0.025,
-                                    left: w * 0.05,
+                                ? const EdgeInsets.only(
+                                    top: 16,
+                                    right: 10,
+                                    left: 16,
                                   )
-                                : EdgeInsets.only(
-                                    top: h * 0.02,
-                                    right: w * 0.025,
+                                : const EdgeInsets.only(
+                                    top: 16,
+                                    right: 10,
                                   ),
                             child: CommonProduct(
                               userId: UserData.uid,
@@ -425,8 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //   ),
                     // ),
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: h * 0.03, bottom: h * 0.018),
+                      padding: const EdgeInsets.only(top: 24, bottom: 10),
                       child: CommonOfferBanner(
                         offerName: AppLocalizations.of(context)!.groceries,
                         onTap: () {
@@ -454,26 +449,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             child: Padding(
-                              padding: EdgeInsets.only(left: w * 0.05),
+                              padding: const EdgeInsets.only(left: 16),
                               child: Container(
-                                height: h * 0.11,
-                                width: w * 0.55,
+                                height: 90,
+                                width: 200,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color:
                                       const Color.fromARGB(255, 255, 224, 188),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: w * 0.025, right: w * 0.025),
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 12),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
                                         child: Image.asset(ImagesPath.pulses),
                                       ),
-                                      SizedBox(
-                                        width: w * 0.02,
+                                      const SizedBox(
+                                        width: 15,
                                       ),
                                       Expanded(
                                         flex: 2,
@@ -492,8 +487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: w * 0.04, right: w * 0.04),
+                            padding: const EdgeInsets.only(left: 16, right: 16),
                             child: GestureDetector(
                               onTap: () {
                                 Map<String, dynamic> data = {
@@ -508,23 +502,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               },
                               child: Container(
-                                height: h * 0.11,
-                                width: w * 0.55,
+                                height: 90,
+                                width: 200,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: const Color(0xffe5f4ea),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: w * 0.025, right: w * 0.025),
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 12),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
                                         child: Image.asset(ImagesPath.rice),
                                       ),
-                                      SizedBox(
-                                        width: w * 0.02,
+                                      const SizedBox(
+                                        width: 15,
                                       ),
                                       Expanded(
                                         flex: 2,
@@ -546,7 +540,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: h * 0.29,
+                      height: 250,
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
@@ -555,14 +549,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: (index == 0)
-                                ? EdgeInsets.only(
-                                    top: h * 0.02,
-                                    right: w * 0.025,
-                                    left: w * 0.05,
+                                ? const EdgeInsets.only(
+                                    top: 16,
+                                    right: 10,
+                                    left: 16,
                                   )
-                                : EdgeInsets.only(
-                                    top: h * 0.02,
-                                    right: w * 0.025,
+                                : const EdgeInsets.only(
+                                    top: 16,
+                                    right: 10,
                                   ),
                             child: CommonProduct(
                               userId: UserData.uid,
@@ -586,9 +580,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: h * 0.03,
-                    ),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),

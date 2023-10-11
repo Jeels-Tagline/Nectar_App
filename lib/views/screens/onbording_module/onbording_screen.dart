@@ -66,11 +66,11 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                     child: Image.asset(ImagesPath.carotWhite),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 0),
                     child: Text(
                       AppLocalizations.of(context)!.welcome,
-                      style: const TextStyle(
-                        fontSize: 45,
+                      style: TextStyle(
+                        fontSize: h * 0.05,
                         fontFamily: FontFamily.medium,
                         height: 0.9,
                         color: Colors.white,
@@ -81,8 +81,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
                       AppLocalizations.of(context)!.toOurStore,
-                      style: const TextStyle(
-                        fontSize: 45,
+                      style: TextStyle(
+                        fontSize: h * 0.05,
                         fontFamily: FontFamily.medium,
                         height: 0.2,
                         color: Colors.white,
@@ -90,14 +90,14 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 25),
+                    padding: const EdgeInsets.only(top: 10),
                     child: CommonSmallBodyText(
                       text: AppLocalizations.of(context)!.onBordingDesc,
                       color: Colors.white,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.only(top: 15),
                     child: GestureDetector(
                       onTap: () {
                         checkLogin();

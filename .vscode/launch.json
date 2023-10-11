@@ -28,6 +28,12 @@
         //     "deviceId": "emulator-5554"
         // },
         // {
+        //     "name": "SmallAndroid",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "deviceId": "emulator-5556"
+        // },
+        // {
         //     "name": "IOS",
         //     "request": "launch",
         //     "type": "dart",
@@ -39,7 +45,7 @@
     //         "name": "Run Android & IOS",
     //         "configurations": [
     //             "Android",
-    //             "IOS",
+    //             "SmallAndroid",
     //         ],
     //     }
     // ]

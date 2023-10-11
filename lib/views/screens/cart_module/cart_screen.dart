@@ -32,13 +32,19 @@ class _CartScreenState extends State<CartScreen> {
   double totalPrice = 00;
   bool dataEmpty = true;
   late List<Map<String, dynamic>> cartData = [];
-  double? offerPrice;
+  double mainPrice = 0;
 
   double calculateTotal({required List myList}) {
     Future.delayed(const Duration(seconds: 0), () {
+      double per;
+      double discount;
       totalPrice = 00;
       for (int i = 0; i < myList.length; i++) {
-        totalPrice += myList[i]['price'] * myList[i]['quantity'];
+        per = myList[i]['exclusiveOffer'] / 100;
+        discount = myList[i]['price'] * per;
+        mainPrice = myList[i]['price'] - discount;
+
+        totalPrice += mainPrice * myList[i]['quantity'];
       }
       setState(() {});
     });
@@ -50,20 +56,15 @@ class _CartScreenState extends State<CartScreen> {
 
   //   setState(() {});
   // }
-  setPrice({required int exclusiveOffer, required double price}) {
+  double setPrice({required int exclusiveOffer, required double price}) {
     double per;
     double discount;
+
     per = exclusiveOffer / 100;
     discount = price * per;
-    offerPrice = price - discount;
-  }
+    mainPrice = price - discount;
 
-  @override
-  void initState() {
-    super.initState();
-    // cartData = boxCart.get(0, defaultValue: [])!.cast<Map<String, dynamic>>();
-    // print('==============> ${cartData}');
-    // getUserId();
+    return mainPrice;
   }
 
   @override
@@ -141,6 +142,7 @@ class _CartScreenState extends State<CartScreen> {
                                           name: allDocs[i].data()['name'],
                                           subTitle:
                                               allDocs[i].data()['subTitle'],
+                                          // price: mainPrice,
                                           price: allDocs[i].data()['price'],
                                           detail: allDocs[i].data()['detail'],
                                           nutrition:
@@ -155,6 +157,7 @@ class _CartScreenState extends State<CartScreen> {
                                           exclusiveOffer: allDocs[i]
                                               .data()['exclusiveOffer'],
                                         );
+
                                         Navigator.pushNamed(context,
                                             ScreensPath.productDetailScreen,
                                             arguments: productData);
@@ -379,7 +382,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           ],
                                                         ),
                                                         Text(
-                                                          "\$ ${allDocs[i].data()['price'].toStringAsFixed(2)}",
+                                                          "\$ ${setPrice(exclusiveOffer: allDocs[i].data()['exclusiveOffer'], price: allDocs[i].data()['price']).toStringAsFixed(2)}",
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 17,
@@ -602,7 +605,7 @@ class _CartScreenState extends State<CartScreen> {
                           context: context,
                           builder: (BuildContext context) {
                             return Container(
-                              height: h / 2,
+                              height: h / 1.5,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5)),
                               child: Padding(
@@ -776,6 +779,14 @@ class _CartScreenState extends State<CartScreen> {
                                                           id: productData[index]
                                                               .data()['id']);
 
+                                                  double price = setPrice(
+                                                      exclusiveOffer:
+                                                          productData[index]
+                                                                  .data()[
+                                                              'exclusiveOffer'],
+                                                      price: productData[index]
+                                                          .data()['price']);
+
                                                   await FirestoreHelper
                                                       .firestoreHelper
                                                       .insertProductOfOrder(
@@ -787,9 +798,8 @@ class _CartScreenState extends State<CartScreen> {
                                                         .data()['image1'],
                                                     name: productData[index]
                                                         .data()['name'],
-                                                    price: productData[index]
-                                                        .data()['price']
-                                                        .toString(),
+                                                    price: price
+                                                        .toStringAsFixed(2),
                                                     quantity: productData[index]
                                                         .data()['quantity']
                                                         .toString(),
@@ -953,10 +963,10 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     Positioned(
                       left: w * 0.67,
-                      top: h * 0.021,
+                      top: 20,
                       child: Container(
-                        height: h * 0.028,
-                        width: w * 0.2,
+                        height: 20,
+                        width: 70,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Colors.transparent.withOpacity(0.2),

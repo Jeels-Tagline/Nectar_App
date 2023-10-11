@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:nectar_app/helpers/provider/quentity_provider.dart';
 import 'package:nectar_app/l10n/l10n.dart';
 import 'package:nectar_app/models/globals/globals.dart';
 import 'package:nectar_app/models/hive_product_models.dart';
@@ -31,6 +32,7 @@ import 'package:nectar_app/views/screens/explore_module/search_screen.dart';
 import 'package:nectar_app/views/screens/auth_module/signin_screen.dart';
 import 'package:nectar_app/views/screens/auth_module/signup_screen.dart';
 import 'package:nectar_app/views/screens/onbording_module/splash_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -99,61 +101,65 @@ class _MyNectarAppState extends State<MyNectarApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      supportedLocales: L10n.all,
-      locale: myLocale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      navigatorKey: NavKey.navKey,
-      debugShowCheckedModeBanner: false,
-      initialRoute: ScreensPath.splashScreen,
-      theme: ThemeData(
-        dialogBackgroundColor: Colors.green.shade50,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Globals.greenColor,
-          primary: Globals.greenColor,
-        ),
-        fontFamily: FontFamily.bold,
-      ),
-      routes: {
-        ScreensPath.splashScreen: (context) => const SplashScreen(),
-        ScreensPath.onbordingScreen: (context) => const OnBordingScreen(),
-        ScreensPath.logInScreen: (context) => const LoginScreen(),
-        ScreensPath.numberScreen: (context) => const NumberScreen(),
-        ScreensPath.numberVerificationScreen: (context) =>
-            const NumberVerificationScreen(),
-        ScreensPath.signInScreen: (context) => const SignInScreen(),
-        ScreensPath.signUpScreen: (context) => const SignUpScreen(),
-        ScreensPath.locationScreen: (context) => const LocationScreen(),
-        ScreensPath.getLocationScreen: (context) => const GetLocationScreen(),
-        ScreensPath.bottomNavigationScreen: (context) =>
-            const BottomNavigationScreen(),
-        ScreensPath.homeScreen: (context) => const HomeScreen(),
-        ScreensPath.productDetailScreen: (context) =>
-            const ProductDetailScreen(),
-        ScreensPath.exploreScreen: (context) => const ExploreScreen(),
-        ScreensPath.searchScreen: (context) => const SearchScreen(),
-        ScreensPath.exploreProductScreen: (context) =>
-            const ExploreProductScreen(),
-        ScreensPath.cartScreen: (context) => const CartScreen(),
-        ScreensPath.favouriteScreen: (context) => const FavouriteScreen(),
-        ScreensPath.accountScreen: (context) => const AccountScreen(),
-        ScreensPath.orderAcceptedScreen: (context) =>
-            const OrderAcceptedScreen(),
-        ScreensPath.ordersScreen: (context) => const OrdersScreen(),
-        ScreensPath.forgotPasswordScreen: (context) =>
-            const ForgotPasswordScreen(),
-        ScreensPath.particularOrderScreen: (context) =>
-            const ParticularOrderScreen(),
-        ScreensPath.filterScreen: (context) => const FilterScreen(),
-      },
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => QuantityProvider()),
+        ],
+        builder: (context, _) {
+          return MaterialApp(
+            supportedLocales: L10n.all,
+            locale: myLocale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            navigatorKey: NavKey.navKey,
+            debugShowCheckedModeBanner: false,
+            initialRoute: ScreensPath.splashScreen,
+            theme: ThemeData(
+              dialogBackgroundColor: Colors.green.shade50,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Globals.greenColor,
+                primary: Globals.greenColor,
+              ),
+              fontFamily: FontFamily.bold,
+            ),
+            routes: {
+              ScreensPath.splashScreen: (context) => const SplashScreen(),
+              ScreensPath.onbordingScreen: (context) => const OnBordingScreen(),
+              ScreensPath.logInScreen: (context) => const LoginScreen(),
+              ScreensPath.numberScreen: (context) => const NumberScreen(),
+              ScreensPath.numberVerificationScreen: (context) =>
+                  const NumberVerificationScreen(),
+              ScreensPath.signInScreen: (context) => const SignInScreen(),
+              ScreensPath.signUpScreen: (context) => const SignUpScreen(),
+              ScreensPath.locationScreen: (context) => const LocationScreen(),
+              ScreensPath.getLocationScreen: (context) =>
+                  const GetLocationScreen(),
+              ScreensPath.bottomNavigationScreen: (context) =>
+                  const BottomNavigationScreen(),
+              ScreensPath.homeScreen: (context) => const HomeScreen(),
+              ScreensPath.productDetailScreen: (context) =>
+                  const ProductDetailScreen(),
+              ScreensPath.exploreScreen: (context) => const ExploreScreen(),
+              ScreensPath.searchScreen: (context) => const SearchScreen(),
+              ScreensPath.exploreProductScreen: (context) =>
+                  const ExploreProductScreen(),
+              ScreensPath.cartScreen: (context) => const CartScreen(),
+              ScreensPath.favouriteScreen: (context) => const FavouriteScreen(),
+              ScreensPath.accountScreen: (context) => const AccountScreen(),
+              ScreensPath.orderAcceptedScreen: (context) =>
+                  const OrderAcceptedScreen(),
+              ScreensPath.ordersScreen: (context) => const OrdersScreen(),
+              ScreensPath.forgotPasswordScreen: (context) =>
+                  const ForgotPasswordScreen(),
+              ScreensPath.particularOrderScreen: (context) =>
+                  const ParticularOrderScreen(),
+              ScreensPath.filterScreen: (context) => const FilterScreen(),
+            },
+          );
+        });
   }
 }
-
-
-// TODO : check cart product are not open and also favourite product

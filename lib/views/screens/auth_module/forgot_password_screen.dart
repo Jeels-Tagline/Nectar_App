@@ -29,24 +29,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CommonAuthBackground(
         child: Padding(
-          padding:
-              EdgeInsets.only(top: h * 0.04, left: w * 0.06, right: w * 0.06),
+          padding: const EdgeInsets.only(
+            top: 35,
+            left: 16,
+            right: 16,
+          ),
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: h * 0.27,
-                    width: w,
-                    child: const Image(
+                  const SizedBox(
+                    height: 240,
+                    width: double.infinity,
+                    child: Image(
                       image: AssetImage(
                         ImagesPath.carotOrange,
                       ),
@@ -56,14 +57,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     title: AppLocalizations.of(context)!.forgotPassword,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.01),
+                    padding: const EdgeInsets.only(top: 8),
                     child: CommonSmallBodyText(
                       text: AppLocalizations.of(context)!.enterYourEmail,
                       color: Colors.grey.shade600,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.04),
+                    padding: const EdgeInsets.only(top: 40),
                     child: CommonTextFormField(
                       controller: emailController,
                       textType: TextInputType.emailAddress,
@@ -105,7 +106,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: h * 0.1),
+                    padding: const EdgeInsets.only(top: 90),
                     child: GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate() && emailVerify) {
@@ -151,6 +152,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           name:
                               "${AppLocalizations.of(context)!.reset} ${AppLocalizations.of(context)!.password}"),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 100,
                   ),
                 ],
               ),

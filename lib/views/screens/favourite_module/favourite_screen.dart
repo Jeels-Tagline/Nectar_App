@@ -25,6 +25,7 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   // String userId = "";
   bool dataEmpty = true;
+  double mainPrice = 0;
 
   refreshUI() {
     Future.delayed(const Duration(seconds: 0), () {
@@ -37,6 +38,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
   //   setState(() {});
   // }
+
+  String setPrice({required int exclusiveOffer, required double price}) {
+    double per;
+    double discount;
+
+    per = exclusiveOffer / 100;
+    discount = price * per;
+    mainPrice = price - discount;
+
+    return mainPrice.toStringAsFixed(2);
+  }
 
   @override
   void initState() {
@@ -181,7 +193,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          "\$ ${allDocs[i].data()['price'].toStringAsFixed(2)}",
+                                                          // "\$ ${allDocs[i].data()['price'].toStringAsFixed(2)}",
+                                                          "\$ ${setPrice(exclusiveOffer: allDocs[i].data()['exclusiveOffer'], price: allDocs[i].data()['price'])}",
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 17,
@@ -348,6 +361,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                         'image2': productData[index].data()['image2'],
                         'image3': productData[index].data()['image3'],
                         'quantity': productData[index].data()['quantity'] ?? 1,
+                        'exclusiveOffer':
+                            productData[index].data()['exclusiveOffer'],
                       };
                       await FirestoreHelper.firestoreHelper.insertCartData(
                         uid: UserData.uid,

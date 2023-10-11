@@ -14,6 +14,7 @@ class CommonLogoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
     return Container(
       height: 62,
       width: double.infinity,
@@ -28,7 +29,7 @@ class CommonLogoButton extends StatelessWidget {
             top: 19,
             child: SizedBox(
               height: 25,
-              width: 85,
+              width: w * 0.2,
               child: Image.asset(logo),
             ),
           ),

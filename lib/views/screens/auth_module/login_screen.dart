@@ -103,213 +103,219 @@ class _LoginScreenState extends State<LoginScreen> {
               flex: 4,
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonTitleText(
-                      title: AppLocalizations.of(context)!.getYourGroceries,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: CommonTitleText(
-                          title: AppLocalizations.of(context)!.withNectar),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, ScreensPath.numberScreen);
-                            },
-                            child: Container(
-                              height: 62,
-                              width: w * 0.43,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff53B175),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, right: 20),
-                                    child: Icon(
-                                      Icons.phone,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!.phone,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, ScreensPath.signInScreen);
-                            },
-                            child: Container(
-                              height: 62,
-                              width: w * 0.43,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff53B175),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, right: 20),
-                                    child: Icon(
-                                      Icons.email,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!.email,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommonTitleText(
+                        title: AppLocalizations.of(context)!.getYourGroceries,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.orConnectLogin,
-                          style: TextStyle(
-                            height: 1.8,
-                            fontFamily: FontFamily.medium,
-                            color: Colors.grey.shade600,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: CommonTitleText(
+                            title: AppLocalizations.of(context)!.withNectar),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, ScreensPath.numberScreen);
+                              },
+                              child: Container(
+                                height: 62,
+                                width: w * 0.43,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff53B175),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      child: Icon(
+                                        Icons.phone,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!.phone,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, ScreensPath.signInScreen);
+                              },
+                              child: Container(
+                                height: 62,
+                                width: w * 0.43,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff53B175),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      child: Icon(
+                                        Icons.email,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!.email,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context)!.orConnectLogin,
+                            style: TextStyle(
+                              height: 1.8,
+                              fontFamily: FontFamily.medium,
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: GestureDetector(
-                        onTap: () async {
-                          bool connection = await CommonCheckUserConnection
-                              .checkUserConnection();
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: GestureDetector(
+                          onTap: () async {
+                            bool connection = await CommonCheckUserConnection
+                                .checkUserConnection();
 
-                          if (connection) {
-                            CommonShowDialog.show(
-                                context: context, dismissible: true);
+                            if (connection) {
+                              CommonShowDialog.show(
+                                  context: context, dismissible: true);
 
-                            Map<String, dynamic> data = await FirebaseAuthHelper
-                                .firebaseAuthHelper
-                                .signInWithGoogle();
+                              Map<String, dynamic> data =
+                                  await FirebaseAuthHelper.firebaseAuthHelper
+                                      .signInWithGoogle();
 
-                            if (data['user'] != null) {
-                              CommonShowDialog.close(context: context);
-                              bool isUser = false;
-                              bool isLocation = false;
-                              // String? city;
-                              // String? location;
+                              if (data['user'] != null) {
+                                CommonShowDialog.close(context: context);
+                                bool isUser = false;
+                                bool isLocation = false;
+                                // String? city;
+                                // String? location;
 
-                              for (int i = 0; i < userData.length; i++) {
-                                if (userData[i].data()['uid'] ==
-                                    data['user'].uid) {
-                                  isUser = true;
-                                  if (userData[i].data()['location'] != "") {
-                                    // city = userData[i].data()['city'];
-                                    // location = userData[i].data()['location'];
-                                    isLocation = true;
+                                for (int i = 0; i < userData.length; i++) {
+                                  if (userData[i].data()['uid'] ==
+                                      data['user'].uid) {
+                                    isUser = true;
+                                    if (userData[i].data()['location'] != "") {
+                                      // city = userData[i].data()['city'];
+                                      // location = userData[i].data()['location'];
+                                      isLocation = true;
+                                    }
                                   }
                                 }
-                              }
 
-                              if (isUser == false) {
-                                Map<String, dynamic> userdata = {
-                                  'uid': data['user'].uid,
-                                  'email': data['user'].email,
-                                  'phoneNumber': "",
-                                  'displayName': data['user'].displayName,
-                                  'location': "",
-                                  'photo': "",
-                                  'totalPrice': 0.00,
-                                };
+                                if (isUser == false) {
+                                  Map<String, dynamic> userdata = {
+                                    'uid': data['user'].uid,
+                                    'email': data['user'].email,
+                                    'phoneNumber': "",
+                                    'displayName': data['user'].displayName,
+                                    'location': "",
+                                    'photo': "",
+                                    'totalPrice': 0.00,
+                                  };
 
-                                await FirestoreHelper.firestoreHelper
-                                    .insertUsers(data: userdata);
-                              }
+                                  await FirestoreHelper.firestoreHelper
+                                      .insertUsers(data: userdata);
+                                }
 
-                              await logIn(
-                                isLocation: isLocation,
-                                uid: data['user'].uid,
-                                // city: city!,
-                                // location: location!,
-                                // displayName: data['user'].displayName,
-                                // email: data['user'].email,
-                                // phoneNumber: data['user'].phoneNumber ?? '',
-                                // photo:
-                              );
+                                await logIn(
+                                  isLocation: isLocation,
+                                  uid: data['user'].uid,
+                                  // city: city!,
+                                  // location: location!,
+                                  // displayName: data['user'].displayName,
+                                  // email: data['user'].email,
+                                  // phoneNumber: data['user'].phoneNumber ?? '',
+                                  // photo:
+                                );
 
-                              CommonScaffoldMessenger.success(
-                                message: AppLocalizations.of(context)!
-                                    .loginSuccesfully,
-                                context: context,
-                              );
-                            } else if (data['msg'] != null) {
-                              CommonShowDialog.close(context: context);
-                              CommonScaffoldMessenger.failed(
-                                  context: context, message: '${data['msg']}');
-                            } else if (data['close'] == 'close') {
-                              CommonShowDialog.close(context: context);
-                            } else {
-                              CommonShowDialog.close(context: context);
-
-                              CommonScaffoldMessenger.failed(
-                                  context: context,
+                                CommonScaffoldMessenger.success(
                                   message: AppLocalizations.of(context)!
-                                      .loginFailed);
+                                      .loginSuccesfully,
+                                  context: context,
+                                );
+                              } else if (data['msg'] != null) {
+                                CommonShowDialog.close(context: context);
+                                CommonScaffoldMessenger.failed(
+                                    context: context,
+                                    message: '${data['msg']}');
+                              } else if (data['close'] == 'close') {
+                                CommonShowDialog.close(context: context);
+                              } else {
+                                CommonShowDialog.close(context: context);
+
+                                CommonScaffoldMessenger.failed(
+                                    context: context,
+                                    message: AppLocalizations.of(context)!
+                                        .loginFailed);
+                              }
+                            } else {
+                              CommonScaffoldMessenger.failed(
+                                context: context,
+                                message: AppLocalizations.of(context)!
+                                    .checkInternetConnection,
+                              );
                             }
-                          } else {
-                            CommonScaffoldMessenger.failed(
-                              context: context,
-                              message: AppLocalizations.of(context)!
-                                  .checkInternetConnection,
-                            );
-                          }
-                        },
-                        child: CommonLogoButton(
-                          logo: ImagesPath.google,
-                          name:
-                              AppLocalizations.of(context)!.continueWithGoogle,
-                          color: Colors.red.shade400,
+                          },
+                          child: CommonLogoButton(
+                            logo: ImagesPath.google,
+                            name: AppLocalizations.of(context)!
+                                .continueWithGoogle,
+                            color: Colors.red.shade400,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: CommonLogoButton(
-                        logo: ImagesPath.facebook,
-                        name:
-                            AppLocalizations.of(context)!.continueWithFacebook,
-                        color: const Color(0xff4A66Ac),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: CommonLogoButton(
+                          logo: ImagesPath.facebook,
+                          name: AppLocalizations.of(context)!
+                              .continueWithFacebook,
+                          color: const Color(0xff4A66Ac),
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

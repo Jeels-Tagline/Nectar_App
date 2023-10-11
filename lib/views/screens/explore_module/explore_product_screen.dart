@@ -85,7 +85,7 @@ class _ExploreProductScreenState extends State<ExploreProductScreen> {
                   child: GridView.count(
                     shrinkWrap: true,
                     // childAspectRatio: ((w / 2) / (h / 3.37)),
-                    childAspectRatio: ((w / 2) / (h / 3.33)),
+                    childAspectRatio: ((w / 2) / (260)),
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
                     mainAxisSpacing: w * 0.02,

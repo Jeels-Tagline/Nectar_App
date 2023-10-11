@@ -57,109 +57,113 @@ class _NumberScreenState extends State<NumberScreen> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: CommonAuthBackground(
         child: Padding(
           padding: const EdgeInsets.only(
             top: 65,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 90,
-                  left: 16,
-                  right: 16,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonTitleText(
-                        title:
-                            AppLocalizations.of(context)!.enterYourMobileNumber,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 45),
-                        child: TextFormField(
-                          controller: phoneController,
-                          enabled: true,
-                          maxLength: 13,
-                          keyboardType: TextInputType.phone,
-                          validator: validatePhoneNumber,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9+]')),
-                          ],
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontFamily: FontFamily.medium,
-                          ),
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.grey.shade400),
-                            counterText: "",
-                            hintText: "+91 972XXXX599",
-                          ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 80,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonTitleText(
+                          title: AppLocalizations.of(context)!
+                              .enterYourMobileNumber,
                         ),
-                      ),
-                      if (isUser == false)
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: CommonTextFormField(
-                            controller: userNameController,
-                            onChange: (val) {
-                              if (val!.length <= 6) {
-                                setState(() {
-                                  userVerify = false;
-                                });
-                              } else {
-                                setState(() {
-                                  userVerify = true;
-                                });
-                              }
-                              return null;
-                            },
-                            suffixIcon: (userVerify)
-                                ? const Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                  )
-                                : const Icon(
-                                    Icons.close_rounded,
-                                    color: Colors.red,
-                                  ),
-                            textAction: TextInputAction.next,
-                            labelText: AppLocalizations.of(context)!.username,
-                            // digitsOnly: [
-                            //   FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                            // ],
-                            validator: (val) {
-                              if (val!.trim().isEmpty) {
-                                return AppLocalizations.of(context)!
-                                    .enterYourUsername;
-                              } else {
-                                if (val.trim().length <= 6) {
-                                  return AppLocalizations.of(context)!
-                                      .enterMinimum7Character;
-                                }
-                              }
-                              return null;
-                            },
+                          padding: const EdgeInsets.only(top: 45),
+                          child: TextFormField(
+                            controller: phoneController,
+                            enabled: true,
+                            maxLength: 13,
+                            keyboardType: TextInputType.phone,
+                            validator: validatePhoneNumber,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9+]')),
+                            ],
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontFamily: FontFamily.medium,
+                            ),
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(color: Colors.grey.shade400),
+                              counterText: "",
+                              hintText: "+91 972XXXX599",
+                            ),
                           ),
                         ),
-                    ],
+                        if (isUser == false)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: CommonTextFormField(
+                              controller: userNameController,
+                              onChange: (val) {
+                                if (val!.length <= 6) {
+                                  setState(() {
+                                    userVerify = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    userVerify = true;
+                                  });
+                                }
+                                return null;
+                              },
+                              suffixIcon: (userVerify)
+                                  ? const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                    )
+                                  : const Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.red,
+                                    ),
+                              textAction: TextInputAction.next,
+                              labelText: AppLocalizations.of(context)!.username,
+                              // digitsOnly: [
+                              //   FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              // ],
+                              validator: (val) {
+                                if (val!.trim().isEmpty) {
+                                  return AppLocalizations.of(context)!
+                                      .enterYourUsername;
+                                } else {
+                                  if (val.trim().length <= 6) {
+                                    return AppLocalizations.of(context)!
+                                        .enterMinimum7Character;
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        const SizedBox(
+                          height: 100,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

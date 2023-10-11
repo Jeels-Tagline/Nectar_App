@@ -107,112 +107,117 @@ class _NumberVerificationScreenState extends State<NumberVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     final userData = ModalRoute.of(context)!.settings.arguments as Map;
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: CommonAuthBackground(
         child: Padding(
-          padding: EdgeInsets.only(
-            top: h * 0.07,
+          padding: const EdgeInsets.only(
+            top: 65,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: h * 0.09,
-                  left: w * 0.045,
-                  right: w * 0.045,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonTitleText(
-                        title:
-                            AppLocalizations.of(context)!.enterYour6DigitCode,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: h * 0.05),
-                        child: CommonBodyText(
-                          text: AppLocalizations.of(context)!.code,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 80,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonTitleText(
+                          title:
+                              AppLocalizations.of(context)!.enterYour6DigitCode,
                         ),
-                      ),
-                      TextFormField(
-                        controller: otpController,
-                        keyboardType: TextInputType.number,
-                        maxLength: 6,
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return AppLocalizations.of(context)!.enterOtp;
-                          } else {
-                            if (val.length != 6) {
-                              return AppLocalizations.of(context)!
-                                  .enterValidOtp;
+                        Padding(
+                          padding: const EdgeInsets.only(top: 45),
+                          child: CommonBodyText(
+                            text: AppLocalizations.of(context)!.code,
+                          ),
+                        ),
+                        TextFormField(
+                          controller: otpController,
+                          keyboardType: TextInputType.number,
+                          maxLength: 6,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return AppLocalizations.of(context)!.enterOtp;
+                            } else {
+                              if (val.length != 6) {
+                                return AppLocalizations.of(context)!
+                                    .enterValidOtp;
+                              }
                             }
-                          }
-                          return null;
-                        },
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontFamily: FontFamily.medium,
+                            return null;
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontFamily: FontFamily.medium,
+                          ),
+                          decoration: const InputDecoration(
+                            counterText: "",
+                            hintText: "------",
+                          ),
                         ),
-                        decoration: const InputDecoration(
-                          counterText: "",
-                          hintText: "------",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: h * 0.05),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (enableResendButton)
-                              GestureDetector(
-                                onTap: () async {
-                                  setState(() {
-                                    secResend = 60;
-                                    startTimer();
-                                    enableResendButton = false;
-                                  });
-                                  await FirebaseAuthHelper.firebaseAuthHelper
-                                      .phoneLogin(
-                                          phoneNumber: userData['phoneNumber']);
-                                },
-                                child: Text(
-                                  AppLocalizations.of(context)!.reset,
-                                  style: TextStyle(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 45),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (enableResendButton)
+                                GestureDetector(
+                                  onTap: () async {
+                                    setState(() {
+                                      secResend = 60;
+                                      startTimer();
+                                      enableResendButton = false;
+                                    });
+                                    await FirebaseAuthHelper.firebaseAuthHelper
+                                        .phoneLogin(
+                                            phoneNumber:
+                                                userData['phoneNumber']);
+                                  },
+                                  child: Text(
+                                    AppLocalizations.of(context)!.reset,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Globals.greenColor,
+                                    ),
+                                  ),
+                                )
+                              else
+                                Text(
+                                  '${AppLocalizations.of(context)!.resetOtpIn} 00:$secResend',
+                                  style: const TextStyle(
                                     fontSize: 18,
-                                    color: Globals.greenColor,
+                                    fontFamily: FontFamily.medium,
                                   ),
                                 ),
-                              )
-                            else
-                              Text(
-                                '${AppLocalizations.of(context)!.resetOtpIn} 00:$secResend',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: FontFamily.medium,
-                                ),
-                              ),
-                          ],
+                            ],
+                          ),
                         ),
-                      )
-                    ],
+                        const SizedBox(
+                          height: 100,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
